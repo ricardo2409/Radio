@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="0dp"
+    android:orientation="vertical"
+    tools:context="com.example.ricardotrevino.bancodecapacitores.MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:foregroundGravity="bottom"
+        android:gravity="center|bottom"
+        android:orientation="vertical"
+
+        >
+
+
+        <LinearLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="bottom"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvConnect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="18sp"
+                android:textStyle="normal|bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnVoltaje"
+                    style="@android:style/Widget.Button"
+                    android:layout_width="240dp"
+                    android:layout_height="70dp"
+                    android:text="Voltaje"
+                    android:textSize="23sp"
+                    android:textStyle="normal|bold" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/btnConfiguracion"
+                    style="@android:style/Widget.Button"
+                    android:layout_width="240dp"
+                    android:layout_height="70dp"
+                    android:text="Configuración"
+                    android:textSize="23sp"
+                    android:textStyle="normal|bold" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/btnDiagnostico"
+                    style="@android:style/Widget.Button"
+                    android:layout_width="240dp"
+                    android:layout_height="70dp"
+                    android:text="Diagnóstico"
+                    android:textSize="23sp"
+                    android:textStyle="normal|bold" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/btnAjuste"
+                    style="@android:style/Widget.Button"
+                    android:layout_width="240dp"
+                    android:layout_height="70dp"
+                    android:text="Ajuste"
+                    android:textSize="23sp"
+                    android:textStyle="normal|bold" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnConnect"
+                style="@android:style/Widget.Button"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:text="Conectar a Módulo Bluetooth"
+                android:textSize="23sp"
+                android:textStyle="normal|bold" />
+
+            <ProgressBar
+                android:id="@+id/progressBar1"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/colorPrimaryDark" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/tvConnect"
+        android:text="texto aqui"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/textColorPrimary"
+        android:textSize="18sp"
+        android:textStyle="normal|bold" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/btnVoltaje"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Voltaje"
+            android:textSize="18sp"
+            android:textStyle="normal|bold" />
+        <Button
+            android:id="@+id/btnConfiguracion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Configuración"
+            android:textSize="18sp"
+            android:textStyle="normal|bold" />
+        <Button
+            android:id="@+id/btnDiagnostico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Diagnóstico"
+            android:textSize="18sp"
+            android:textStyle="normal|bold" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnConnect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Conectar a Módulo Bluetooth"
+        android:textSize="18sp"
+        android:textStyle="normal|bold" />
+
+</LinearLayout>
+
