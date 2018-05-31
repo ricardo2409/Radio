@@ -144,7 +144,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 }
                 break;
 
-                /*
+
             case R.id.btnVoltaje:
                 if (connected){
                     try {
@@ -194,7 +194,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     showToast("Bluetooth desconectado");
                 }
                 break;
-                */
+
         }
     }
 
@@ -664,6 +664,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         System.out.println("Estoy en sendStop");
         String msg = "$Parar&";
         outputStream.write(msg.getBytes());
+        outputStream.write(msg.getBytes());
+        outputStream.write(msg.getBytes());
+        outputStream.write(msg.getBytes());
 
     }
 
@@ -804,10 +807,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                             newSourceAddress, newDestinationAddress,
                             newVoltageControl, newMinimumVoltage, newMaximumVoltage);
                     if(socket.isConnected()){
+                        System.out.println("Este es el string que mando: " + stringToSend);
                         outputStream.write(stringToSend.getBytes());
                         //waitMs(10);
                         //Guardar configuración
-                        outputStream.write("AT&W".getBytes());
+                        saveValues();
                         showToast("Configuración Enviada");
                     }else{
                         showToast("Conexión Perdida");
@@ -828,6 +832,30 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         {
             Toast.makeText(getApplicationContext(), getString(R.string.disconnected_message), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void saveValues() throws IOException{
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+
+                try {
+                    System.out.println("Estoy en el SaveValues");
+                    String msg1 = "AT&W\r";
+                    outputStream.write(msg1.getBytes());
+                    outputStream.write(msg1.getBytes());
+                    sendRadOff();
+                    showToast("¡ Configuración Guardada !");
+
+                } catch (IOException ex) {
+                }
+
+            }
+        };
+
+        Handler h = new Handler();
+        h.postDelayed(r, 1000);
+
     }
 
     public void updateConfigField(int field, float value)

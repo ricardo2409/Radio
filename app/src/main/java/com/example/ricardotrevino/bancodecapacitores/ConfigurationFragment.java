@@ -70,6 +70,7 @@ public class ConfigurationFragment extends Fragment implements View.OnClickListe
     @Override
     public void onStart() {
         super.onStart();
+        resetItems();
         //System.out.println("OnStart");
         //sendStop();
 
