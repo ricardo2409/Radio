@@ -603,7 +603,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
     public static void waitAndEraseLabels(){
         try{
-            waitMs(1000);
+            //waitMs(1000);
             voltFrag.phase1TransitionTextView.setText("");
             voltFrag.phase2TransitionTextView.setText("");
             voltFrag.phase3TransitionTextView.setText("");
@@ -617,8 +617,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public static void waitMs(int ms) throws IOException{
         try {
             // thread to sleep for ms milliseconds
-            SystemClock.sleep(ms);
-            //Thread.sleep(ms);
+            //SystemClock.sleep(ms);
+            Thread.sleep(ms);
         } catch (Exception e) {
             System.out.println(e);
         }
