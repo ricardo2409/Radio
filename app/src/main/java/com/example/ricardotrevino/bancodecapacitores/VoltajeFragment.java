@@ -70,6 +70,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
                         System.out.println("Switch es True");
                         ((MainActivity)getActivity()).sendManOn();
                         tvLocalRemoto.setText("Local");
+
                     }catch (Exception e){
                         System.out.println("Error: " + e);
                     }

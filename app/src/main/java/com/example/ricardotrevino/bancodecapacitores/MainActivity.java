@@ -647,7 +647,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         String msg = "$ManOn&";
         outputStream.write(msg.getBytes());
         //Wait para evitar que se cambie solo
-        waitMs(1000);
+        waitMs(2000);
 
     }
 
@@ -657,7 +657,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         //manOn = false;
         String msg = "$ManOff&";
         outputStream.write(msg.getBytes());
-        waitMs(1000);
+        waitMs(2000);
     }
 
     void sendStop() throws IOException{
