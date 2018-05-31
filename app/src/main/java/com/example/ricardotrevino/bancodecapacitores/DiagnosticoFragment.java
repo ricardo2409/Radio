@@ -70,18 +70,6 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         super.onStart();
         System.out.println("OnStart Diagnostico");
 
-        try{
-            ((MainActivity)getActivity()).sendRadOn();
-            ((MainActivity)getActivity()).sendCommand();
-            ((MainActivity)getActivity()).sendNodeID();
-            //Leer el NodeID
-            ((MainActivity)getActivity()).sendNETID();
-            //Leer el NetID
-            ((MainActivity)getActivity()).sendPotencia();
-            //Leer la Potencia
-        }catch (IOException e){
-            System.out.println("Error: " + e);
-        }
     }
 
     @Override

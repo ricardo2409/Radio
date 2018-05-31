@@ -946,14 +946,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     public void sendOffset() throws IOException{
-        System.out.println("Estoy en sendOffset");
         String msg = "$AjOff&";
+        System.out.println("Estoy en sendOffset: " + msg);
         outputStream.write(msg.getBytes());
     }
 
     public void sendVoltaje(String voltaje) throws IOException{
-        System.out.println("Estoy en sendVoltaje");
         String msg = "$AjGan," + voltaje + ",&";
+        System.out.println("Estoy en sendVoltaje: " + msg);
         outputStream.write(msg.getBytes());
     }
 

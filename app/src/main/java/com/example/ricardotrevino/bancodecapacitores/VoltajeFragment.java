@@ -86,7 +86,6 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        // FALTA EL SWITCH DE VOLTAJE AUTOMATICO PORQUE TENGO QUE MANDAR EL STRING CON 5 PARÁMETROS
 
         return view;
     }
