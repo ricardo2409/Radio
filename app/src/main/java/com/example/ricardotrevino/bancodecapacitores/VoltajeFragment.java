@@ -70,6 +70,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
                         System.out.println("Switch es True");
                         ((MainActivity)getActivity()).sendManOn();
                         tvLocalRemoto.setText("Local");
+                        ((MainActivity)getActivity()).waitMs(1000);
 
                     }catch (Exception e){
                         System.out.println("Error: " + e);
@@ -79,6 +80,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
                         System.out.println("Switch es False");
                         ((MainActivity)getActivity()).sendManOff();
                         tvLocalRemoto.setText("Remoto");
+                        ((MainActivity)getActivity()).waitMs(1000);
                     }catch (Exception e){
                         System.out.println("Error: " + e);
                     }

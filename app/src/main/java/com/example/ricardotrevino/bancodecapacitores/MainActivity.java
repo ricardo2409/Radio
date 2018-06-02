@@ -927,23 +927,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         h.postDelayed(r, 400);
     }
 
-    public void sendNETID() throws IOException{
-        System.out.println("Estoy en sendNetID");
-        String msg = "ATS3?\r";
-        outputStream.write(msg.getBytes());
-    }
 
-    public void sendNodeID() throws IOException{
-        System.out.println("Estoy en sendNodeID");
-        String msg = "ATS15?\r";
-        outputStream.write(msg.getBytes());
-    }
-
-    public void sendPotencia() throws IOException{
-        System.out.println("Estoy en sendPotencia");
-        String msg = "ATS4?\r";
-        outputStream.write(msg.getBytes());
-    }
 
     public void sendOffset() throws IOException{
         String msg = "$AjOff&";
