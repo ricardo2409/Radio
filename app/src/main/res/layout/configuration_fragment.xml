@@ -36,7 +36,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/sourceAddress_label"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/sourceAddressTextInput"
@@ -61,7 +62,8 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:text="@string/maximumVoltage_label"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/maximumVoltageTextInput"
@@ -100,7 +102,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/destinationAddress_label"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/destinationAddressTextInput"
@@ -125,7 +128,8 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:text="@string/minimumVoltage_label"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/minimumVoltageTextInput"

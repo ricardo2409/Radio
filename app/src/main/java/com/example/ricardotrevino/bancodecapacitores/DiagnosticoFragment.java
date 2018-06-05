@@ -51,8 +51,9 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         System.out.println("OnActivityCreated Diagnostico");
-        /*
+
         try{
+            resetValues();
             ((MainActivity)getActivity()).sendRadOn();
             ((MainActivity)getActivity()).sendCommand();
             ((MainActivity)getActivity()).sendNetID();
@@ -63,8 +64,14 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         }catch (IOException e){
             System.out.println("Error: " + e);
         }
-        */
 
+
+    }
+
+    public void resetValues(){
+        etNodeID.setText("");
+        etNetID.setText("");
+        etPotencia.setText("");
     }
 
     @Override
@@ -82,7 +89,7 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
                 try{
                     System.out.println("Botón Radio");
                     if(etNetID.getText() != null && etNodeID.getText() != null && etPotencia.getText() != null){
-                        ((MainActivity)getActivity()).configuraRadio(etNetID.getText().toString(), etNodeID.getText().toString(), etPotencia.getText().toString());
+                        ((MainActivity)getActivity()).configuraRadio(etNetID.getText().toString().trim(), etNodeID.getText().toString().trim(), etPotencia.getText().toString().trim());
                     }else{
                         System.out.println("Campos incompletos");
                         ((MainActivity)getActivity()).showToast("Favor de llenar todos los campos");

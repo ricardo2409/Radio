@@ -26,16 +26,19 @@
                     android:gravity="center_horizontal"
                     android:text="Net ID"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/etNetID"
+                    style="@android:style/Widget.Material.AutoCompleteTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:ems="10"
                     android:gravity="center_horizontal"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:textSize="25sp" />
 
                 <TextView
                     android:id="@+id/textView16"
@@ -44,16 +47,19 @@
                     android:gravity="center_horizontal"
                     android:text="Node ID"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/etNodeID"
+                    style="@style/Widget.AppCompat.AutoCompleteTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:ems="10"
                     android:gravity="center_horizontal"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:textSize="25sp" />
 
                 <TextView
                     android:id="@+id/textView17"
@@ -62,16 +68,19 @@
                     android:gravity="center_horizontal"
                     android:text="Potencia"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/etPotencia"
+                    style="@android:style/Widget.Holo.AutoCompleteTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:ems="10"
                     android:gravity="center_horizontal"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:textSize="25sp" />
 
                 <Space
                     android:layout_width="match_parent"
@@ -79,10 +88,11 @@
 
                 <Button
                     android:id="@+id/btnRadio"
+                    style="@android:style/Widget.Button"
                     android:layout_width="300dp"
                     android:layout_height="75dp"
                     android:layout_gravity="center_horizontal"
-                    android:text="Radio"
+                    android:text="Configurar Radio"
                     android:textSize="20sp" />
 
             </LinearLayout>
@@ -99,6 +109,7 @@
                     android:gravity="center_horizontal"
                     android:text="RSSI Local"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <TextView
@@ -117,6 +128,7 @@
                     android:gravity="center_horizontal"
                     android:text="RSSI Remoto"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <TextView
@@ -135,6 +147,7 @@
                     android:gravity="center_horizontal"
                     android:text="Ruido Local"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <TextView
@@ -153,6 +166,7 @@
                     android:gravity="center_horizontal"
                     android:text="Ruido Remoto"
                     android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <TextView
@@ -170,6 +184,7 @@
 
                 <Button
                     android:id="@+id/botonDiagnostico"
+                    style="@android:style/Widget.Button"
                     android:layout_width="300dp"
                     android:layout_height="75dp"
                     android:layout_gravity="center_horizontal"

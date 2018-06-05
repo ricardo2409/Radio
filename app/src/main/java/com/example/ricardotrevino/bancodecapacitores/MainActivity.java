@@ -10,6 +10,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
@@ -74,8 +75,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     static Thread thread;
     static Handler handler = new Handler();
     static String control = "Status";
-
-
+    static String atributo = "NetID";
+    String netIDValue, potenciaValue, nodeIDvalue, destination;
 
     static VoltajeFragment voltFrag;
     static ConfigurationFragment conFrag;
@@ -115,7 +116,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         voltFrag = new VoltajeFragment();
         ajusFrag = new AjusteFragment();
 
-
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.add(R.id.fragment_container, voltFrag);
         transaction.commit();
@@ -134,6 +134,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     if (BTinit()) {
 
                         BTconnect();
+                        btnVoltaje.setBackgroundColor(Color.BLUE);
+
                     }
                 }else{
                     try
@@ -148,6 +150,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case R.id.btnVoltaje:
                 if (connected){
                     try {
+                        eraseColorFromButtons();
+                        btnVoltaje.setBackgroundColor(Color.BLUE);
                         FragmentTransaction transaction = getFragmentManager().beginTransaction();
                         transaction.replace(R.id.fragment_container, voltFrag);
                         transaction.addToBackStack(null);
@@ -162,6 +166,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case R.id.btnConfiguracion:
                 if (connected){
                     try {
+                        eraseColorFromButtons();
+                        btnConfiguracion.setBackgroundColor(Color.BLUE);
                         FragmentTransaction transaction2 = getFragmentManager().beginTransaction();
                         transaction2.replace(R.id.fragment_container, conFrag);
                         transaction2.addToBackStack(null);
@@ -176,6 +182,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case R.id.btnDiagnostico:
                 if (connected){
                     try {
+                        eraseColorFromButtons();
+                        btnDiagnostico.setBackgroundColor(Color.BLUE);
                         FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
                         transaction3.replace(R.id.fragment_container, diagFrag);
                         transaction3.addToBackStack(null);
@@ -325,6 +333,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             resetVoltaje();
         }
          tvConect.setText("");
+        eraseColorFromButtons();
     }
 
     public void resetVoltaje(){
@@ -414,6 +423,38 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                         catch (IOException ex) { }
                                     }
 
+                                    if(control.matches("Config")){
+                                        System.out.println("Config");
+                                        System.out.println("Este es el atributo: " + atributo);
+
+                                        switch (atributo){
+                                            case "Power":
+                                                if(s.length() >= 6 && s.contains("]")){
+                                                    readPower(s);
+                                                }else{
+                                                    System.out.println("No es lo que quiero de Power" + s.length());
+                                                    System.out.println(s);
+                                                }
+                                                break;
+                                            case "NetID":
+                                                if(s.length() >= 7 && s.contains("]")){
+                                                    readNetID(s);
+                                                }else{
+                                                    System.out.println("No es lo que quiero de NetID " + s.length());
+                                                    System.out.println(s);
+                                                }
+                                                break;
+                                            case "NodeID":
+                                                if(s.length() >= 7 && s.contains("]")){
+                                                    readNodeID(s);
+                                                }else{
+                                                    System.out.println("No es lo que quiero de NodeID " + s.length());
+                                                    System.out.println(s);
+                                                }
+                                                break;
+                                        }
+                                    }
+
                                 }
                             });
 
@@ -499,15 +540,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             currentVoltageControl = Integer.parseInt(tokens[8]);
 
             if (currentVoltageControl == 0) {
-                //Cambiar el estado del Switch !!!!1
                 voltFrag.switchVoltajeAutomatico.setChecked(false);
-                voltFrag.tvVoltajeAutomatico.setText("Control por Voltaje");
+                voltFrag.tvVoltajeAutomatico.setText("Automático");
 
             }
             else {
-                //Cambiar el estado del Switch !!!!1
                 voltFrag.switchVoltajeAutomatico.setChecked(true);
-                voltFrag.tvVoltajeAutomatico.setText("Automático");
+                voltFrag.tvVoltajeAutomatico.setText("Control por Voltaje");
             }
 
 
@@ -834,29 +873,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
-    public void saveValues() throws IOException{
-        Runnable r = new Runnable() {
-            @Override
-            public void run(){
-
-                try {
-                    System.out.println("Estoy en el SaveValues");
-                    String msg1 = "AT&W\r";
-                    outputStream.write(msg1.getBytes());
-                    outputStream.write(msg1.getBytes());
-                    sendRadOff();
-                    showToast("¡ Configuración Guardada !");
-
-                } catch (IOException ex) {
-                }
-
-            }
-        };
-
-        Handler h = new Handler();
-        h.postDelayed(r, 1000);
-
-    }
 
     public void updateConfigField(int field, float value)
     {
@@ -912,6 +928,141 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         h.postDelayed(r, 1000);
     }
 
+    void sendNetID() throws IOException
+    {
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+                try
+                {
+                    //Control para saber que leer
+                    control = "Config";
+                    //Lo que lee es sobre el netid
+                    atributo = "NetID";
+                    System.out.println("Estoy en sendNetID");
+                    String msg = "ATS3?\r";
+                    outputStream.write(msg.getBytes());
+                    outputStream.write(msg.getBytes());
+                    outputStream.write(msg.getBytes());
+
+                }
+                catch (IOException ex) { }
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 500);
+    }
+
+    void sendPower() throws IOException
+    {
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+                try
+                {
+                    atributo = "Power";
+                    System.out.println("Estoy en sendPower");
+                    String msg = "ATS4?\r";
+                    outputStream.write(msg.getBytes());
+                    outputStream.write(msg.getBytes());
+                }
+                catch (IOException ex) { }
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 1000);
+    }
+
+    void sendNodeID() throws IOException
+    {
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+                try
+                {
+                    atributo = "NodeID";
+                    System.out.println("Estoy en sendNodeID");
+                    String msg = "ATS15?\r";
+                    outputStream.write(msg.getBytes());
+                    outputStream.write(msg.getBytes());
+
+                }
+                catch (IOException ex) { }
+
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 2000);
+    }
+
+    void readPower(final String line){
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+
+                atributo = "NodeID";
+                System.out.println("Esta es la linea que lee Power: " + line );
+                if(line.length() > 5){
+                    potenciaValue = line.substring(line.lastIndexOf("]") + 2, line.lastIndexOf("\r"));
+                    System.out.println("Esto tiene potenciaValue: " + potenciaValue);
+                }
+
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 10);
+
+    }
+
+    void readNetID(final String line){
+
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+                atributo = "Power";
+                System.out.println("Esta es la linea que lee NetID: " + line );
+                if(line.length() > 5){
+                    netIDValue = line.substring(line.lastIndexOf("]") + 2, line.length() - 1);
+                    if(netIDValue.contains("?") || netIDValue.contains("T")){
+                        System.out.println("Sí contiene ?");
+                        netIDValue = netIDValue.substring(0, netIDValue.indexOf("\r"));
+                    }
+                    System.out.println("Esto tiene netIDvalue: " + netIDValue);
+                }
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 30);
+    }
+
+    void readNodeID(final String line){
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+
+                System.out.println("NodeID: " + line);
+                System.out.println("Esta es la linea que lee NodeID: " + line );
+                if(line.length() > 5){
+                    nodeIDvalue = line.substring(line.lastIndexOf("]") + 2, line.length() - 1);
+                    System.out.println("Esto tiene nodeIDvalue: " + nodeIDvalue);
+                    //Ya que se leyeron los datos, se acomodan en los edit texts al mismo tiempo
+                    diagFrag.etNetID.setText(netIDValue);
+                    diagFrag.etPotencia.setText(potenciaValue);
+                    diagFrag.etNodeID.setText(nodeIDvalue);
+                }
+                try
+                {
+                    sendRadOff();
+
+                }
+                catch (IOException ex) { }
+
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 20);
+    }
+
     void changeStatus(){
         Runnable r = new Runnable() {
             @Override
@@ -952,15 +1103,140 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
 
     public void configuraRadio(String netID, String nodeID, String potencia) throws IOException{
-        String msg = "ATS3=" + netID;
-        outputStream.write(msg.getBytes());
-        //waitMs(100);
-        msg = "ATS15=" + nodeID;
-        outputStream.write(msg.getBytes());
-        //waitMs(100);
-        msg = "ATS4=" + potencia;
-        outputStream.write(msg.getBytes());
-        //waitMs(100);
+        System.out.println("Estoy en configura radio y estos son los valores: " + netID + " " + nodeID + " " + potencia);
+        try {
+            if(Integer.parseInt(nodeID.trim()) == 0){
+                System.out.println("NodeID igual a 0");
+                destination = "65535";
+            }else{
+                System.out.println("NodeID diferente a 0");
+                destination = "0";
+            }
+            sendRadOn();
+            sendCommand();
+            writeNodeID(nodeID);
+            writeNodeID(nodeID);
+            writePower(potencia);
+            writeNetID(netID);
+            writeDestination(destination);
+            saveValues();
+
+
+        } catch (IOException ex) {
+        }
+    }
+
+    public void writeNetID(final String netID) throws IOException{
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+
+                try {
+                    System.out.println("Estoy en el WriteNetID");
+                    String msg1 = "ATS3=" + netID + "\r";
+                    System.out.println(msg1);
+                    outputStream.write(msg1.getBytes());
+
+                } catch (IOException ex) {
+                }
+
+            }
+        };
+
+        Handler h = new Handler();
+        h.postDelayed(r, 800);
+
+    }
+
+    public void writeNodeID(final String nodeID) throws IOException{
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+
+                try {
+                    System.out.println("Estoy en el WriteNodeID");
+                    String msg1 = "ATS15=" + nodeID + "\r";
+                    System.out.println(msg1);
+                    outputStream.write(msg1.getBytes());
+
+
+                } catch (IOException ex) {
+                }
+
+            }
+        };
+
+        Handler h = new Handler();
+        h.postDelayed(r, 600);
+
+    }
+
+    public void writePower(final String power) throws IOException{
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+
+                try {
+                    System.out.println("Estoy en el WritePower");
+                    String msg1 = "ATS4=" + power + "\r";
+                    System.out.println(msg1);
+                    outputStream.write(msg1.getBytes());
+                    outputStream.write(msg1.getBytes());
+
+
+                } catch (IOException ex) {
+                }
+
+            }
+        };
+
+        Handler h = new Handler();
+        h.postDelayed(r, 700);
+
+    }
+
+    public void writeDestination(final String destination) throws IOException{
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+
+                try {
+                    System.out.println("Estoy en el WriteDestination");
+                    String msg1 = "ATS16=" + destination + "\r";
+                    System.out.println(msg1);
+                    outputStream.write(msg1.getBytes());
+
+                } catch (IOException ex) {
+                }
+
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 900);
+
+    }
+
+    public void saveValues() throws IOException{
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+
+                try {
+                    System.out.println("Estoy en el SaveValues");
+                    String msg1 = "AT&W\r";
+                    outputStream.write(msg1.getBytes());
+                    sendRadOff();
+                    showToast("¡ Configuración Guardada !");
+
+                } catch (IOException ex) {
+                }
+
+            }
+        };
+
+        Handler h = new Handler();
+        h.postDelayed(r, 1000);
+
     }
 
     @Override
@@ -984,6 +1260,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         System.out.println("PB Gone");
         progressBar.setVisibility(View.GONE);
     }
+    public void eraseColorFromButtons(){
+        btnVoltaje.setBackgroundResource(android.R.drawable.btn_default);
+        btnConfiguracion.setBackgroundResource(android.R.drawable.btn_default);
+        btnDiagnostico.setBackgroundResource(android.R.drawable.btn_default);
+        btnAjuste.setBackgroundResource(android.R.drawable.btn_default);
+
+    }
 
     public void showDialog(final String title, final String message){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -1003,6 +1286,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 if(pass.equals("1234")){
                     Toast.makeText(getApplicationContext(), "Correcto", Toast.LENGTH_SHORT).show();
                     //Presentar el fragmento
+                    eraseColorFromButtons();
+                    btnAjuste.setBackgroundColor(Color.BLUE);
                     FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
                     transaction3.replace(R.id.fragment_container, ajusFrag);
                     transaction3.addToBackStack(null);
@@ -1022,12 +1307,5 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         });
 
         alert.show();
-
     }
-
-
-
-
-
-
 }
