@@ -812,7 +812,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         //waitMs(10);
                         //Guardar configuración
                         saveValues();
-                        showToast("Configuración Enviada");
+                        //showToast("Configuración Enviada");
                     }else{
                         showToast("Conexión Perdida");
 

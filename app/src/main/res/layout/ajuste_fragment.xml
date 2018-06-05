@@ -30,10 +30,12 @@
 
         <Button
             android:id="@+id/btnComando"
+            style="@android:style/Widget.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Ajustar" />
+            android:text="Ajustar"
+            android:textSize="20sp" />
 
         <Space
             android:layout_width="match_parent"
@@ -74,10 +76,12 @@
 
         <Button
             android:id="@+id/btnVoltaje"
+            style="@android:style/Widget.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Calibrar" />
+            android:text="Calibrar"
+            android:textSize="20sp" />
 
     </LinearLayout>
 
