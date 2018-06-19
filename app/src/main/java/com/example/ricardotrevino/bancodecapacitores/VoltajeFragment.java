@@ -66,24 +66,34 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
         switchLocalRemoto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    try{
-                        System.out.println("Switch es True");
-                        ((MainActivity)getActivity()).sendManOn();
-                        tvLocalRemoto.setText("Local");
-                        ((MainActivity)getActivity()).waitMs(1000);
+                    if(((MainActivity)getActivity()).connected){
+                        try{
+                            System.out.println("Switch es True");
+                            ((MainActivity)getActivity()).sendManOn();
+                            tvLocalRemoto.setText("Local");
+                            ((MainActivity)getActivity()).waitMs(1000);
 
-                    }catch (Exception e){
-                        System.out.println("Error: " + e);
+                        }catch (Exception e){
+                            System.out.println("Error: " + e);
+                        }
+                    }else{
+                        ((MainActivity)getActivity()).showToast("Bluetooth desconectado");
                     }
+
                 }else{
-                    try{
-                        System.out.println("Switch es False");
-                        ((MainActivity)getActivity()).sendManOff();
-                        tvLocalRemoto.setText("Remoto");
-                        ((MainActivity)getActivity()).waitMs(1000);
-                    }catch (Exception e){
-                        System.out.println("Error: " + e);
+                    if(((MainActivity)getActivity()).connected){
+                        try{
+                            System.out.println("Switch es False");
+                            ((MainActivity)getActivity()).sendManOff();
+                            tvLocalRemoto.setText("Remoto");
+                            ((MainActivity)getActivity()).waitMs(1000);
+                        }catch (Exception e){
+                            System.out.println("Error: " + e);
+                        }
+                    }else{
+                        ((MainActivity)getActivity()).showToast("Bluetooth desconectado");
                     }
+
                 }
             }
         });
@@ -96,21 +106,29 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.openButton:
-                try{
-                    System.out.println("Botón Abrir");
-                    ((MainActivity)getActivity()).sendOpen();
-                }catch (Exception e){
-                    System.out.println("Error: " + e);
+                if(((MainActivity)getActivity()).connected){
+                    try{
+                        System.out.println("Botón Abrir");
+                        ((MainActivity)getActivity()).sendOpen();
+                    }catch (Exception e){
+                        System.out.println("Error: " + e);
+                    }
+                }else{
+                    ((MainActivity)getActivity()).showToast("Bluetooth desconectado");
                 }
+
                 break;
 
             case R.id.closeButton:
-                try{
-                    System.out.println("Botón Cerrar");
-                    ((MainActivity)getActivity()).sendClose();
-                }catch (Exception e){
-                    System.out.println("Error: " + e);
-
+                if(((MainActivity)getActivity()).connected){
+                    try{
+                        System.out.println("Botón Cerrar");
+                        ((MainActivity)getActivity()).sendClose();
+                    }catch (Exception e){
+                        System.out.println("Error: " + e);
+                    }
+                }else{
+                    ((MainActivity)getActivity()).showToast("Bluetooth desconectado");
                 }
                 break;
         }

@@ -151,7 +151,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 if (connected){
                     try {
                         eraseColorFromButtons();
-                        btnVoltaje.setBackgroundColor(Color.BLUE);
+                        btnVoltaje.setBackgroundColor(Color.LTGRAY);
                         FragmentTransaction transaction = getFragmentManager().beginTransaction();
                         transaction.replace(R.id.fragment_container, voltFrag);
                         transaction.addToBackStack(null);
@@ -167,7 +167,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 if (connected){
                     try {
                         eraseColorFromButtons();
-                        btnConfiguracion.setBackgroundColor(Color.BLUE);
+                        btnConfiguracion.setBackgroundColor(Color.LTGRAY);
                         FragmentTransaction transaction2 = getFragmentManager().beginTransaction();
                         transaction2.replace(R.id.fragment_container, conFrag);
                         transaction2.addToBackStack(null);
@@ -183,7 +183,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 if (connected){
                     try {
                         eraseColorFromButtons();
-                        btnDiagnostico.setBackgroundColor(Color.BLUE);
+                        btnDiagnostico.setBackgroundColor(Color.LTGRAY);
                         FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
                         transaction3.replace(R.id.fragment_container, diagFrag);
                         transaction3.addToBackStack(null);
