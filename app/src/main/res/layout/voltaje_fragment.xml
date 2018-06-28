@@ -283,7 +283,7 @@
             android:layout_gravity="center_horizontal"
             android:buttonTint="@android:color/holo_green_light"
             android:gravity="center_vertical|center_horizontal"
-            android:text="Voltaje / Automático"
+            android:text="Automático / Voltaje"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2"
             android:textOff="V"
             android:textOn="A" />

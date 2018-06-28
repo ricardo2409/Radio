@@ -413,7 +413,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                                     }
 
-                                    if(s.contains("RSSI") ){
+                                    if(s.contains("RSSI") && s.contains("L/R") ){
                                         System.out.println("Leí RSSI");
                                         try
                                         {
@@ -1006,6 +1006,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     String msg = "ATO\r";
                     outputStream.write(msg.getBytes());
                     outputStream.write(msg.getBytes());
+                    //Send radoff para que siga mandando el string de status
+                    sendRadOff();
 
                 }
                 catch (IOException ex) { }
@@ -1115,9 +1117,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     public void sendRssi() throws IOException{
         System.out.println("Estoy en sendRSSI");
-        String comando = "+++";
-        outputStream.write(comando.getBytes());
-        //waitMs(10);
         String msg = "AT&T=RSSI\r";
         outputStream.write(msg.getBytes());
     }

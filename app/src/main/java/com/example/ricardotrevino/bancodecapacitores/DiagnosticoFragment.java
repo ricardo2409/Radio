@@ -51,9 +51,8 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         System.out.println("OnActivityCreated Diagnostico");
-
+        resetValues();
         try{
-            resetValues();
             ((MainActivity)getActivity()).sendRadOn();
             ((MainActivity)getActivity()).sendCommand();
             ((MainActivity)getActivity()).sendNetID();
@@ -78,6 +77,8 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
     public void onStart() {
         super.onStart();
         System.out.println("OnStart Diagnostico");
+        resetValues();
+
 
     }
 
