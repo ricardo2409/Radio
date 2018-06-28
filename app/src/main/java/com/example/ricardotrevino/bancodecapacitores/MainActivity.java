@@ -383,7 +383,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         //waitMs(1000);
                         final int byteCount = inputStream.available();
                         if(byteCount > 0) {
-                            //try{ thread.sleep(100); }catch(InterruptedException e){ }
                             byte[] packetBytes = new byte[byteCount];
                             inputStream.read(packetBytes);
                             s = new String(packetBytes);
@@ -392,19 +391,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    //System.out.println("Estoy en el run");
-
+                                    //Status
                                     if(s.contains("s,") && s.contains("&")){
                                         if(s.length() >= 26 && s.length() <= 34){
-                                            //System.out.println("S: " + s);
                                             a = s.substring(s.indexOf("s,"), s.length() - 1);
                                             System.out.println("A: " + a);
-                                            //s = s.substring(s.indexOf('&'), s.length() - 1);
-                                            //System.out.println("S: " + s);
                                             readMessage(a);
                                         }
-
                                     }
+                                    //Config
                                     if(s.contains("g") && s.contains("&") ){
                                         //System.out.println("Index of : " + s.indexOf("g"));
                                         System.out.println("Sí la mandé  !");
@@ -412,7 +407,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                         readMessage(b);
 
                                     }
-
+                                    //RSSI
                                     if(s.contains("RSSI") && s.contains("L/R") ){
                                         System.out.println("Leí RSSI");
                                         try
@@ -422,11 +417,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                         }
                                         catch (IOException ex) { }
                                     }
-
+                                    //Atributos individuales
                                     if(control.matches("Config")){
                                         System.out.println("Config");
                                         System.out.println("Este es el atributo: " + atributo);
-
                                         switch (atributo){
                                             case "Power":
                                                 if(s.length() >= 6 && s.contains("]")){
@@ -454,13 +448,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                                 break;
                                         }
                                     }
-
                                 }
                             });
-
-                            //waitMs(1000);
-
-
                         }
                     }
                     catch (IOException ex) {
@@ -487,8 +476,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             currentVoltage = Float.parseFloat(tokens[1]);
             voltFrag.tvVoltaje.setText(Float.toString(currentVoltage) + " V");
             System.out.println("Se cambió el voltaje a: " + Float.toString(currentVoltage));
-
-
             phase1State = Integer.parseInt(tokens[2]);
             updateLabels(1, phase1State);
             if (phase1State == 0){
@@ -496,7 +483,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             } else{
                 voltFrag.phase1CloseButton.setChecked(true);
             }
-
             flagManOn = Integer.parseInt(tokens[3]);
             if(flagManOn == 1){
                 //System.out.println("El BT dice que el ManOn es True");
@@ -1072,6 +1058,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     diagFrag.etNetID.setText(netIDValue);
                     diagFrag.etPotencia.setText(potenciaValue);
                     diagFrag.etNodeID.setText(nodeIDvalue);
+                    System.out.println("Esto tiene etNodeID " + diagFrag.etNodeID.getText().toString());
+                    if(diagFrag.etNodeID.getText().toString().contains("?")){
+                        String aux = diagFrag.etNodeID.getText().toString();
+                        System.out.println("Esto tiene aux: " + aux);
+                        System.out.println("Esto es aux corregido: " + aux.substring(0, aux.lastIndexOf("?") - 1));
+                        String aux2 = aux.substring(0, aux.lastIndexOf("?") - 1);
+                        diagFrag.etNodeID.setText(aux2);
+
+
+                    }
                 }
                 try
                 {
@@ -1118,6 +1114,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void sendRssi() throws IOException{
         System.out.println("Estoy en sendRSSI");
         String msg = "AT&T=RSSI\r";
+        outputStream.write(msg.getBytes());
         outputStream.write(msg.getBytes());
     }
 
