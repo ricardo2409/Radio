@@ -100,11 +100,14 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
                 }
                 break;
 
-            case R.id.btnDiagnostico:
+            case R.id.botonDiagnostico:
                 try{
                     System.out.println("Botón Diagnóstico");
                     ((MainActivity)getActivity()).sendRadOn();
+                    ((MainActivity)getActivity()).sendCommand();
                     ((MainActivity)getActivity()).sendRssi();
+                    ((MainActivity)getActivity()).sendATO();
+
                 }catch (Exception e){
                     System.out.println("Error: " + e);
                 }

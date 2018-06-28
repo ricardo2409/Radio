@@ -134,7 +134,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     if (BTinit()) {
 
                         BTconnect();
-                        btnVoltaje.setBackgroundColor(Color.BLUE);
+                        btnVoltaje.setBackgroundColor(Color.LTGRAY);
 
                     }
                 }else{
@@ -995,6 +995,27 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         h.postDelayed(r, 2000);
     }
 
+    void sendATO() throws IOException
+    {
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+                try
+                {
+                    System.out.println("Estoy en sendATO");
+                    String msg = "ATO\r";
+                    outputStream.write(msg.getBytes());
+                    outputStream.write(msg.getBytes());
+
+                }
+                catch (IOException ex) { }
+
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 10000);
+    }
+
     void readPower(final String line){
         Runnable r = new Runnable() {
             @Override
@@ -1287,7 +1308,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     Toast.makeText(getApplicationContext(), "Correcto", Toast.LENGTH_SHORT).show();
                     //Presentar el fragmento
                     eraseColorFromButtons();
-                    btnAjuste.setBackgroundColor(Color.BLUE);
+                    btnAjuste.setBackgroundColor(Color.LTGRAY);
                     FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
                     transaction3.replace(R.id.fragment_container, ajusFrag);
                     transaction3.addToBackStack(null);
