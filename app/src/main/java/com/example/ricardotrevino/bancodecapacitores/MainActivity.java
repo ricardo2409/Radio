@@ -575,7 +575,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void readRSSI(String line) throws IOException{
         System.out.println("Estoy en el readRssi");
         System.out.println("Esta es la linea: " + line);
-        if(line.contains("[")){
+        //Para evitar leer un string equivocado
+        if(line.contains("[") && line.lastIndexOf("[") > 5){
             String linea = line.substring(line.indexOf("RSSI:"), line.lastIndexOf("["));
             System.out.println("Esta es la linea buena: " + linea);
 
@@ -957,7 +958,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             public void run() {
                 try {
                     System.out.println("Estoy en el RadOff");
-                    //Para evitar que siga mandando la cadena y poder entrar al radio
                     String msg1 = "$RadOff,&";
                     outputStream.write(msg1.getBytes());
                     changeStatus();
@@ -976,7 +976,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             public void run(){
                 try
                 {
-                    //Control para saber que leer
+                    //Control para saber qué leer
                     control = "Config";
                     //Lo que lee es sobre el netid
                     atributo = "NetID";
@@ -1063,19 +1063,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         Runnable r = new Runnable() {
             @Override
             public void run(){
-
                 atributo = "NodeID";
                 System.out.println("Esta es la linea que lee Power: " + line );
                 if(line.length() > 5){
                     potenciaValue = line.substring(line.lastIndexOf("]") + 2, line.lastIndexOf("\r"));
                     System.out.println("Esto tiene potenciaValue: " + potenciaValue);
                 }
-
             }
         };
         Handler h = new Handler();
         h.postDelayed(r, 10);
-
     }
 
     void readNetID(final String line){
@@ -1122,15 +1119,20 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         String aux2 = aux.substring(0, aux.lastIndexOf("?") - 1);
                         diagFrag.etNodeID.setText(aux2);
                     }
-                }
 
+                    if(diagFrag.etPotencia.getText().toString().contains("?")){
+                        String aux = diagFrag.etPotencia.getText().toString();
+                        System.out.println("Esto tiene aux Potencia: " + aux);
+                        System.out.println("Esto es aux Potencia corregido: " + aux.substring(0, aux.lastIndexOf("?") - 1));
+                        String aux2 = aux.substring(0, aux.lastIndexOf("?") - 1);
+                        diagFrag.etPotencia.setText(aux2);
+                    }
+                }
                 try
                 {
                     sendRadOff();
                 }
                 catch (IOException ex) { }
-
-
             }
         };
         Handler h = new Handler();
@@ -1141,18 +1143,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         Runnable r = new Runnable() {
             @Override
             public void run() {
-
                 control = "Status";
                 System.out.println("Status changed");
-
             }
         };
-
         Handler h = new Handler();
         h.postDelayed(r, 400);
     }
-
-
 
     public void sendOffset() throws IOException{
         String msg = "$AjOff&";
@@ -1165,13 +1162,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         System.out.println("Estoy en sendVoltaje: " + msg);
         outputStream.write(msg.getBytes());
     }
-
-    public void sendRssi() throws IOException{
-        System.out.println("Estoy en sendRSSI");
-        String msg = "AT&T=RSSI\r";
-        outputStream.write(msg.getBytes());
-    }
-
 
     public void configuraRadio(String netID, String nodeID, String potencia) throws IOException{
         System.out.println("Estoy en configura radio y estos son los valores: " + netID + " " + nodeID + " " + potencia);
@@ -1191,8 +1181,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             writeNetID(netID);
             writeDestination(destination);
             saveValues();
-
-
         } catch (IOException ex) {
         }
     }

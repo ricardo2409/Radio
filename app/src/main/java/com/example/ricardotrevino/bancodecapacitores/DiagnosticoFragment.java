@@ -51,6 +51,7 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         System.out.println("OnActivityCreated Diagnostico");
+        //Borrar los valores para que se vean que son nuevos
         resetValues();
 
         try{
@@ -63,9 +64,6 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         }catch (IOException e){
             System.out.println("Error: " + e);
         }
-
-
-
     }
 
     public void resetValues(){
