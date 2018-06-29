@@ -575,21 +575,27 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void readRSSI(String line) throws IOException{
         System.out.println("Estoy en el readRssi");
         System.out.println("Esta es la linea: " + line);
-        String filtered = line.replaceAll("[^0-9,/]","");
-        System.out.println("Esta es filtered: " + filtered);
-        String numeros = filtered.substring(0, filtered.length() - 6);
-        System.out.println("Esta es numeros: " + numeros);
-        tokensRSSI = numeros.split("/");
-        System.out.println("Estos son los tokens del rssi: ");
-        System.out.println(Arrays.toString(tokensRSSI));
+        if(line.contains("[")){
+            String linea = line.substring(line.indexOf("RSSI:"), line.lastIndexOf("["));
+            System.out.println("Esta es la linea buena: " + linea);
 
-        System.out.println("Este es el size del tokensRSSI: " + tokensRSSI.length);
+            String filtered = linea.replaceAll("[^0-9,/]","");
+            System.out.println("Esta es filtered: " + filtered);
+            tokensRSSI = filtered.split("/");
+            System.out.println("Estos son los tokens del rssi: ");
+            System.out.println(Arrays.toString(tokensRSSI));
+
+            System.out.println("Este es el size del tokensRSSI: " + tokensRSSI.length);
+
         if(tokensRSSI.length == 4){
             diagFrag.tvRSSILocal.setText(tokensRSSI[0]);
             diagFrag.tvRSSIRemoto.setText(tokensRSSI[1]);
             diagFrag.tvRuidoLocal.setText(tokensRSSI[2]);
             diagFrag.tvRuidoRemoto.setText(tokensRSSI[3]);
         }
+
+        }
+
 
 
     }
@@ -884,6 +890,55 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
         }
     }
+    void sendRadOnR() throws IOException {
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println("Estoy en el RadOnR");
+                    //Para evitar que siga mandando la cadena y poder entrar al radio
+                    String msg1 = "$RadOn,&";
+                    outputStream.write(msg1.getBytes());
+                } catch (IOException ex) {
+                }
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 10);
+    }
+    void sendCommandR() throws IOException {
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println("Estoy en el CommandR");
+                    //Para evitar que siga mandando la cadena y poder entrar al radio
+                    String msg1 = "+++";
+                    outputStream.write(msg1.getBytes());
+                } catch (IOException ex) {
+                }
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 50);
+    }
+
+    void sendRssiR() throws IOException {
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println("Estoy en el SendRssiR");
+                    //Para evitar que siga mandando la cadena y poder entrar al radio
+                    String msg1 = "AT&T=RSSI\r";
+                    outputStream.write(msg1.getBytes());
+                } catch (IOException ex) {
+                }
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 100);
+    }
 
     public void sendCommand() throws IOException{
         System.out.println("Estoy en sendCommand");
@@ -1059,22 +1114,22 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     diagFrag.etPotencia.setText(potenciaValue);
                     diagFrag.etNodeID.setText(nodeIDvalue);
                     System.out.println("Esto tiene etNodeID " + diagFrag.etNodeID.getText().toString());
+                    //Arregla el problema que le ponía un ? al final del node id
                     if(diagFrag.etNodeID.getText().toString().contains("?")){
                         String aux = diagFrag.etNodeID.getText().toString();
                         System.out.println("Esto tiene aux: " + aux);
                         System.out.println("Esto es aux corregido: " + aux.substring(0, aux.lastIndexOf("?") - 1));
                         String aux2 = aux.substring(0, aux.lastIndexOf("?") - 1);
                         diagFrag.etNodeID.setText(aux2);
-
-
                     }
                 }
+
                 try
                 {
                     sendRadOff();
-
                 }
                 catch (IOException ex) { }
+
 
             }
         };
@@ -1114,7 +1169,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void sendRssi() throws IOException{
         System.out.println("Estoy en sendRSSI");
         String msg = "AT&T=RSSI\r";
-        outputStream.write(msg.getBytes());
         outputStream.write(msg.getBytes());
     }
 

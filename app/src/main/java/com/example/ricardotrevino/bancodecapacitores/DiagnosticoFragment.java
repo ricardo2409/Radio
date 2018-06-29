@@ -52,6 +52,7 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         super.onActivityCreated(savedInstanceState);
         System.out.println("OnActivityCreated Diagnostico");
         resetValues();
+
         try{
             ((MainActivity)getActivity()).sendRadOn();
             ((MainActivity)getActivity()).sendCommand();
@@ -59,10 +60,10 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
             ((MainActivity)getActivity()).sendPower();
             ((MainActivity)getActivity()).sendNodeID();
 
-
         }catch (IOException e){
             System.out.println("Error: " + e);
         }
+
 
 
     }
@@ -88,6 +89,7 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         switch (view.getId()){
             case R.id.btnRadio:
                 try{
+                    //Configurar el radio
                     System.out.println("Botón Radio");
                     if(etNetID.getText() != null && etNodeID.getText() != null && etPotencia.getText() != null){
                         ((MainActivity)getActivity()).configuraRadio(etNetID.getText().toString().trim(), etNodeID.getText().toString().trim(), etPotencia.getText().toString().trim());
@@ -104,9 +106,9 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
             case R.id.botonDiagnostico:
                 try{
                     System.out.println("Botón Diagnóstico");
-                    ((MainActivity)getActivity()).sendRadOn();
-                    ((MainActivity)getActivity()).sendCommand();
-                    ((MainActivity)getActivity()).sendRssi();
+                    ((MainActivity)getActivity()).sendRadOnR();
+                    ((MainActivity)getActivity()).sendCommandR();
+                    ((MainActivity)getActivity()).sendRssiR();
                     ((MainActivity)getActivity()).sendATO();
 
                 }catch (Exception e){

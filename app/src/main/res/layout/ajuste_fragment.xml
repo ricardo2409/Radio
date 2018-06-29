@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="260dp"
     android:layout_marginBottom="100dp"
     android:orientation="horizontal">
 
@@ -26,13 +26,13 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="30dp" />
+            android:layout_height="75dp" />
 
         <Button
             android:id="@+id/btnComando"
             style="@android:style/Widget.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
             android:text="Ajustar"
             android:textSize="20sp" />
@@ -66,7 +66,7 @@
 
         <EditText
             android:id="@+id/etVoltaje"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:ems="10"
@@ -77,8 +77,8 @@
         <Button
             android:id="@+id/btnVoltaje"
             style="@android:style/Widget.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
             android:text="Calibrar"
             android:textSize="20sp" />
