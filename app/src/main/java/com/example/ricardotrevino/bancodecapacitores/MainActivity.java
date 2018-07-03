@@ -576,7 +576,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         System.out.println("Estoy en el readRssi");
         System.out.println("Esta es la linea: " + line);
         //Para evitar leer un string equivocado
-        if(line.contains("[") && line.lastIndexOf("[") > 5){
+        if(line.contains("[") && line.lastIndexOf("[") > 5 && line.length() > 7){
             String linea = line.substring(line.indexOf("RSSI:"), line.lastIndexOf("["));
             System.out.println("Esta es la linea buena: " + linea);
 
@@ -1317,6 +1317,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         }
     }
+
     public void progressBarVisible(){
         System.out.println("PB Visible");
         progressBar.setVisibility(View.VISIBLE);
@@ -1326,6 +1327,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         System.out.println("PB Gone");
         progressBar.setVisibility(View.GONE);
     }
+    //Le quita el color a todos los botones cuando se desconecta
     public void eraseColorFromButtons(){
         btnVoltaje.setBackgroundResource(android.R.drawable.btn_default);
         btnConfiguracion.setBackgroundResource(android.R.drawable.btn_default);
@@ -1334,6 +1336,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     }
 
+    //Input Dialog para ingresar el password del Fragmento de Ajuste
     public void showDialog(final String title, final String message){
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         final EditText edittext = new EditText(getApplicationContext());
@@ -1342,12 +1345,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         edittext.setRawInputType(Configuration.KEYBOARD_12KEY);
         alert.setMessage(message);
         alert.setTitle(title);
-
         alert.setView(edittext);
 
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-
                 String pass = edittext.getText().toString();
                 if(pass.equals("1234")){
                     Toast.makeText(getApplicationContext(), "Correcto", Toast.LENGTH_SHORT).show();
@@ -1367,7 +1368,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                // what ever you want to do with No option.
+                // Cerrar el input dialog
                 dialog.dismiss();
             }
         });
