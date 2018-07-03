@@ -64,6 +64,7 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         }catch (IOException e){
             System.out.println("Error: " + e);
         }
+
     }
 
     public void resetValues(){
@@ -104,6 +105,7 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
             case R.id.botonDiagnostico:
                 try{
                     System.out.println("Botón Diagnóstico");
+                    ((MainActivity)getActivity()).outputStream.write("ATO\r".getBytes());
                     ((MainActivity)getActivity()).sendRadOnR();
                     ((MainActivity)getActivity()).sendCommandR();
                     ((MainActivity)getActivity()).sendRssiR();

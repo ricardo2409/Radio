@@ -905,7 +905,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 10);
+        h.postDelayed(r, 20);
     }
     void sendCommandR() throws IOException {
         Runnable r = new Runnable() {
@@ -921,7 +921,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 50);
+        h.postDelayed(r, 200);
     }
 
     void sendRssiR() throws IOException {
@@ -938,14 +938,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 100);
+        h.postDelayed(r, 600);
     }
+
 
     public void sendCommand() throws IOException{
         System.out.println("Estoy en sendCommand");
         String msg = "+++";
         outputStream.write(msg.getBytes());
     }
+
     public void sendRadOn() throws IOException{
         System.out.println("Estoy en sendRadOn");
         String msg = "$RadOn,&";
@@ -959,6 +961,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 try {
                     System.out.println("Estoy en el RadOff");
                     String msg1 = "$RadOff,&";
+                    outputStream.write(msg1.getBytes());
                     outputStream.write(msg1.getBytes());
                     changeStatus();
                 } catch (IOException ex) {
@@ -1047,6 +1050,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     String msg = "ATO\r";
                     outputStream.write(msg.getBytes());
                     outputStream.write(msg.getBytes());
+
                     //Send radoff para que siga mandando el string de status
                     sendRadOff();
 
@@ -1119,7 +1123,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         String aux2 = aux.substring(0, aux.lastIndexOf("?") - 1);
                         diagFrag.etNodeID.setText(aux2);
                     }
-
+                    //Arregla el problema que le ponía un ? al final de potencia
                     if(diagFrag.etPotencia.getText().toString().contains("?")){
                         String aux = diagFrag.etPotencia.getText().toString();
                         System.out.println("Esto tiene aux Potencia: " + aux);
@@ -1130,7 +1134,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 }
                 try
                 {
-                    sendRadOff();
+                    outputStream.write("ATO\r".getBytes());
+                    outputStream.write("$RadOff,&".getBytes());
+                    outputStream.write("$RadOff,&".getBytes());
+                    changeStatus();
                 }
                 catch (IOException ex) { }
             }
