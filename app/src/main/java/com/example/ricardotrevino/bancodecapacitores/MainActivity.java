@@ -588,12 +588,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
             System.out.println("Este es el size del tokensRSSI: " + tokensRSSI.length);
 
-        if(tokensRSSI.length == 4){
-            diagFrag.tvRSSILocal.setText(tokensRSSI[0]);
-            diagFrag.tvRSSIRemoto.setText(tokensRSSI[1]);
-            diagFrag.tvRuidoLocal.setText(tokensRSSI[2]);
-            diagFrag.tvRuidoRemoto.setText(tokensRSSI[3]);
-        }
+            if(tokensRSSI.length == 4){
+                diagFrag.tvRSSILocal.setText(tokensRSSI[0]);
+                diagFrag.tvRSSIRemoto.setText(tokensRSSI[1]);
+                diagFrag.tvRuidoLocal.setText(tokensRSSI[2]);
+                diagFrag.tvRuidoRemoto.setText(tokensRSSI[3]);
+            }
 
         }
 
