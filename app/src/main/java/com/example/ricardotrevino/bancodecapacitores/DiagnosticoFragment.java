@@ -30,6 +30,7 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.diagnostico_fragment,
                 container, false);
+        tvTipo = (TextView) view.findViewById(R.id.tvTipo);
         etNetID = (EditText) view.findViewById(R.id.etNetID);
         etNodeID = (EditText) view.findViewById(R.id.etNodeID);
         etPotencia = (EditText) view.findViewById(R.id.etPotencia);
@@ -47,6 +48,25 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
                     System.out.println("Esto es nodo 1: " + nodo1);
                     System.out.println("Esto es nodo 2: " + nodo2);
 
+                    if(nodo1.equals("00") && nodo2.equals("00")){
+                        System.out.println("Coordinador");
+                        tvTipo.setText("Coordinador");
+                    }else if(!nodo1.equals("00") && nodo2.equals("00")){
+                        System.out.println("Repetidor");
+                        tvTipo.setText("Repetidor");
+                    }else if(!nodo1.equals("00") && !nodo2.equals("00")){
+                        System.out.println("Nodo");
+                        tvTipo.setText("Nodo");
+                    }else  if(nodo1.equals("00") && !nodo2.equals("00")){
+                        System.out.println("Nodo");
+                        tvTipo.setText("Nodo");
+                    }
+
+
+
+
+                }else{
+                    tvTipo.setText("");
                 }
 
             }
@@ -70,7 +90,6 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         btnRadio.setOnClickListener(this);
         //btnDiagnostico.setOnClickListener(this);
         ((MainActivity)getActivity()).DiagnosticoBool = true;
-        tvTipo = (TextView) view.findViewById(R.id.tvTipo);
         return view;
     }
 
