@@ -3,6 +3,8 @@ package com.example.ricardotrevino.bancodecapacitores;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +20,7 @@ import java.io.IOException;
 
 public class DiagnosticoFragment extends Fragment implements View.OnClickListener {
 
-    TextView tvNetID, tvNodeID, tvPotencia, tvRSSILocal, tvRSSIRemoto, tvRuidoLocal, tvRuidoRemoto;
+    TextView tvNetID, tvNodeID, tvPotencia, tvRSSILocal, tvRSSIRemoto, tvRuidoLocal, tvRuidoRemoto, tvTipo;
     Button btnRadio, btnDiagnostico;
 
     EditText etNetID, etNodeID, etPotencia;
@@ -31,6 +33,29 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         etNetID = (EditText) view.findViewById(R.id.etNetID);
         etNodeID = (EditText) view.findViewById(R.id.etNodeID);
         etPotencia = (EditText) view.findViewById(R.id.etPotencia);
+
+        etNodeID.addTextChangedListener(new TextWatcher() {
+
+            public void afterTextChanged(Editable s) {
+
+                // you can call or do what you want with your EditText here
+                System.out.println("TEXTO CAMBIO");
+                String nodo = etNodeID.getText().toString();
+                if(nodo.length() == 4){
+                    String nodo1 = nodo.substring(0, (nodo.length()/2));
+                    String nodo2 = nodo.substring((nodo.length()/2));
+                    System.out.println("Esto es nodo 1: " + nodo1);
+                    System.out.println("Esto es nodo 2: " + nodo2);
+
+                }
+
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+        /*
         tvRSSILocal = (TextView) view.findViewById(R.id.tvRSSILocal);
         tvRSSIRemoto = (TextView) view.findViewById(R.id.tvRSSIRemoto);
         tvRuidoLocal = (TextView) view.findViewById(R.id.tvRuidoLocal);
@@ -39,11 +64,13 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         tvRSSIRemoto.setBackgroundResource(R.drawable.bordercolor);
         tvRuidoLocal.setBackgroundResource(R.drawable.bordercolor);
         tvRuidoRemoto.setBackgroundResource(R.drawable.bordercolor);
-        btnDiagnostico = (Button) view.findViewById(R.id.botonDiagnostico);
+        */
+        //btnDiagnostico = (Button) view.findViewById(R.id.botonDiagnostico);
         btnRadio = (Button) view.findViewById(R.id.btnRadio);
         btnRadio.setOnClickListener(this);
-        btnDiagnostico.setOnClickListener(this);
+        //btnDiagnostico.setOnClickListener(this);
         ((MainActivity)getActivity()).DiagnosticoBool = true;
+        tvTipo = (TextView) view.findViewById(R.id.tvTipo);
         return view;
     }
 
@@ -73,14 +100,6 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         etPotencia.setText("");
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        System.out.println("OnStart Diagnostico");
-        resetValues();
-
-
-    }
 
     @Override
     public void onClick(View view) {
@@ -102,6 +121,7 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
                 }
                 break;
 
+                /*
             case R.id.botonDiagnostico:
                 try{
                     System.out.println("Botón Diagnóstico");
@@ -115,6 +135,7 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
                     System.out.println("Error: " + e);
                 }
                 break;
+                */
         }
     }
 }

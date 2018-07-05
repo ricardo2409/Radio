@@ -360,10 +360,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         diagFrag.etNetID.setText("");
         diagFrag.etNodeID.setText("");
         diagFrag.etPotencia.setText("");
+        /*
         diagFrag.tvRuidoRemoto.setText("");
         diagFrag.tvRuidoLocal.setText("");
         diagFrag.tvRSSIRemoto.setText("");
         diagFrag.tvRSSILocal.setText("");
+        */
     }
 
     public void initItems(){
@@ -963,7 +965,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     String msg1 = "$RadOff,&";
                     outputStream.write(msg1.getBytes());
                     outputStream.write(msg1.getBytes());
-                    changeStatus();
                 } catch (IOException ex) {
                 }
             }
@@ -983,8 +984,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     control = "Config";
                     //Lo que lee es sobre el netid
                     atributo = "NetID";
-                    System.out.println("Estoy en sendNetID");
-                    String msg = "ATS3?\r";
+                    System.out.println("Estoy en Antena1");
+                    String msg = "ATS14?\r";
                     outputStream.write(msg.getBytes());
                     outputStream.write(msg.getBytes());
                     outputStream.write(msg.getBytes());
@@ -994,7 +995,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 500);
+        h.postDelayed(r, 1000);
     }
 
     void sendPower() throws IOException
@@ -1005,8 +1006,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 try
                 {
                     atributo = "Power";
-                    System.out.println("Estoy en sendPower");
-                    String msg = "ATS4?\r";
+                    System.out.println("Estoy en Antena2");
+                    String msg = "ATS15?\r";
                     outputStream.write(msg.getBytes());
                     outputStream.write(msg.getBytes());
                 }
@@ -1014,7 +1015,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 1000);
+        h.postDelayed(r, 1500);
     }
 
     void sendNodeID() throws IOException
@@ -1026,7 +1027,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 {
                     atributo = "NodeID";
                     System.out.println("Estoy en sendNodeID");
-                    String msg = "ATS15?\r";
+                    String msg = "ATS2?\r";
                     outputStream.write(msg.getBytes());
                     outputStream.write(msg.getBytes());
 
@@ -1036,7 +1037,31 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 2000);
+        h.postDelayed(r, 2500);
+    }
+
+    void sendATZ() throws IOException
+    {
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+                try
+                {
+                    System.out.println("Estoy en sendATZ");
+                    String msg = "ATZ\r";
+                    outputStream.write(msg.getBytes());
+                    outputStream.write(msg.getBytes());
+
+                    //Send radoff para que siga mandando el string de status
+                    sendRadOff();
+
+                }
+                catch (IOException ex) { }
+
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 1);
     }
 
     void sendATO() throws IOException
@@ -1046,8 +1071,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             public void run(){
                 try
                 {
-                    System.out.println("Estoy en sendATO");
-                    String msg = "ATO\r";
+                    System.out.println("Estoy en sendATZ");
+                    String msg = "ATZ\r";
                     outputStream.write(msg.getBytes());
                     outputStream.write(msg.getBytes());
 
@@ -1070,7 +1095,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 atributo = "NodeID";
                 System.out.println("Esta es la linea que lee Power: " + line );
                 if(line.length() > 5){
-                    potenciaValue = line.substring(line.lastIndexOf("]") + 2, line.lastIndexOf("\r"));
+                    potenciaValue = line.substring(line.lastIndexOf("\r") - 2, line.lastIndexOf("\r"));
                     System.out.println("Esto tiene potenciaValue: " + potenciaValue);
                 }
             }
@@ -1087,11 +1112,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 atributo = "Power";
                 System.out.println("Esta es la linea que lee NetID: " + line );
                 if(line.length() > 5){
-                    netIDValue = line.substring(line.lastIndexOf("]") + 2, line.length() - 1);
-                    if(netIDValue.contains("?") || netIDValue.contains("T")){
-                        System.out.println("Sí contiene ?");
-                        netIDValue = netIDValue.substring(0, netIDValue.indexOf("\r"));
-                    }
+                    netIDValue = line.substring(line.lastIndexOf("\r") - 2, line.lastIndexOf("\r"));
+
                     System.out.println("Esto tiene netIDvalue: " + netIDValue);
                 }
             }
@@ -1108,7 +1130,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 System.out.println("NodeID: " + line);
                 System.out.println("Esta es la linea que lee NodeID: " + line );
                 if(line.length() > 5){
-                    nodeIDvalue = line.substring(line.lastIndexOf("]") + 2, line.length() - 1);
+                    nodeIDvalue = line.substring(line.lastIndexOf("\r") - 4, line.lastIndexOf("\r"));
                     System.out.println("Esto tiene nodeIDvalue: " + nodeIDvalue);
                     //Ya que se leyeron los datos, se acomodan en los edit texts al mismo tiempo
                     diagFrag.etNetID.setText(netIDValue);
@@ -1116,6 +1138,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     diagFrag.etNodeID.setText(nodeIDvalue);
                     System.out.println("Esto tiene etNodeID " + diagFrag.etNodeID.getText().toString());
                     //Arregla el problema que le ponía un ? al final del node id
+                    /*
                     if(diagFrag.etNodeID.getText().toString().contains("?")){
                         String aux = diagFrag.etNodeID.getText().toString();
                         System.out.println("Esto tiene aux: " + aux);
@@ -1131,12 +1154,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         String aux2 = aux.substring(0, aux.lastIndexOf("?") - 1);
                         diagFrag.etPotencia.setText(aux2);
                     }
+                    */
                 }
                 try
                 {
-                    outputStream.write("ATO\r".getBytes());
-                    outputStream.write("$RadOff,&".getBytes());
-                    outputStream.write("$RadOff,&".getBytes());
+                    sendATZ();
                     changeStatus();
                 }
                 catch (IOException ex) { }
@@ -1186,7 +1208,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             writeNodeID(nodeID);
             writePower(potencia);
             writeNetID(netID);
-            writeDestination(destination);
+            //writeDestination(destination);
             saveValues();
         } catch (IOException ex) {
         }
@@ -1198,8 +1220,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             public void run(){
 
                 try {
-                    System.out.println("Estoy en el WriteNetID");
-                    String msg1 = "ATS3=" + netID + "\r";
+                    System.out.println("Estoy en el WriteAntena1");
+                    String msg1 = "ATS14=" + netID + "\r";
                     System.out.println(msg1);
                     outputStream.write(msg1.getBytes());
 
@@ -1210,7 +1232,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         };
 
         Handler h = new Handler();
-        h.postDelayed(r, 800);
+        h.postDelayed(r, 1200);
 
     }
 
@@ -1221,7 +1243,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 try {
                     System.out.println("Estoy en el WriteNodeID");
-                    String msg1 = "ATS15=" + nodeID + "\r";
+                    String msg1 = "ATS2=" + nodeID + "\r";
                     System.out.println(msg1);
                     outputStream.write(msg1.getBytes());
 
@@ -1233,7 +1255,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         };
 
         Handler h = new Handler();
-        h.postDelayed(r, 600);
+        h.postDelayed(r, 1000);
 
     }
 
@@ -1244,7 +1266,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 try {
                     System.out.println("Estoy en el WritePower");
-                    String msg1 = "ATS4=" + power + "\r";
+                    String msg1 = "ATS15=" + power + "\r";
                     System.out.println(msg1);
                     outputStream.write(msg1.getBytes());
                     outputStream.write(msg1.getBytes());
@@ -1257,7 +1279,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         };
 
         Handler h = new Handler();
-        h.postDelayed(r, 700);
+        h.postDelayed(r, 1100);
 
     }
 
