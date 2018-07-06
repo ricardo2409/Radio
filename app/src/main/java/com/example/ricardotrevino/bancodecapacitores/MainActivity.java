@@ -425,7 +425,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                         System.out.println("Este es el atributo: " + atributo);
                                         switch (atributo){
                                             case "Power":
-                                                if(s.length() >= 6 && s.contains("]")){
+                                                if(s.length() >= 6 && s.contains("ANT2")){
                                                     readPower(s);
                                                 }else{
                                                     System.out.println("No es lo que quiero de Power" + s.length());
@@ -433,7 +433,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                                 }
                                                 break;
                                             case "NetID":
-                                                if(s.length() >= 7 && s.contains("]")){
+                                                if(s.length() >= 7 && s.contains("ANT1")){
                                                     readNetID(s);
                                                 }else{
                                                     System.out.println("No es lo que quiero de NetID " + s.length());
@@ -987,8 +987,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     System.out.println("Estoy en Antena1");
                     String msg = "ATS14?\r";
                     outputStream.write(msg.getBytes());
-                    outputStream.write(msg.getBytes());
-                    outputStream.write(msg.getBytes());
+                    //outputStream.write(msg.getBytes());
+                    //outputStream.write(msg.getBytes());
 
                 }
                 catch (IOException ex) { }
@@ -1009,7 +1009,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     System.out.println("Estoy en Antena2");
                     String msg = "ATS15?\r";
                     outputStream.write(msg.getBytes());
-                    outputStream.write(msg.getBytes());
+                    //outputStream.write(msg.getBytes());
                 }
                 catch (IOException ex) { }
             }
@@ -1029,7 +1029,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     System.out.println("Estoy en sendNodeID");
                     String msg = "ATS2?\r";
                     outputStream.write(msg.getBytes());
-                    outputStream.write(msg.getBytes());
+                    //outputStream.write(msg.getBytes());
 
                 }
                 catch (IOException ex) { }
@@ -1095,7 +1095,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 atributo = "NodeID";
                 System.out.println("Esta es la linea que lee Power: " + line );
                 if(line.length() > 5){
-                    potenciaValue = line.substring(line.lastIndexOf("\r") - 2, line.lastIndexOf("\r"));
+                    String aux = line.substring(line.length() / 2, line.length());
+                    System.out.println("Esto tiene aux: " + aux);
+                    potenciaValue = aux.substring(aux.lastIndexOf("ANT2=") + 5, aux.lastIndexOf("\r"));
                     System.out.println("Esto tiene potenciaValue: " + potenciaValue);
                 }
             }
@@ -1112,7 +1114,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 atributo = "Power";
                 System.out.println("Esta es la linea que lee NetID: " + line );
                 if(line.length() > 5){
-                    netIDValue = line.substring(line.lastIndexOf("\r") - 2, line.lastIndexOf("\r"));
+                    netIDValue = line.substring(line.lastIndexOf("ANT1=") + 5, line.length());
 
                     System.out.println("Esto tiene netIDvalue: " + netIDValue);
                 }
