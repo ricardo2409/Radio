@@ -8,8 +8,11 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -18,55 +21,100 @@ import java.io.IOException;
  * Created by ricardotrevino on 12/17/17.
  */
 
-public class DiagnosticoFragment extends Fragment implements View.OnClickListener {
+public class DiagnosticoFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    TextView tvNetID, tvNodeID, tvPotencia, tvRSSILocal, tvRSSIRemoto, tvRuidoLocal, tvRuidoRemoto, tvTipo;
+    TextView tvNetID, tvNodeID, tvPotencia, tvRSSILocal, tvRSSIRemoto, tvRuidoLocal, tvRuidoRemoto, tvTipo, tvUno, tvDos;
     Button btnRadio, btnDiagnostico;
 
     EditText etNetID, etNodeID, etPotencia;
-
+    //Spinners
+    Spinner spinner12;
+    Spinner spinner13;
+    Spinner spinner10;
+    Spinner spinner11;
+    ArrayAdapter<String> adapter12;
+    ArrayAdapter<String> adapter13;
+    ArrayAdapter<String> adapter10;
+    ArrayAdapter<String> adapter11;
+    String nodo1, nodo2;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.diagnostico_fragment,
                 container, false);
         tvTipo = (TextView) view.findViewById(R.id.tvTipo);
+        tvUno = (TextView) view.findViewById(R.id.tvUno);
+        tvDos = (TextView) view.findViewById(R.id.tvDos);
         etNetID = (EditText) view.findViewById(R.id.etNetID);
         etNodeID = (EditText) view.findViewById(R.id.etNodeID);
         etPotencia = (EditText) view.findViewById(R.id.etPotencia);
+        spinner10 = (Spinner) view.findViewById(R.id.spinner10);
+        spinner11 = (Spinner) view.findViewById(R.id.spinner11);
+        spinner12 = (Spinner) view.findViewById(R.id.spinner12);
+        spinner13 = (Spinner) view.findViewById(R.id.spinner13);
+        //Llena de valores los spinners
+        fillSpinners();
+        hideSpinners();
 
         etNodeID.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {
-
                 // you can call or do what you want with your EditText here
                 System.out.println("TEXTO CAMBIO");
                 String nodo = etNodeID.getText().toString();
                 if(nodo.length() == 4){
-                    String nodo1 = nodo.substring(0, (nodo.length()/2));
-                    String nodo2 = nodo.substring((nodo.length()/2));
+                    nodo1 = nodo.substring(0, (nodo.length()/2));
+                    nodo2 = nodo.substring((nodo.length()/2));
                     System.out.println("Esto es nodo 1: " + nodo1);
                     System.out.println("Esto es nodo 2: " + nodo2);
 
                     if(nodo1.equals("00") && nodo2.equals("00")){
                         System.out.println("Coordinador");
                         tvTipo.setText("Coordinador");
+                        //Cambiar el nombre del textview y mostrar spinner correcto
+                        tvUno.setText("Antena Coordinador");
+                        tvDos.setText("");
+                        spinner13.setVisibility(View.VISIBLE);
+                        spinner10.setVisibility(View.GONE);
+                        spinner11.setVisibility(View.GONE);
+                        spinner12.setVisibility(View.GONE);
+
                     }else if(!nodo1.equals("00") && nodo2.equals("00")){
                         System.out.println("Repetidor");
                         tvTipo.setText("Repetidor");
+                        //Cambiar el nombre del edittext
+                        tvUno.setText("Antena Coordinador");
+                        tvDos.setText("Antena Nodo");
+                        spinner13.setVisibility(View.GONE);
+                        spinner10.setVisibility(View.VISIBLE);//Coordinador
+                        spinner11.setVisibility(View.VISIBLE);//Nodo
+                        spinner12.setVisibility(View.GONE);
                     }else if(!nodo1.equals("00") && !nodo2.equals("00")){
                         System.out.println("Nodo");
                         tvTipo.setText("Nodo");
+                        tvDos.setText("");
+                        //Cambiar el nombre del edittext
+                        tvUno.setText("Antena Nodo");
+                        spinner13.setVisibility(View.GONE);
+                        spinner10.setVisibility(View.GONE);
+                        spinner11.setVisibility(View.GONE);
+                        spinner12.setVisibility(View.VISIBLE);
                     }else  if(nodo1.equals("00") && !nodo2.equals("00")){
                         System.out.println("Nodo");
                         tvTipo.setText("Nodo");
+                        tvDos.setText("");
+                        //Cambiar el nombre del edittext
+                        tvUno.setText("Antena Nodo");
+                        spinner13.setVisibility(View.GONE);
+                        spinner10.setVisibility(View.GONE);
+                        spinner11.setVisibility(View.GONE);
+                        spinner12.setVisibility(View.VISIBLE);
                     }
-
-
-
-
                 }else{
                     tvTipo.setText("");
+                    tvUno.setVisibility(View.GONE);
+                    tvDos.setVisibility(View.GONE);
+                    hideSpinners();
                 }
 
             }
@@ -75,21 +123,13 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
 
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
-        /*
-        tvRSSILocal = (TextView) view.findViewById(R.id.tvRSSILocal);
-        tvRSSIRemoto = (TextView) view.findViewById(R.id.tvRSSIRemoto);
-        tvRuidoLocal = (TextView) view.findViewById(R.id.tvRuidoLocal);
-        tvRuidoRemoto = (TextView) view.findViewById(R.id.tvRuidoRemoto);
-        tvRSSILocal.setBackgroundResource(R.drawable.bordercolor);
-        tvRSSIRemoto.setBackgroundResource(R.drawable.bordercolor);
-        tvRuidoLocal.setBackgroundResource(R.drawable.bordercolor);
-        tvRuidoRemoto.setBackgroundResource(R.drawable.bordercolor);
-        */
-        //btnDiagnostico = (Button) view.findViewById(R.id.botonDiagnostico);
+
         btnRadio = (Button) view.findViewById(R.id.btnRadio);
         btnRadio.setOnClickListener(this);
         //btnDiagnostico.setOnClickListener(this);
         ((MainActivity)getActivity()).DiagnosticoBool = true;
+
+
         return view;
     }
 
@@ -101,6 +141,7 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         resetValues();
 
         try{
+            //Manda los comandos para obtener los valores
             ((MainActivity)getActivity()).sendRadOn();
             ((MainActivity)getActivity()).sendCommand();
             ((MainActivity)getActivity()).sendNetID();
@@ -119,6 +160,42 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         etPotencia.setText("");
     }
 
+    public void fillSpinners(){
+        String[] items10 = new String[2];
+        String[] items11 = new String[2];
+        String[] items12 = new String[2];
+        String[] items13 = new String[2];
+        items10[0] = "0";
+        items10[1] = "1";
+        items11[0] = "0";
+        items11[1] = "1";
+        items12[0] = "0";
+        items12[1] = "1";
+        items13[0] = "0";
+        items13[1] = "1";
+
+        adapter10 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items10);
+        spinner10.setAdapter(adapter10);
+        spinner10.setOnItemSelectedListener(this);
+        adapter11 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items11);
+        spinner11.setAdapter(adapter11);
+        spinner11.setOnItemSelectedListener(this);
+        adapter12 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items12);
+        spinner12.setAdapter(adapter12);
+        spinner12.setOnItemSelectedListener(this);
+        adapter13 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items13);
+        spinner13.setAdapter(adapter13);
+        spinner13.setOnItemSelectedListener(this);
+    }
+
+    public void hideSpinners(){
+        spinner10.setVisibility(View.GONE);
+        spinner11.setVisibility(View.GONE);
+        spinner12.setVisibility(View.GONE);
+        spinner13.setVisibility(View.GONE);
+
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -128,12 +205,22 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
                 try{
                     //Configurar el radio
                     System.out.println("Botón Radio");
-                    if(etNetID.getText() != null && etNodeID.getText() != null && etPotencia.getText() != null){
-                        ((MainActivity)getActivity()).configuraRadio(etNetID.getText().toString().trim(), etNodeID.getText().toString().trim(), etPotencia.getText().toString().trim());
+                    System.out.println("CLICK");
+                    System.out.println("Nodo 1: " + nodo1);
+                    System.out.println("Nodo 2:" + nodo2);
+
+                    if(Integer.parseInt(nodo1) < 31 && Integer.parseInt(nodo2) < 31){
+                        if(etNetID.getText() != null && etNodeID.getText() != null && etPotencia.getText() != null ){
+                            ((MainActivity)getActivity()).configuraRadio(etNetID.getText().toString().trim(), etNodeID.getText().toString().trim(), etPotencia.getText().toString().trim());
+                        }else{
+                            System.out.println("Campos incompletos");
+                            ((MainActivity)getActivity()).showToast("Campos Incompletos");
+                        }
                     }else{
-                        System.out.println("Campos incompletos");
-                        ((MainActivity)getActivity()).showToast("Favor de llenar todos los campos");
+                        ((MainActivity)getActivity()).showToast("Números mayores a 30");
+
                     }
+
                 }catch (Exception e){
                     System.out.println("Error: " + e);
 
@@ -156,5 +243,15 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
                 break;
                 */
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

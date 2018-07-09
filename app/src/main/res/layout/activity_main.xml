@@ -81,7 +81,7 @@
                     style="@android:style/Widget.Button"
                     android:layout_width="240dp"
                     android:layout_height="70dp"
-                    android:text="Diagnóstico"
+                    android:text="Radio"
                     android:textSize="23sp"
                     android:textStyle="normal|bold" />
 

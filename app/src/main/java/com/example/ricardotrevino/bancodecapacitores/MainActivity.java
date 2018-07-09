@@ -314,6 +314,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         device = null;
         stopThread = true;
         socketConectado = false;
+        diagFrag.hideSpinners();
+        diagFrag.tvUno.setVisibility(View.GONE);
+        diagFrag.tvDos.setVisibility(View.GONE);
+
 
 
     }
@@ -441,7 +445,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                                 }
                                                 break;
                                             case "NodeID":
-                                                if(s.length() >= 7 && s.contains("]")){
+                                                if(s.length() >= 7 && s.contains("ID")){
                                                     readNodeID(s);
                                                 }else{
                                                     System.out.println("No es lo que quiero de NodeID " + s.length());
@@ -909,22 +913,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         Handler h = new Handler();
         h.postDelayed(r, 20);
     }
-    void sendCommandR() throws IOException {
-        Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    System.out.println("Estoy en el CommandR");
-                    //Para evitar que siga mandando la cadena y poder entrar al radio
-                    String msg1 = "+++";
-                    outputStream.write(msg1.getBytes());
-                } catch (IOException ex) {
-                }
-            }
-        };
-        Handler h = new Handler();
-        h.postDelayed(r, 200);
-    }
+
 
     void sendRssiR() throws IOException {
         Runnable r = new Runnable() {
@@ -943,11 +932,20 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         h.postDelayed(r, 600);
     }
 
-
-    public void sendCommand() throws IOException{
-        System.out.println("Estoy en sendCommand");
-        String msg = "+++";
-        outputStream.write(msg.getBytes());
+    void sendCommand() throws IOException {
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    System.out.println("Estoy en sendCommand");
+                    String msg = "+++";
+                    outputStream.write(msg.getBytes());
+                } catch (IOException ex) {
+                }
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 50);
     }
 
     public void sendRadOn() throws IOException{
@@ -995,7 +993,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 1000);
+        h.postDelayed(r, 1500);
     }
 
     void sendPower() throws IOException
@@ -1015,7 +1013,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 1500);
+        h.postDelayed(r, 2000);
     }
 
     void sendNodeID() throws IOException
@@ -1037,7 +1035,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 2500);
+        h.postDelayed(r, 3000);
     }
 
     void sendATZ() throws IOException
@@ -1131,7 +1129,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 System.out.println("NodeID: " + line);
                 System.out.println("Esta es la linea que lee NodeID: " + line );
-                if(line.length() > 5){
+                if(line.length() > 5 && line.contains("ID")){
                     nodeIDvalue = line.substring(line.lastIndexOf("\r") - 4, line.lastIndexOf("\r"));
                     System.out.println("Esto tiene nodeIDvalue: " + nodeIDvalue);
                     //Ya que se leyeron los datos, se acomodan en los edit texts al mismo tiempo
@@ -1139,24 +1137,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     diagFrag.etPotencia.setText(potenciaValue);
                     diagFrag.etNodeID.setText(nodeIDvalue);
                     System.out.println("Esto tiene etNodeID " + diagFrag.etNodeID.getText().toString());
-                    //Arregla el problema que le ponía un ? al final del node id
-                    /*
-                    if(diagFrag.etNodeID.getText().toString().contains("?")){
-                        String aux = diagFrag.etNodeID.getText().toString();
-                        System.out.println("Esto tiene aux: " + aux);
-                        System.out.println("Esto es aux corregido: " + aux.substring(0, aux.lastIndexOf("?") - 1));
-                        String aux2 = aux.substring(0, aux.lastIndexOf("?") - 1);
-                        diagFrag.etNodeID.setText(aux2);
-                    }
-                    //Arregla el problema que le ponía un ? al final de potencia
-                    if(diagFrag.etPotencia.getText().toString().contains("?")){
-                        String aux = diagFrag.etPotencia.getText().toString();
-                        System.out.println("Esto tiene aux Potencia: " + aux);
-                        System.out.println("Esto es aux Potencia corregido: " + aux.substring(0, aux.lastIndexOf("?") - 1));
-                        String aux2 = aux.substring(0, aux.lastIndexOf("?") - 1);
-                        diagFrag.etPotencia.setText(aux2);
-                    }
-                    */
                 }
                 try
                 {
