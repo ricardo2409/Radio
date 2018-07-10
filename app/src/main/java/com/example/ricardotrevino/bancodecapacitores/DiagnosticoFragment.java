@@ -37,6 +37,7 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
     ArrayAdapter<String> adapter10;
     ArrayAdapter<String> adapter11;
     String nodo1, nodo2;
+    String s10, s11, s12, s13;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +56,11 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         //Llena de valores los spinners
         fillSpinners();
         hideSpinners();
+        s10 = "0";
+        s11 = "0";
+        s12 = "0";
+        s13 = "0";
+
 
         etNodeID.addTextChangedListener(new TextWatcher() {
 
@@ -112,8 +118,8 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
                     }
                 }else{
                     tvTipo.setText("");
-                    tvUno.setVisibility(View.GONE);
-                    tvDos.setVisibility(View.GONE);
+                    tvUno.setText("");
+                    tvDos.setText("");
                     hideSpinners();
                 }
 
@@ -211,7 +217,9 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
 
                     if(Integer.parseInt(nodo1) < 31 && Integer.parseInt(nodo2) < 31){
                         if(etNetID.getText() != null && etNodeID.getText() != null && etPotencia.getText() != null ){
-                            ((MainActivity)getActivity()).configuraRadio(etNetID.getText().toString().trim(), etNodeID.getText().toString().trim(), etPotencia.getText().toString().trim());
+                            System.out.println("Estos son los valores que mando: " + s10 + " " + s11 + " " + s12 + " " + s13);
+
+                            ((MainActivity)getActivity()).configuraRadio(etNetID.getText().toString().trim(), etNodeID.getText().toString().trim(), etPotencia.getText().toString().trim(), s10, s11, s12, s13);
                         }else{
                             System.out.println("Campos incompletos");
                             ((MainActivity)getActivity()).showToast("Campos Incompletos");
@@ -247,7 +255,24 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+        switch (parent.getId()) {
+            case R.id.spinner10:
+                s10 = spinner10.getSelectedItem().toString();
+                System.out.println("s10: " + s10);
+                break;
+            case R.id.spinner11:
+                s11 = spinner11.getSelectedItem().toString();
+                System.out.println("s11: " + s11);
+                break;
+            case R.id.spinner12:
+                s12 = spinner12.getSelectedItem().toString();
+                System.out.println("s12: " + s12);
+                break;
+            case R.id.spinner13:
+                s13 = spinner13.getSelectedItem().toString();
+                System.out.println("s13: " + s13);
+                break;
+        }
     }
 
     @Override

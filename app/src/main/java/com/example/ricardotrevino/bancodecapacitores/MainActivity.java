@@ -1174,7 +1174,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         outputStream.write(msg.getBytes());
     }
 
-    public void configuraRadio(String netID, String nodeID, String potencia) throws IOException{
+    public void configuraRadio(String netID, String nodeID, String potencia, String s10, String s11, String s12, String s13) throws IOException{
         System.out.println("Estoy en configura radio y estos son los valores: " + netID + " " + nodeID + " " + potencia);
         try {
             if(Integer.parseInt(nodeID.trim()) == 0){
@@ -1191,9 +1191,102 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             writePower(potencia);
             writeNetID(netID);
             //writeDestination(destination);
+            //Valores de las antenas
+            write10(s10);
+            write11(s11);
+            write12(s12);
+            write13(s13);
+
+
             saveValues();
         } catch (IOException ex) {
         }
+    }
+    public void write13(final String s13) throws IOException{
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+
+                try {
+                    System.out.println("Estoy en el writeS13");
+                    String msg1 = "ATS13=" + s13 + "\r";
+                    System.out.println(msg1);
+                    outputStream.write(msg1.getBytes());
+
+                } catch (IOException ex) {
+                }
+
+            }
+        };
+
+        Handler h = new Handler();
+        h.postDelayed(r, 1600);
+
+    }
+    public void write12(final String s12) throws IOException{
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+
+                try {
+                    System.out.println("Estoy en el writeS12");
+                    String msg1 = "ATS12=" + s12 + "\r";
+                    System.out.println(msg1);
+                    outputStream.write(msg1.getBytes());
+
+                } catch (IOException ex) {
+                }
+
+            }
+        };
+
+        Handler h = new Handler();
+        h.postDelayed(r, 1500);
+
+    }
+
+    public void write11(final String s11) throws IOException{
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+
+                try {
+                    System.out.println("Estoy en el writeS11");
+                    String msg1 = "ATS11=" + s11 + "\r";
+                    System.out.println(msg1);
+                    outputStream.write(msg1.getBytes());
+
+                } catch (IOException ex) {
+                }
+
+            }
+        };
+
+        Handler h = new Handler();
+        h.postDelayed(r, 1400);
+
+    }
+
+    public void write10(final String s10) throws IOException{
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+
+                try {
+                    System.out.println("Estoy en el writeS10");
+                    String msg1 = "ATS10=" + s10 + "\r";
+                    System.out.println(msg1);
+                    outputStream.write(msg1.getBytes());
+
+                } catch (IOException ex) {
+                }
+
+            }
+        };
+
+        Handler h = new Handler();
+        h.postDelayed(r, 1300);
+
     }
 
     public void writeNetID(final String netID) throws IOException{
