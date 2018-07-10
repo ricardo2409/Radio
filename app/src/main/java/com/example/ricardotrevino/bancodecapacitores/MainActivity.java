@@ -314,9 +314,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         device = null;
         stopThread = true;
         socketConectado = false;
-        diagFrag.hideSpinners();
-        diagFrag.tvUno.setVisibility(View.GONE);
-        diagFrag.tvDos.setVisibility(View.GONE);
+
 
 
 
@@ -327,9 +325,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             resetConfiguration();
             resetDiagnostico();
             resetVoltaje();
+
         }else if(DiagnosticoBool){
             resetVoltaje();
             resetDiagnostico();
+
         }else if(ConfiguracionBool){
             resetVoltaje();
             resetConfiguration();
@@ -364,6 +364,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         diagFrag.etNetID.setText("");
         diagFrag.etNodeID.setText("");
         diagFrag.etPotencia.setText("");
+        diagFrag.hideSpinners();
+        diagFrag.tvUno.setVisibility(View.GONE);
+        diagFrag.tvDos.setVisibility(View.GONE);
         /*
         diagFrag.tvRuidoRemoto.setText("");
         diagFrag.tvRuidoLocal.setText("");
@@ -432,56 +435,56 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                                 if(s.length() >= 6 && s.contains("ANT2")){
                                                     readPower(s);
                                                 }else{
-                                                    System.out.println("No es lo que quiero de Power" + s.length());
-                                                    System.out.println(s);
+                                                    //System.out.println("No es lo que quiero de Power" + s.length());
+                                                    //System.out.println(s);
                                                 }
                                                 break;
                                             case "NetID":
                                                 if(s.length() >= 7 && s.contains("ANT1")){
                                                     readNetID(s);
                                                 }else{
-                                                    System.out.println("No es lo que quiero de NetID " + s.length());
-                                                    System.out.println(s);
+                                                    //System.out.println("No es lo que quiero de NetID " + s.length());
+                                                    //System.out.println(s);
                                                 }
                                                 break;
                                             case "NodeID":
                                                 if(s.length() >= 7 && s.contains("ID")){
                                                     readNodeID(s);
                                                 }else{
-                                                    System.out.println("No es lo que quiero de NodeID " + s.length());
-                                                    System.out.println(s);
+                                                    //System.out.println("No es lo que quiero de NodeID " + s.length());
+                                                    //System.out.println(s);
                                                 }
                                                 break;
                                             case "S10":
                                                 if(s.length() >= 7 && s.contains("COORD")){
                                                     readS10(s);
                                                 }else{
-                                                    System.out.println("No es lo que quiero de S10 " + s.length());
-                                                    System.out.println(s);
+                                                    //System.out.println("No es lo que quiero de S10 " + s.length());
+                                                    //System.out.println(s);
                                                 }
                                                 break;
                                             case "S11":
                                                 if(s.length() >= 7 && s.contains("NODO")){
                                                     readS11(s);
                                                 }else{
-                                                    System.out.println("No es lo que quiero de S11 " + s.length());
-                                                    System.out.println(s);
+                                                    //System.out.println("No es lo que quiero de S11 " + s.length());
+                                                    //System.out.println(s);
                                                 }
                                                 break;
                                             case "S12":
                                                 if(s.length() >= 7 && s.contains("NODO")){
                                                     readS12(s);
                                                 }else{
-                                                    System.out.println("No es lo que quiero de S12 " + s.length());
-                                                    System.out.println(s);
+                                                    //System.out.println("No es lo que quiero de S12 " + s.length());
+                                                    //System.out.println(s);
                                                 }
                                                 break;
                                             case "S13":
                                                 if(s.length() >= 7 && s.contains("COORD")){
                                                     readS13(s);
                                                 }else{
-                                                    System.out.println("No es lo que quiero de S13 " + s.length());
-                                                    System.out.println(s);
+                                                    //System.out.println("No es lo que quiero de S13 " + s.length());
+                                                    //System.out.println(s);
                                                 }
                                                 break;
                                         }

@@ -118,51 +118,57 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:textSize="24sp" />
+                    android:textSize="34sp" />
 
                 <TextView
                     android:id="@+id/tvUno"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <Spinner
                     android:id="@+id/spinner10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:textAlignment="center" />
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginRight="100dp"
+                     />
 
                 <Spinner
                     android:id="@+id/spinner13"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:textAlignment="center" />
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginRight="100dp"
+                     />
 
                 <Spinner
                     android:id="@+id/spinner12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:textAlignment="center" />
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginRight="100dp"
+                     />
 
                 <TextView
                     android:id="@+id/tvDos"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <Spinner
                     android:id="@+id/spinner11"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:textAlignment="center" />
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginRight="100dp"
+                     />
 
             </LinearLayout>
 
