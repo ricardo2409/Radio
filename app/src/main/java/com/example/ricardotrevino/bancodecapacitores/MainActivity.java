@@ -76,7 +76,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     static Handler handler = new Handler();
     static String control = "Status";
     static String atributo = "NetID";
-    String netIDValue, potenciaValue, nodeIDvalue, destination;
+    String netIDValue, potenciaValue, nodeIDvalue, destination, s10, s11, s12, s13;
 
     static VoltajeFragment voltFrag;
     static ConfigurationFragment conFrag;
@@ -449,6 +449,38 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                                     readNodeID(s);
                                                 }else{
                                                     System.out.println("No es lo que quiero de NodeID " + s.length());
+                                                    System.out.println(s);
+                                                }
+                                                break;
+                                            case "S10":
+                                                if(s.length() >= 7 && s.contains("COORD")){
+                                                    readS10(s);
+                                                }else{
+                                                    System.out.println("No es lo que quiero de S10 " + s.length());
+                                                    System.out.println(s);
+                                                }
+                                                break;
+                                            case "S11":
+                                                if(s.length() >= 7 && s.contains("NODO")){
+                                                    readS11(s);
+                                                }else{
+                                                    System.out.println("No es lo que quiero de S11 " + s.length());
+                                                    System.out.println(s);
+                                                }
+                                                break;
+                                            case "S12":
+                                                if(s.length() >= 7 && s.contains("NODO")){
+                                                    readS12(s);
+                                                }else{
+                                                    System.out.println("No es lo que quiero de S12 " + s.length());
+                                                    System.out.println(s);
+                                                }
+                                                break;
+                                            case "S13":
+                                                if(s.length() >= 7 && s.contains("COORD")){
+                                                    readS13(s);
+                                                }else{
+                                                    System.out.println("No es lo que quiero de S13 " + s.length());
                                                     System.out.println(s);
                                                 }
                                                 break;
@@ -1037,6 +1069,90 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         Handler h = new Handler();
         h.postDelayed(r, 3000);
     }
+    void sendS10() throws IOException
+    {
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+                try
+                {
+                    atributo = "S10";
+                    System.out.println("Estoy en sendS10");
+                    String msg = "ATS10?\r";
+                    outputStream.write(msg.getBytes());
+                    //outputStream.write(msg.getBytes());
+
+                }
+                catch (IOException ex) { }
+
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 3500);
+    }
+    void sendS11() throws IOException
+    {
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+                try
+                {
+                    atributo = "S11";
+                    System.out.println("Estoy en sendS11");
+                    String msg = "ATS11?\r";
+                    outputStream.write(msg.getBytes());
+                    //outputStream.write(msg.getBytes());
+
+                }
+                catch (IOException ex) { }
+
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 4000);
+    }
+    void sendS12() throws IOException
+    {
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+                try
+                {
+                    atributo = "S12";
+                    System.out.println("Estoy en sendS12");
+                    String msg = "ATS12?\r";
+                    outputStream.write(msg.getBytes());
+                    //outputStream.write(msg.getBytes());
+
+                }
+                catch (IOException ex) { }
+
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 4500);
+    }
+    void sendS13() throws IOException
+    {
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+                try
+                {
+                    atributo = "S13";
+                    System.out.println("Estoy en sendS13");
+                    String msg = "ATS13?\r";
+                    outputStream.write(msg.getBytes());
+                    //outputStream.write(msg.getBytes());
+
+                }
+                catch (IOException ex) { }
+
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 5000);
+    }
 
     void sendATZ() throws IOException
     {
@@ -1086,10 +1202,94 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         h.postDelayed(r, 10000);
     }
 
+    void readS10(final String line){
+
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+                //Siguente atributo a leer
+                atributo = "S11";
+                System.out.println("Esta es la linea que lee S10: " + line );
+                if(line.length() > 5){
+                    s10 = line.substring(line.lastIndexOf("COORD=") + 6, line.lastIndexOf("COORD=") + 7);
+
+                    System.out.println("Esto tiene S10: " + s10);
+                    diagFrag.spinner10.setSelection(Integer.valueOf(s10));
+                }
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 30);
+    }
+    void readS11(final String line){
+
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+                //Siguente atributo a leer
+                atributo = "S12";
+                System.out.println("Esta es la linea que lee S11: " + line );
+                if(line.length() > 5){
+                    s11 = line.substring(line.lastIndexOf("NODO=") + 5, line.lastIndexOf("NODO=") + 6);
+
+                    System.out.println("Esto tiene s11: " + s11);
+                    diagFrag.spinner11.setSelection(Integer.valueOf(s11));
+
+                }
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 30);
+    }void readS12(final String line){
+
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+                //Siguente atributo a leer
+                atributo = "S13";
+                System.out.println("Esta es la linea que lee S12: " + line );
+                if(line.length() > 5){
+                    s12 = line.substring(line.lastIndexOf("NODO=") + 5, line.lastIndexOf("NODO=") + 6);
+
+                    System.out.println("Esto tiene S12: " + s12);
+                    diagFrag.spinner12.setSelection(Integer.valueOf(s12));
+                }
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 30);
+    }
+    void readS13(final String line){
+
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+
+                System.out.println("Esta es la linea que lee S13: " + line );
+                if(line.length() > 5){
+                    s13 = line.substring(line.lastIndexOf("COORD=") + 6, line.lastIndexOf("COORD=") + 7);
+
+                    System.out.println("Esto tiene s13: " + s13);
+                    diagFrag.spinner13.setSelection(Integer.valueOf(s13));
+
+                }
+                try
+                {
+                    //Ultimo atributo leído
+                    sendATZ();
+                    changeStatus();
+                }
+                catch (IOException ex) { }
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 30);
+    }
     void readPower(final String line){
         Runnable r = new Runnable() {
             @Override
             public void run(){
+                //Siguente atributo a leer
                 atributo = "NodeID";
                 System.out.println("Esta es la linea que lee Power: " + line );
                 if(line.length() > 5){
@@ -1109,6 +1309,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         Runnable r = new Runnable() {
             @Override
             public void run(){
+                //Siguente atributo a leer
                 atributo = "Power";
                 System.out.println("Esta es la linea que lee NetID: " + line );
                 if(line.length() > 5){
@@ -1126,6 +1327,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         Runnable r = new Runnable() {
             @Override
             public void run(){
+                atributo = "S10";
 
                 System.out.println("NodeID: " + line);
                 System.out.println("Esta es la linea que lee NodeID: " + line );
@@ -1138,12 +1340,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     diagFrag.etNodeID.setText(nodeIDvalue);
                     System.out.println("Esto tiene etNodeID " + diagFrag.etNodeID.getText().toString());
                 }
-                try
-                {
-                    sendATZ();
-                    changeStatus();
-                }
-                catch (IOException ex) { }
+
             }
         };
         Handler h = new Handler();
@@ -1175,7 +1372,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     public void configuraRadio(String netID, String nodeID, String potencia, String s10, String s11, String s12, String s13) throws IOException{
-        System.out.println("Estoy en configura radio y estos son los valores: " + netID + " " + nodeID + " " + potencia);
+        System.out.println("Estoy en configura radio y estos son los valores: " + netID + " " + nodeID + " " + potencia + " " + s10 + " " + s11 + " " + s12 + " " + s13);
         try {
             if(Integer.parseInt(nodeID.trim()) == 0){
                 System.out.println("NodeID igual a 0");
@@ -1398,7 +1595,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         };
 
         Handler h = new Handler();
-        h.postDelayed(r, 1000);
+        h.postDelayed(r, 1700);
 
     }
 

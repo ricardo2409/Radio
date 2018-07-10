@@ -153,6 +153,12 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
             ((MainActivity)getActivity()).sendNetID();
             ((MainActivity)getActivity()).sendPower();
             ((MainActivity)getActivity()).sendNodeID();
+            ((MainActivity)getActivity()).sendS10();
+            ((MainActivity)getActivity()).sendS11();
+            ((MainActivity)getActivity()).sendS12();
+            ((MainActivity)getActivity()).sendS13();
+
+
 
         }catch (IOException e){
             System.out.println("Error: " + e);
@@ -217,7 +223,7 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
 
                     if(Integer.parseInt(nodo1) < 31 && Integer.parseInt(nodo2) < 31){
                         if(etNetID.getText() != null && etNodeID.getText() != null && etPotencia.getText() != null ){
-                            System.out.println("Estos son los valores que mando: " + s10 + " " + s11 + " " + s12 + " " + s13);
+                            System.out.println("Estos son los valores de las antenas que mando: " + s10 + " " + s11 + " " + s12 + " " + s13);
 
                             ((MainActivity)getActivity()).configuraRadio(etNetID.getText().toString().trim(), etNodeID.getText().toString().trim(), etPotencia.getText().toString().trim(), s10, s11, s12, s13);
                         }else{
