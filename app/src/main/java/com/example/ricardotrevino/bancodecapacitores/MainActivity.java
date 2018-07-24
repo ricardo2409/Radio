@@ -568,7 +568,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
             if (currentVoltageControl == 0) {
                 voltFrag.switchVoltajeAutomatico.setChecked(false);
-                voltFrag.tvVoltajeAutomatico.setText("Automático");
+                voltFrag.tvVoltajeAutomatico.setText("Manual");
 
             }
             else {
