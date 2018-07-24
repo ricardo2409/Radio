@@ -53,6 +53,7 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         spinner11 = (Spinner) view.findViewById(R.id.spinner11);
         spinner12 = (Spinner) view.findViewById(R.id.spinner12);
         spinner13 = (Spinner) view.findViewById(R.id.spinner13);
+        resetValues();
         //Llena de valores los spinners
         fillSpinners();
         hideSpinners();

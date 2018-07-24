@@ -163,7 +163,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:onClick="toggleVoltageControl"
-                android:text="@string/voltageControl_label"
+                android:text="Control por Voltaje"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
             <LinearLayout
