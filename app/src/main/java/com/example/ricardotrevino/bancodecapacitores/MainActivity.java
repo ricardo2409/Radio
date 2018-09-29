@@ -513,7 +513,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             float currentVoltage;
             int phase1State, phase2State, phase3State;
             int phase1Transition, phase2Transition, phase3Transition, flagManOn;
-            int currentVoltageControl;
+            int currentVoltageControl, bloqueoControl;
             currentVoltage = Float.parseFloat(tokens[1]);
             voltFrag.tvVoltaje.setText(Float.toString(currentVoltage) + " V");
             System.out.println("Se cambió el voltaje a: " + Float.toString(currentVoltage));
@@ -576,6 +576,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 voltFrag.tvVoltajeAutomatico.setText("Control por Voltaje");
             }
 
+            bloqueoControl = Integer.parseInt(tokens[9]);
+            System.out.println("Esto es lo que tiene el bloqueo: " + bloqueoControl);
+            //Modificar el label del bloqueo y control de los botones
+            if(bloqueoControl == 0){
+
+            }else{
+
+            }
 
             waitAndEraseLabels();
 
@@ -980,7 +988,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 50);
+        h.postDelayed(r, 100);
     }
 
     public void sendRadOn() throws IOException{
@@ -1028,7 +1036,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 1500);
+        h.postDelayed(r, 1550);
     }
 
     void sendPower() throws IOException
@@ -1048,7 +1056,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 2000);
+        h.postDelayed(r, 2050);
     }
 
     void sendNodeID() throws IOException
@@ -1070,7 +1078,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 3000);
+        h.postDelayed(r, 3050);
     }
     void sendS10() throws IOException
     {
@@ -1091,7 +1099,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 3500);
+        h.postDelayed(r, 3550);
     }
     void sendS11() throws IOException
     {
@@ -1112,7 +1120,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 4000);
+        h.postDelayed(r, 4050);
     }
     void sendS12() throws IOException
     {
@@ -1133,7 +1141,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 4500);
+        h.postDelayed(r, 4550);
     }
     void sendS13() throws IOException
     {
@@ -1154,7 +1162,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 5000);
+        h.postDelayed(r, 5050);
     }
 
     void sendATZ() throws IOException
@@ -1222,7 +1230,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 30);
+        h.postDelayed(r, 80);
     }
     void readS11(final String line){
 
@@ -1242,7 +1250,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 30);
+        h.postDelayed(r, 80);
     }void readS12(final String line){
 
         Runnable r = new Runnable() {
@@ -1260,7 +1268,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 30);
+        h.postDelayed(r, 80);
     }
     void readS13(final String line){
 
@@ -1286,7 +1294,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 30);
+        h.postDelayed(r, 80);
     }
     void readPower(final String line){
         Runnable r = new Runnable() {
@@ -1304,7 +1312,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 10);
+        h.postDelayed(r, 60);
     }
 
     void readNetID(final String line){
@@ -1323,7 +1331,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 30);
+        h.postDelayed(r, 80);
     }
 
     void readNodeID(final String line){
@@ -1347,7 +1355,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 20);
+        h.postDelayed(r, 70);
     }
 
     void changeStatus(){
