@@ -1,7 +1,9 @@
 package com.example.ricardotrevino.bancodecapacitores;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -9,6 +11,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +24,20 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+
 import org.w3c.dom.Text;
 
 import java.util.List;
+
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 /**
  * Created by ricardotrevino on 12/17/17.
@@ -35,7 +49,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
     Button openButton, closeButton;
     Switch switchLocalRemoto, switchVoltajeAutomatico;
     static RadioButton phase1OpenButton, phase1CloseButton, phase2OpenButton, phase2CloseButton, phase3OpenButton, phase3CloseButton;
-    RadioGroup phase1RadioGroup, phase2RadioGroup,phase3RadioGroup;
+    RadioGroup phase1RadioGroup, phase2RadioGroup, phase3RadioGroup;
 
     Geocoder geocoder;
     String bestProvider;
@@ -43,13 +57,16 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
     double lat;
     double lng;
 
+    private FusedLocationProviderClient client;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.voltaje_fragment, null);
-
+        requestPermission();
         tvVoltaje = (TextView) view.findViewById(R.id.voltageTextView);
-        tvBloqueo = (TextView)view.findViewById(R.id.tvBloqueo);
+        tvBloqueo = (TextView) view.findViewById(R.id.tvBloqueo);
         phase1OpenButton = (RadioButton) view.findViewById(R.id.phase1OpenButton);
         phase1CloseButton = (RadioButton) view.findViewById(R.id.phase1ClosedButton);
         phase2OpenButton = (RadioButton) view.findViewById(R.id.phase2OpenButton);
@@ -81,33 +98,33 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
 
         switchLocalRemoto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    if(((MainActivity)getActivity()).connected){
-                        try{
+                if (isChecked) {
+                    if (((MainActivity) getActivity()).connected) {
+                        try {
                             System.out.println("Switch es True");
-                            ((MainActivity)getActivity()).sendManOn();
+                            ((MainActivity) getActivity()).sendManOn();
                             tvLocalRemoto.setText("Local");
-                            ((MainActivity)getActivity()).waitMs(1000);
+                            ((MainActivity) getActivity()).waitMs(1000);
 
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             System.out.println("Error: " + e);
                         }
-                    }else{
-                        ((MainActivity)getActivity()).showToast("Bluetooth desconectado");
+                    } else {
+                        ((MainActivity) getActivity()).showToast("Bluetooth desconectado");
                     }
 
-                }else{
-                    if(((MainActivity)getActivity()).connected){
-                        try{
+                } else {
+                    if (((MainActivity) getActivity()).connected) {
+                        try {
                             System.out.println("Switch es False");
-                            ((MainActivity)getActivity()).sendManOff();
+                            ((MainActivity) getActivity()).sendManOff();
                             tvLocalRemoto.setText("Remoto");
-                            ((MainActivity)getActivity()).waitMs(1000);
-                        }catch (Exception e){
+                            ((MainActivity) getActivity()).waitMs(1000);
+                        } catch (Exception e) {
                             System.out.println("Error: " + e);
                         }
-                    }else{
-                        ((MainActivity)getActivity()).showToast("Bluetooth desconectado");
+                    } else {
+                        ((MainActivity) getActivity()).showToast("Bluetooth desconectado");
                     }
 
                 }
@@ -120,62 +137,55 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.openButton:
-                if(((MainActivity)getActivity()).connected){
-                    try{
+                if (((MainActivity) getActivity()).connected) {
+                    try {
                         System.out.println("Botón Abrir");
-                        ((MainActivity)getActivity()).sendOpen();
-                    }catch (Exception e){
+                        ((MainActivity) getActivity()).sendOpen();
+                    } catch (Exception e) {
                         System.out.println("Error: " + e);
                     }
-                }else{
-                    ((MainActivity)getActivity()).showToast("Bluetooth desconectado");
+                } else {
+                    ((MainActivity) getActivity()).showToast("Bluetooth desconectado");
                 }
 
                 break;
 
             case R.id.closeButton:
-                if(((MainActivity)getActivity()).connected){
-                    try{
+                if (((MainActivity) getActivity()).connected) {
+                    try {
                         System.out.println("Botón Cerrar");
-                        ((MainActivity)getActivity()).sendClose();
-                    }catch (Exception e){
+                        ((MainActivity) getActivity()).sendClose();
+                    } catch (Exception e) {
                         System.out.println("Error: " + e);
                     }
-                }else{
-                    ((MainActivity)getActivity()).showToast("Bluetooth desconectado");
+                } else {
+                    ((MainActivity) getActivity()).showToast("Bluetooth desconectado");
                 }
                 break;
         }
 
     }
 
-    public void getLocation(){
-        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+    public void getLocation() {
+        client = LocationServices.getFusedLocationProviderClient(getContext());
+        if (ActivityCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            System.out.println("Permiso no otorgado");
 
-        Criteria criteria = new Criteria();
-        bestProvider = lm.getBestProvider(criteria, false);
-
-        try {
-            Location location = lm.getLastKnownLocation(bestProvider);
-            if (location == null){
-                ((MainActivity)getActivity()).showToast("No se encontró la ubicación");
-            }else{
-                geocoder = new Geocoder(getActivity());
-                try {
-                    user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                    lat=(double)user.get(0).getLatitude();
-                    lng=(double)user.get(0).getLongitude();
-                    System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
-
-                }catch (Exception e) {
-                    e.printStackTrace();
+            return;
+        }else{
+            client.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    System.out.println("Esta es la ubicación: " + location.toString());
                 }
-            }
-        } catch (SecurityException e) {
-            ((MainActivity)getActivity()).showToast("No se encontró la ubicación");
-        }
 
+            });
+        }
+    }
+
+    public void requestPermission(){
+        ActivityCompat.requestPermissions(getActivity(), new String[]{ACCESS_FINE_LOCATION},1);
     }
 }
