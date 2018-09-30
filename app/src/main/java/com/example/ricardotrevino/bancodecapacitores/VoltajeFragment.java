@@ -1,6 +1,12 @@
 package com.example.ricardotrevino.bancodecapacitores;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.location.Address;
+import android.location.Criteria;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -13,8 +19,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
+
+import java.util.List;
 
 /**
  * Created by ricardotrevino on 12/17/17.
@@ -27,6 +36,13 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
     Switch switchLocalRemoto, switchVoltajeAutomatico;
     static RadioButton phase1OpenButton, phase1CloseButton, phase2OpenButton, phase2CloseButton, phase3OpenButton, phase3CloseButton;
     RadioGroup phase1RadioGroup, phase2RadioGroup,phase3RadioGroup;
+
+    Geocoder geocoder;
+    String bestProvider;
+    List<Address> user = null;
+    double lat;
+    double lng;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -98,7 +114,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-
+        getLocation(); //Pide las coordenadas solo una vez
         return view;
     }
 
@@ -131,6 +147,34 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
                     ((MainActivity)getActivity()).showToast("Bluetooth desconectado");
                 }
                 break;
+        }
+
+    }
+
+    public void getLocation(){
+        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        Criteria criteria = new Criteria();
+        bestProvider = lm.getBestProvider(criteria, false);
+
+        try {
+            Location location = lm.getLastKnownLocation(bestProvider);
+            if (location == null){
+                ((MainActivity)getActivity()).showToast("No se encontró la ubicación");
+            }else{
+                geocoder = new Geocoder(getActivity());
+                try {
+                    user = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                    lat=(double)user.get(0).getLatitude();
+                    lng=(double)user.get(0).getLongitude();
+                    System.out.println(" DDD lat: " +lat+",  longitude: "+lng);
+
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SecurityException e) {
+            ((MainActivity)getActivity()).showToast("No se encontró la ubicación");
         }
 
     }
