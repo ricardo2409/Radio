@@ -22,7 +22,7 @@ import org.w3c.dom.Text;
 
 public class VoltajeFragment extends Fragment implements View.OnClickListener {
 
-    TextView tvVoltaje, tvVoltajeControl, phase1TransitionTextView, phase2TransitionTextView, phase3TransitionTextView, tvLocalRemoto, tvVoltajeAutomatico;
+    TextView tvBloqueo, tvVoltaje, tvVoltajeControl, phase1TransitionTextView, phase2TransitionTextView, phase3TransitionTextView, tvLocalRemoto, tvVoltajeAutomatico;
     Button openButton, closeButton;
     Switch switchLocalRemoto, switchVoltajeAutomatico;
     static RadioButton phase1OpenButton, phase1CloseButton, phase2OpenButton, phase2CloseButton, phase3OpenButton, phase3CloseButton;
@@ -33,7 +33,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.voltaje_fragment, null);
 
         tvVoltaje = (TextView) view.findViewById(R.id.voltageTextView);
-
+        tvBloqueo = (TextView)view.findViewById(R.id.tvBloqueo);
         phase1OpenButton = (RadioButton) view.findViewById(R.id.phase1OpenButton);
         phase1CloseButton = (RadioButton) view.findViewById(R.id.phase1ClosedButton);
         phase2OpenButton = (RadioButton) view.findViewById(R.id.phase2OpenButton);
@@ -56,11 +56,11 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
         phase3TransitionTextView = (TextView) view.findViewById(R.id.phase3TransitionTextView);
 
         tvLocalRemoto = (TextView) view.findViewById(R.id.tvLocalRemoto);
-        tvVoltajeAutomatico = (TextView) view.findViewById(R.id.tvVoltajeAutomatico);
+        //tvVoltajeAutomatico = (TextView) view.findViewById(R.id.tvVoltajeAutomatico);
 
 
         switchLocalRemoto = (Switch) view.findViewById(R.id.switchLocalRemoto);
-        switchVoltajeAutomatico = (Switch) view.findViewById(R.id.switchVoltajeAutomatico);
+        //switchVoltajeAutomatico = (Switch) view.findViewById(R.id.switchVoltajeAutomatico);
 
 
         switchLocalRemoto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

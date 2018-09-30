@@ -249,6 +249,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/tvBloqueo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right|center_horizontal"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="30sp" />
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="50dp" />
@@ -276,24 +284,6 @@
             android:layout_width="match_parent"
             android:layout_height="30dp" />
 
-        <Switch
-            android:id="@+id/switchVoltajeAutomatico"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:buttonTint="@android:color/holo_green_light"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="Manual / Voltaje"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            android:textOff="V"
-            android:textOn="A" />
-
-        <TextView
-            android:id="@+id/tvVoltajeAutomatico"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
     </LinearLayout>
 
 </LinearLayout>

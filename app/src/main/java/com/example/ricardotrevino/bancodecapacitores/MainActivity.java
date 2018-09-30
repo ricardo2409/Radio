@@ -580,9 +580,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             System.out.println("Esto es lo que tiene el bloqueo: " + bloqueoControl);
             //Modificar el label del bloqueo y control de los botones
             if(bloqueoControl == 0){
-
+                voltFrag.tvBloqueo.setText("Bloqueado");
+                disableButtons();
             }else{
-
+                voltFrag.tvBloqueo.setText("");
+                enableButtons();
             }
 
             waitAndEraseLabels();
