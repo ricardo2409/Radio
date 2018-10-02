@@ -135,6 +135,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                         BTconnect();
                         btnVoltaje.setBackgroundColor(Color.LTGRAY);
+                        voltFrag.getLocation();
 
                     }
                 }else{
@@ -489,6 +490,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                                 break;
                                         }
                                     }
+                                    if(control.matches("GPS")){
+                                        readGPS(s);
+                                        changeStatus();
+                                    }
+
                                 }
                             });
                         }
@@ -766,6 +772,22 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         outputStream.write(msg.getBytes());
     }
 
+    void sendLocation(String location) throws IOException
+    {
+        System.out.println("Estoy en el sendLocation");
+        String msg = location;
+        outputStream.write(msg.getBytes());
+    }
+
+    void askGPS() throws IOException
+    {
+        control = "GPS";
+        System.out.println("Estoy en el askGPS");
+        String msg = "$GPS?,&";
+        outputStream.write(msg.getBytes());
+    }
+
+
 
 
     public void editSourceAddress(View view)
@@ -992,7 +1014,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 100);
+        h.postDelayed(r, 50);
     }
 
     public void sendRadOn() throws IOException{
@@ -1040,7 +1062,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 1550);
+        h.postDelayed(r, 1500);
     }
 
     void sendPower() throws IOException
@@ -1060,7 +1082,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 2050);
+        h.postDelayed(r, 2000);
     }
 
     void sendNodeID() throws IOException
@@ -1082,7 +1104,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 3050);
+        h.postDelayed(r, 3000);
     }
     void sendS10() throws IOException
     {
@@ -1103,7 +1125,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 3550);
+        h.postDelayed(r, 3500);
     }
     void sendS11() throws IOException
     {
@@ -1124,7 +1146,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 4050);
+        h.postDelayed(r, 4000);
     }
     void sendS12() throws IOException
     {
@@ -1145,7 +1167,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 4550);
+        h.postDelayed(r, 4500);
     }
     void sendS13() throws IOException
     {
@@ -1166,7 +1188,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 5050);
+        h.postDelayed(r, 5000);
     }
 
     void sendATZ() throws IOException
@@ -1360,6 +1382,28 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         };
         Handler h = new Handler();
         h.postDelayed(r, 70);
+    }
+
+    void readGPS(final String line){
+
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+
+                System.out.println("Esta es la linea que lee GPS: " + line );
+                if(line.length() > 15 && line.contains("&")){
+
+                    System.out.println("Sí leí la cadena del GPS: " + s13);
+
+                }else{
+                    //Sí no tiene nada la cadena del GPS, pedirlo y enviarlo
+                    voltFrag.getLocation();
+                }
+
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 80);
     }
 
     void changeStatus(){

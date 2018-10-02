@@ -87,7 +87,7 @@ public class ConfigurationFragment extends Fragment implements View.OnClickListe
     public void initItems(){
         sourceAddressTextInput = (TextView) view.findViewById(R.id.sourceAddressTextInput);
         destinationAddressTextInput = (TextView) view.findViewById(R.id.destinationAddressTextInput);
-        voltageControlCheckbox = (CheckBox) view.findViewById(R.id.voltageControlCheckbox);
+        //voltageControlCheckbox = (CheckBox) view.findViewById(R.id.voltageControlCheckbox);
         minimumVoltageTextInput = (TextView) view.findViewById(R.id.minimumVoltageTextInput);
         maximumVoltageTextInput = (TextView) view.findViewById(R.id.maximumVoltageTextInput);
 
@@ -106,7 +106,7 @@ public class ConfigurationFragment extends Fragment implements View.OnClickListe
     }
 
     public void resetItems(){
-        voltageControlCheckbox.setChecked(false);
+        //voltageControlCheckbox.setChecked(false);
     }
 
 

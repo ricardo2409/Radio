@@ -35,6 +35,7 @@ import com.google.android.gms.tasks.Task;
 
 import org.w3c.dom.Text;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -58,7 +59,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
     double lng;
 
     private FusedLocationProviderClient client;
-    String ubicación;
+    String latitude, longitud, latitudeUno, latitudeDos, longitudUno, longitudDos;
 
     @Nullable
     @Override
@@ -131,7 +132,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        getLocation(); //Pide las coordenadas solo una vez
+        //getLocation(); //Pide las coordenadas solo una vez
         return view;
     }
 
@@ -178,8 +179,27 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
             client.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
-                    ubicación = location.toString();
-                    System.out.println("Esta es la ubicación: " + ubicación.toString());
+                    latitude = Double.toString(location.getLatitude());
+                    longitud = Double.toString(location.getLongitude());
+
+                    System.out.println("Esta es la latitude: " + latitude);
+                    System.out.println("Esta es la longitud: " + longitud);
+
+                    latitudeUno = latitude.substring(0, latitude.indexOf("."));
+                    latitudeDos = latitude.substring(latitude.indexOf(".") + 1, latitude.length());
+                    longitudUno = longitud.substring(0, longitud.indexOf("."));
+                    longitudDos = longitud.substring(longitud.indexOf(".") + 1, longitud.length());
+                    System.out.println("Estos son los numeros separados por el punto: " + latitudeUno + " " + latitudeDos + " " + longitudUno + " " + longitudDos + " " );
+                    //$GPS=,-10014,0980,2608,8791,&
+                    String coordenasAMandar = "$GPS=," + latitudeUno + "," + latitudeDos + "," + longitudUno + "," + longitudDos + ",&";
+                    System.out.println("Esta es la cadena a mandar: " + coordenasAMandar);
+                    try {
+                        System.out.println("Send Location");
+                        ((MainActivity) getActivity()).sendLocation(coordenasAMandar);
+                    } catch (Exception e) {
+                        System.out.println("Error al enviar location: " + e);
+                    }
+
                 }
 
             });
