@@ -136,7 +136,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                         BTconnect();
                         btnVoltaje.setBackgroundColor(Color.LTGRAY);
-                        voltFrag.getLocation();
+                        try{
+                            askGPS();
+                        }catch(IOException e){
+
+                        }
 
                     }
                 }else{
@@ -346,9 +350,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         voltFrag.phase1RadioGroup.clearCheck();
         voltFrag.phase2RadioGroup.clearCheck();
         voltFrag.phase3RadioGroup.clearCheck();
-        voltFrag.switchVoltajeAutomatico.setChecked(false);
+        //voltFrag.switchVoltajeAutomatico.setChecked(false);
         voltFrag.switchLocalRemoto.setChecked(false);
-        voltFrag.tvVoltajeAutomatico.setText("");
+        //voltFrag.tvVoltajeAutomatico.setText("");
         voltFrag.tvLocalRemoto.setText("");
         voltFrag.tvVoltaje.setText("");
     }
@@ -358,7 +362,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         conFrag.maximumVoltageTextInput.setText("");
         conFrag.minimumVoltageTextInput.setText("");
         conFrag.sourceAddressTextInput.setText("");
-        conFrag.voltageControlCheckbox.setChecked(false);
+        //conFrag.voltageControlCheckbox.setChecked(false);
 
     }
 
@@ -404,7 +408,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                 public void run() {
                                     //Status
                                     if(s.contains("s,") && s.contains("&")){
-                                        if(s.length() >= 26 && s.length() <= 34){
+                                        if(s.length() >= 26 ){
                                             a = s.substring(s.indexOf("s,"), s.length() - 1);
                                             System.out.println("A: " + a);
                                             readMessage(a);
@@ -428,6 +432,30 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                         }
                                         catch (IOException ex) { }
                                     }
+                                    //GPS
+                                    if(s.contains("GPS")){
+                                        System.out.println("Leí GPS");
+                                        if(s.contains("&")){
+                                            System.out.println("Sí contiene &");
+                                            readGPS(s);
+                                            //changeStatus();
+                                        }else{
+                                            System.out.println("No contiene &");
+                                            try
+                                            {
+                                                askGPS();
+                                            }
+                                            catch (IOException ex) { }
+
+                                        }
+
+                                    }
+                                    //Password broadcast
+                                    if(s.contains("Pass")){
+                                        readPass(s);
+                                        //changeStatus();
+                                    }
+
                                     //Atributos individuales
                                     if(control.matches("Config")){
                                         System.out.println("Config");
@@ -491,14 +519,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                                 break;
                                         }
                                     }
-                                    if(control.matches("GPS")){
-                                        readGPS(s);
-                                        changeStatus();
-                                    }
-                                    if(control.matches("Pass")){
-                                        readPass(s);
-                                        changeStatus();
-                                    }
+
+
 
                                 }
                             });
@@ -575,6 +597,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
             //phase3Transition = Integer.parseInt(tokens[7]);
 
+            /*
             currentVoltageControl = Integer.parseInt(tokens[8]);
 
             if (currentVoltageControl == 0) {
@@ -586,11 +609,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 voltFrag.switchVoltajeAutomatico.setChecked(true);
                 voltFrag.tvVoltajeAutomatico.setText("Control por Voltaje");
             }
+            */
 
             bloqueoControl = Integer.parseInt(tokens[9]);
             System.out.println("Esto es lo que tiene el bloqueo: " + bloqueoControl);
             //Modificar el label del bloqueo y control de los botones
-            if(bloqueoControl == 0){
+            if(bloqueoControl == 1){
                 voltFrag.tvBloqueo.setText("Bloqueado");
                 disableButtons();
             }else{
@@ -615,6 +639,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             currentDestinationAddress = Integer.parseInt(tokens[2]);
             conFrag. destinationAddressTextInput.setText(String.format(Locale.ENGLISH, "%05d", currentDestinationAddress));
 
+            /*
             currentVoltageControl = Integer.parseInt(tokens[3]);
             if (currentVoltageControl == 0) {
                 conFrag.voltageControlCheckbox.setChecked(false);
@@ -625,6 +650,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 voltFrag.switchVoltajeAutomatico.setChecked(true);
 
             }
+            */
 
             currentMinimumVoltage = Float.parseFloat(tokens[4]);
             conFrag.minimumVoltageTextInput.setText(String.format(Locale.ENGLISH, "%1.1f", currentMinimumVoltage));
@@ -723,14 +749,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         voltFrag.openButton.setEnabled(false);
         //dos switches
         //voltFrag.switchLocalRemoto.setClickable(false);
-        voltFrag.switchVoltajeAutomatico.setClickable(false);
+        //voltFrag.switchVoltajeAutomatico.setClickable(false);
 
     }
 
     public static void enableButtons(){
         voltFrag.closeButton.setEnabled(true);
         voltFrag.openButton.setEnabled(true);
-        voltFrag.switchVoltajeAutomatico.setClickable(false);
+        //voltFrag.switchVoltajeAutomatico.setClickable(false);
 
     }
 
@@ -1399,18 +1425,22 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     void readGPS(final String line){
+        System.out.println("Estoy en el readGPS: " + line );
 
         Runnable r = new Runnable() {
             @Override
             public void run(){
 
                 System.out.println("Esta es la linea que lee GPS: " + line );
+                //Checar si es las coordenadas default
                 if(line.length() > 15 && line.contains("&")){
 
-                    System.out.println("Sí leí la cadena del GPS: " + s13);
+                    System.out.println("Sí leí la cadena del GPS: " + line);
+                    voltFrag.getLocation();
 
                 }else{
                     //Sí no tiene nada la cadena del GPS, pedirlo y enviarlo
+                    System.out.println("Mandé cadena del GPS: ");
                     voltFrag.getLocation();
                 }
 
