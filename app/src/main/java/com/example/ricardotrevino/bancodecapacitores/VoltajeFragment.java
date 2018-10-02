@@ -58,7 +58,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
     double lng;
 
     private FusedLocationProviderClient client;
-
+    String ubicación;
 
     @Nullable
     @Override
@@ -178,7 +178,8 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
             client.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                 @Override
                 public void onSuccess(Location location) {
-                    System.out.println("Esta es la ubicación: " + location.toString());
+                    ubicación = location.toString();
+                    System.out.println("Esta es la ubicación: " + ubicación.toString());
                 }
 
             });
