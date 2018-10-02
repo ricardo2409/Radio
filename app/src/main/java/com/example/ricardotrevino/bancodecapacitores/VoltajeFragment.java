@@ -103,9 +103,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
                     if (((MainActivity) getActivity()).connected) {
                         try {
                             System.out.println("Switch es True");
-                            ((MainActivity) getActivity()).sendManOn();
-                            tvLocalRemoto.setText("Local");
-                            ((MainActivity) getActivity()).waitMs(1000);
+                            ((MainActivity) getActivity()).showPasswordDialog("Ingrese la Contraseña", "Cambio a Remoto");
 
                         } catch (Exception e) {
                             System.out.println("Error: " + e);
@@ -170,40 +168,48 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void getLocation() {
-        client = LocationServices.getFusedLocationProviderClient(getContext());
-        if (ActivityCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            System.out.println("Permiso no otorgado");
+        if (((MainActivity) getActivity()).connected) {
+            try {
+                client = LocationServices.getFusedLocationProviderClient(getContext());
+                if (ActivityCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    System.out.println("Permiso no otorgado");
 
-            return;
-        }else{
-            client.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    latitude = Double.toString(location.getLatitude());
-                    longitud = Double.toString(location.getLongitude());
+                    return;
+                }else{
+                    client.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            latitude = Double.toString(location.getLatitude());
+                            longitud = Double.toString(location.getLongitude());
+                            System.out.println("Esta es la latitude: " + latitude);
+                            System.out.println("Esta es la longitud: " + longitud);
+                            latitudeUno = latitude.substring(0, latitude.indexOf("."));
+                            latitudeDos = latitude.substring(latitude.indexOf(".") + 1, latitude.length());
+                            longitudUno = longitud.substring(0, longitud.indexOf("."));
+                            longitudDos = longitud.substring(longitud.indexOf(".") + 1, longitud.length());
+                            System.out.println("Estos son los numeros separados por el punto: " + latitudeUno + " " + latitudeDos + " " + longitudUno + " " + longitudDos + " " );
+                            //$GPS=,-10014,0980,2608,8791,&
+                            String coordenasAMandar = "$GPS=," + latitudeUno + "," + latitudeDos + "," + longitudUno + "," + longitudDos + ",&";
+                            System.out.println("Esta es la cadena a mandar: " + coordenasAMandar);
+                            try {
+                                System.out.println("Send Location");
+                                ((MainActivity) getActivity()).sendLocation(coordenasAMandar);
+                            } catch (Exception e) {
+                                System.out.println("Error al enviar location: " + e);
+                            }
 
-                    System.out.println("Esta es la latitude: " + latitude);
-                    System.out.println("Esta es la longitud: " + longitud);
+                        }
 
-                    latitudeUno = latitude.substring(0, latitude.indexOf("."));
-                    latitudeDos = latitude.substring(latitude.indexOf(".") + 1, latitude.length());
-                    longitudUno = longitud.substring(0, longitud.indexOf("."));
-                    longitudDos = longitud.substring(longitud.indexOf(".") + 1, longitud.length());
-                    System.out.println("Estos son los numeros separados por el punto: " + latitudeUno + " " + latitudeDos + " " + longitudUno + " " + longitudDos + " " );
-                    //$GPS=,-10014,0980,2608,8791,&
-                    String coordenasAMandar = "$GPS=," + latitudeUno + "," + latitudeDos + "," + longitudUno + "," + longitudDos + ",&";
-                    System.out.println("Esta es la cadena a mandar: " + coordenasAMandar);
-                    try {
-                        System.out.println("Send Location");
-                        ((MainActivity) getActivity()).sendLocation(coordenasAMandar);
-                    } catch (Exception e) {
-                        System.out.println("Error al enviar location: " + e);
-                    }
-
+                    });
                 }
+            } catch (Exception e) {
+                System.out.println("Error: " + e);
+            }
 
-            });
+        } else {
+            ((MainActivity) getActivity()).showToast("Bluetooth desconectado");
         }
+
     }
 
     public void requestPermission(){

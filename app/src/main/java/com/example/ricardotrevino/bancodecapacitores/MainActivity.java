@@ -85,6 +85,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     Boolean DiagnosticoBool, ConfiguracionBool;
     ProgressBar progressBar;
+    String controlPassword;
 
 
 
@@ -494,6 +495,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                         readGPS(s);
                                         changeStatus();
                                     }
+                                    if(control.matches("Pass")){
+                                        readPass(s);
+                                        changeStatus();
+                                    }
 
                                 }
                             });
@@ -784,6 +789,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         control = "GPS";
         System.out.println("Estoy en el askGPS");
         String msg = "$GPS?,&";
+        outputStream.write(msg.getBytes());
+    }
+
+    void sendPassword(String pass) throws IOException
+    {
+        control = "Pass";
+        System.out.println("Estoy en el sendPassword");
+        String msg = "$PASS=" + pass + ",& ";
+        System.out.println("Este es el pass que mando " + msg);
         outputStream.write(msg.getBytes());
     }
 
@@ -1406,6 +1420,27 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         h.postDelayed(r, 80);
     }
 
+    void readPass(final String line){
+
+        Runnable r = new Runnable() {
+            @Override
+            public void run(){
+
+                System.out.println("Esta es la linea que lee Pass: " + line );
+                if(line.contains("OK")){
+                    //Password Correcto
+                    controlPassword = "OK";
+                }else{
+                    //El password es incorrecto
+                    controlPassword = "Error";
+                }
+
+            }
+        };
+        Handler h = new Handler();
+        h.postDelayed(r, 80);
+    }
+
     void changeStatus(){
         Runnable r = new Runnable() {
             @Override
@@ -1723,6 +1758,75 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             public void onClick(DialogInterface dialog, int whichButton) {
                 // Cerrar el input dialog
                 dialog.dismiss();
+            }
+        });
+
+        alert.show();
+    }
+
+    //Input Dialog para ingresar el password para permitir el cambio a remoto
+    public void showPasswordDialog(final String title, final String message){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        final EditText edittext = new EditText(getApplicationContext());
+        edittext.setInputType(InputType.TYPE_CLASS_NUMBER);
+        edittext.setTextColor(getResources().getColor(R.color.black));
+        edittext.setRawInputType(Configuration.KEYBOARD_12KEY);
+        alert.setMessage(message);
+        alert.setTitle(title);
+        alert.setView(edittext);
+
+        alert.setPositiveButton("Ingresar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String pass = edittext.getText().toString();
+                //Pasar el pass con este comando = $PASS=12345,& regresa OK si es correcto o error si incorrecto
+                try{
+                    sendPassword(pass);
+                }catch(IOException e){
+
+                }
+
+                if(controlPassword.matches("OK")){
+                    Toast.makeText(getApplicationContext(), "Correcto", Toast.LENGTH_SHORT).show();
+                    eraseColorFromButtons();
+                    try{
+                        sendManOn();
+                        voltFrag.tvLocalRemoto.setText("Local");
+                        waitMs(1000);
+
+                    }catch(IOException e){
+
+                    }
+
+
+                }else{
+                    showDialog(title, "Password Inválido");
+                    try{
+                        sendManOff();
+                        voltFrag.tvLocalRemoto.setText("Remoto");
+                        waitMs(1000);
+
+                    }catch(IOException e){
+
+                    }
+
+
+                }
+                controlPassword = "Reset";
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Cerrar el input dialog
+                dialog.dismiss();
+                //Regresate a Remoto
+                try{
+                    sendManOff();
+                    voltFrag.tvLocalRemoto.setText("Remoto");
+                    waitMs(1000);
+                }catch(IOException e){
+
+                }
             }
         });
 
