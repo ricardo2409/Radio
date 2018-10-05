@@ -362,7 +362,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         voltFrag.tvSenal.setText("0");
         voltFrag.tvPaquetes.setText("0");
         voltFrag.tvRSSI.setText("0");
-
+        voltFrag.tvBloqueo.setText("");
     }
 
     public void resetConfiguration(){
@@ -571,7 +571,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 //System.out.println("El BT dice que el ManOn es True");
                 //manOn = true;
                 //voltFrag.btnManOn.setText(R.string.ManOff);
-                enableButtons();
+                //enableButtons();
                 voltFrag.switchLocalRemoto.setChecked(true);
                 voltFrag.tvLocalRemoto.setText("Local");
 
@@ -580,7 +580,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 //System.out.println("El BT dice que el ManOn es False");
                 //manOn = false;
                 //voltFrag.btnManOn.setText(R.string.ManOn);
-                disableButtons();
+                //disableButtons();
                 voltFrag.switchLocalRemoto.setChecked(false);
                 voltFrag.tvLocalRemoto.setText("Remoto");
 
@@ -625,10 +625,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             //Modificar el label del bloqueo y control de los botones
             if(bloqueoControl == 1){
                 voltFrag.tvBloqueo.setText("Bloqueado");
-                disableButtons();
+                //disableButtons();
             }else{
                 voltFrag.tvBloqueo.setText("");
-                enableButtons();
+                //enableButtons();
             }
             paquetes = Integer.parseInt(tokens[10]);
             voltFrag.tvPaquetes.setText(Integer.toString(paquetes));
