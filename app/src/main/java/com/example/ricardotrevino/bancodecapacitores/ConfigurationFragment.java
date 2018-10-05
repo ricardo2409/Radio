@@ -21,7 +21,7 @@ import java.io.IOException;
 
 public class ConfigurationFragment extends Fragment implements View.OnClickListener {
     Button programButton, solicitarButton;
-    TextView sourceAddressTextInput, destinationAddressTextInput, minimumVoltageTextInput, maximumVoltageTextInput;
+    TextView sourceAddressTextInput, destinationAddressTextInput, minimumVoltageTextInput, maximumVoltageTextInput, nivelACInput;
     CheckBox voltageControlCheckbox;
     View view;
 
@@ -90,12 +90,16 @@ public class ConfigurationFragment extends Fragment implements View.OnClickListe
         //voltageControlCheckbox = (CheckBox) view.findViewById(R.id.voltageControlCheckbox);
         minimumVoltageTextInput = (TextView) view.findViewById(R.id.minimumVoltageTextInput);
         maximumVoltageTextInput = (TextView) view.findViewById(R.id.maximumVoltageTextInput);
+        nivelACInput = (TextView) view.findViewById(R.id.NivelACInput);
 
 
+        //Bordes de los inputs
         sourceAddressTextInput.setBackgroundResource(R.drawable.bordercolor);
         destinationAddressTextInput.setBackgroundResource(R.drawable.bordercolor);
         minimumVoltageTextInput.setBackgroundResource(R.drawable.bordercolor);
         maximumVoltageTextInput.setBackgroundResource(R.drawable.bordercolor);
+        nivelACInput.setBackgroundResource(R.drawable.bordercolor);
+
 
         solicitarButton = (Button) view.findViewById(R.id.solicitarButton);
         solicitarButton.setOnClickListener(this);

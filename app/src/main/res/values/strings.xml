@@ -29,7 +29,7 @@
 
     <string name="dnp3_label">DNP3</string>
     <string name="sourceAddress_label">"Dirección Fuente: "</string>
-    <string name="destinationAddress_label">Dirección Destino:</string>
+    <string name="destinationAddress_label">Dirección Destino: </string>
     <string name="voltageControl_label">Control de Voltaje</string>
     <string name="minimumVoltage_label">"Voltaje Mínimo: "</string>
     <string name="program_label">Programar</string>

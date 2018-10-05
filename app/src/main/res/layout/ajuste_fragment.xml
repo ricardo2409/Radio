@@ -7,7 +7,7 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="500dp"
+        android:layout_width="333dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical">
@@ -44,7 +44,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="333dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -82,6 +82,37 @@
             android:layout_gravity="center"
             android:text="Calibrar"
             android:textSize="20sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="333dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Ubicación"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="75dp" />
+
+        <Button
+            android:id="@+id/btnLocation"
+            style="@android:style/Widget.Button"
+            android:layout_width="250dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Actualizar Coordenadas" />
 
     </LinearLayout>
 

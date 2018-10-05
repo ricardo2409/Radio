@@ -66,6 +66,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     final static int VOLTAGE_CONTROL_CHECKBOX = 2;
     final static int MINIMUM_VOLTAGE = 3;
     final static int MAXIMUM_VOLTAGE = 4;
+    final static int AC_VOLTAGE = 5;
+
 
     static String s;
 
@@ -85,7 +87,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     Boolean DiagnosticoBool, ConfiguracionBool;
     ProgressBar progressBar;
-    String controlPassword;
+    String controlPassword = "OK";
 
 
 
@@ -136,11 +138,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                         BTconnect();
                         btnVoltaje.setBackgroundColor(Color.LTGRAY);
+                        /*
                         try{
                             askGPS();
                         }catch(IOException e){
 
                         }
+                        */
 
                     }
                 }else{
@@ -355,6 +359,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         //voltFrag.tvVoltajeAutomatico.setText("");
         voltFrag.tvLocalRemoto.setText("");
         voltFrag.tvVoltaje.setText("");
+        voltFrag.tvSenal.setText("0");
+        voltFrag.tvPaquetes.setText("0");
+        voltFrag.tvRSSI.setText("0");
+
     }
 
     public void resetConfiguration(){
@@ -382,6 +390,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     public void initItems(){
+        controlPassword = "OK";
         connected = false;
         RadOn = true;
         //manOn = true;
@@ -408,7 +417,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                 public void run() {
                                     //Status
                                     if(s.contains("s,") && s.contains("&")){
-                                        if(s.length() >= 26 ){
+                                        if(s.length() >= 37 ){
                                             a = s.substring(s.indexOf("s,"), s.length() - 1);
                                             System.out.println("A: " + a);
                                             readMessage(a);
@@ -433,12 +442,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                         catch (IOException ex) { }
                                     }
                                     //GPS
-                                    if(s.contains("GPS")){
+                                    if(s.contains("S,")){
                                         System.out.println("Leí GPS");
                                         if(s.contains("&")){
                                             System.out.println("Sí contiene &");
                                             readGPS(s);
-                                            //changeStatus();
                                         }else{
                                             System.out.println("No contiene &");
                                             try
@@ -451,9 +459,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                                     }
                                     //Password broadcast
-                                    if(s.contains("Pass")){
+                                    if(control.equals("Pass")){
+                                        System.out.println("Control matches Pass");
                                         readPass(s);
-                                        //changeStatus();
+                                        changeStatus();
                                     }
 
                                     //Atributos individuales
@@ -544,7 +553,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         if (frase.contains("s") && tokens.length >= 8) {
             //System.out.println("Contains Status : ");
             float currentVoltage;
-            int phase1State, phase2State, phase3State;
+            int phase1State, phase2State, phase3State, paquetes, rssi, senal;
             int phase1Transition, phase2Transition, phase3Transition, flagManOn;
             int currentVoltageControl, bloqueoControl;
             currentVoltage = Float.parseFloat(tokens[1]);
@@ -621,6 +630,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 voltFrag.tvBloqueo.setText("");
                 enableButtons();
             }
+            paquetes = Integer.parseInt(tokens[10]);
+            voltFrag.tvPaquetes.setText(Integer.toString(paquetes));
+            rssi = Integer.parseInt(tokens[11]);
+            voltFrag.tvRSSI.setText(Integer.toString(rssi));
+            senal = Integer.parseInt(tokens[12]);
+            voltFrag.tvSenal.setText(Integer.toString(senal));
+
+
 
             waitAndEraseLabels();
 
@@ -631,7 +648,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             System.out.println("Tokens: " + Arrays.toString(tokens));
             int currentSourceAddress, currentDestinationAddress;
             int currentVoltageControl;
-            float currentMinimumVoltage, currentMaximumVoltage;
+            float currentMinimumVoltage, currentMaximumVoltage, currentNivelAC;
 
             currentSourceAddress = Integer.parseInt(tokens[1]);
             conFrag.sourceAddressTextInput.setText(String.format(Locale.ENGLISH, "%05d", currentSourceAddress));
@@ -652,11 +669,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
             */
 
-            currentMinimumVoltage = Float.parseFloat(tokens[4]);
+            currentMinimumVoltage = Float.parseFloat(tokens[3]);
             conFrag.minimumVoltageTextInput.setText(String.format(Locale.ENGLISH, "%1.1f", currentMinimumVoltage));
 
-            currentMaximumVoltage = Float.parseFloat(tokens[5]);
+            currentMaximumVoltage = Float.parseFloat(tokens[4]);
             conFrag.maximumVoltageTextInput.setText(String.format(Locale.ENGLISH, "%1.1f", currentMaximumVoltage));
+
+            currentNivelAC = Float.parseFloat(tokens[5]);
+            conFrag.nivelACInput.setText(String.format(Locale.ENGLISH, "%1.1f", currentNivelAC));
         }
     }
 
@@ -754,8 +774,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     public static void enableButtons(){
+        //System.out.println("Estoy en enable buttons");
         voltFrag.closeButton.setEnabled(true);
         voltFrag.openButton.setEnabled(true);
+        //voltFrag.closeButton.setClickable(true);
+        //voltFrag.openButton.setClickable(true);
         //voltFrag.switchVoltajeAutomatico.setClickable(false);
 
     }
@@ -812,14 +835,21 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     void askGPS() throws IOException
     {
-        control = "GPS";
-        System.out.println("Estoy en el askGPS");
-        String msg = "$GPS?,&";
-        outputStream.write(msg.getBytes());
+        if(connected){
+            control = "GPS";
+            System.out.println("Estoy en el askGPS");
+            String msg = "$GPS?,&";
+            outputStream.write(msg.getBytes());
+        }else{
+            System.out.println("Desconectado y se tratará de conectar otra vez");
+            BTconnect();
+        }
+
     }
 
     void sendPassword(String pass) throws IOException
     {
+        System.out.println("El control = Pass");
         control = "Pass";
         System.out.println("Estoy en el sendPassword");
         String msg = "$PASS=" + pass + ",& ";
@@ -933,10 +963,32 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             Toast.makeText(getApplicationContext(), getString(R.string.disconnected_message), Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void editNivelAC(View view)
+    {
+        if(connected)
+        {
+            Bundle arguments = new Bundle();
+            arguments.putInt("field", AC_VOLTAGE);
+            arguments.putString("inputText", "Nivel AC:");
+            arguments.putInt("inputType", InputType.TYPE_CLASS_NUMBER);
+            arguments.putInt("minValue", 0);
+            arguments.putInt("maxValue", 1000);
+
+            DialogFragment dialog;
+
+            dialog = GenericInputDialog.newInstance(arguments);
+            dialog.show(getFragmentManager(), "generic_input");
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), getString(R.string.disconnected_message), Toast.LENGTH_SHORT).show();
+        }
+    }
     public void programConfiguration()
     {
-        int newSourceAddress, newDestinationAddress, newVoltageControl;
-        float newMinimumVoltage, newMaximumVoltage;
+        int newSourceAddress, newDestinationAddress;
+        float newMinimumVoltage, newMaximumVoltage, newNivelAC;
         String stringToSend;
         if(connected)
         {
@@ -946,13 +998,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     // not null not empty
                     newSourceAddress = Integer.parseInt(conFrag.sourceAddressTextInput.getText().toString());
                     newDestinationAddress = Integer.parseInt(conFrag.destinationAddressTextInput.getText().toString());
-                    newVoltageControl = (conFrag.voltageControlCheckbox.isChecked() ? 1 : 0);
+                    //newVoltageControl = (conFrag.voltageControlCheckbox.isChecked() ? 1 : 0);
                     newMinimumVoltage = Float.parseFloat(conFrag.minimumVoltageTextInput.getText().toString());
                     newMaximumVoltage = Float.parseFloat(conFrag.maximumVoltageTextInput.getText().toString());
+                    newNivelAC = Float.parseFloat(conFrag.nivelACInput.getText().toString());
 
-                    stringToSend = String.format(Locale.ENGLISH, "$Config,%05d,%05d,%01d,%1.1f,%1.1f,&",
-                            newSourceAddress, newDestinationAddress,
-                            newVoltageControl, newMinimumVoltage, newMaximumVoltage);
+
+                    stringToSend = String.format(Locale.ENGLISH, "$Config,%04d,%04d,%1.1f,%1.1f,%1.1f,&",
+                            newSourceAddress, newDestinationAddress, newMinimumVoltage, newMaximumVoltage, newNivelAC);
                     if(socket.isConnected()){
                         System.out.println("Este es el string que mando: " + stringToSend);
                         outputStream.write(stringToSend.getBytes());
@@ -1003,6 +1056,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
             case MAXIMUM_VOLTAGE:
                 conFrag.maximumVoltageTextInput.setText(String.format(Locale.ENGLISH,"%1.1f", value));
+                break;
+            case AC_VOLTAGE:
+                conFrag.nivelACInput.setText(String.format(Locale.ENGLISH,"%1.1f", value));
                 break;
         }
     }
@@ -1433,15 +1489,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 System.out.println("Esta es la linea que lee GPS: " + line );
                 //Checar si es las coordenadas default
-                if(line.length() > 15 && line.contains("&")){
+                if(line.contains("25.6984") || line.contains("-100.3176")){
 
-                    System.out.println("Sí leí la cadena del GPS: " + line);
                     voltFrag.getLocation();
+                    System.out.println("Mandé la nueva ubicación del GPS: ");
 
                 }else{
-                    //Sí no tiene nada la cadena del GPS, pedirlo y enviarlo
-                    System.out.println("Mandé cadena del GPS: ");
-                    voltFrag.getLocation();
+                    System.out.println("Ya tiene una ubicación guardada diferente a la default");
+
                 }
 
             }
@@ -1462,13 +1517,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     controlPassword = "OK";
                 }else{
                     //El password es incorrecto
-                    controlPassword = "Error";
+                    //////controlPassword = "ERROR";
                 }
 
             }
         };
         Handler h = new Handler();
-        h.postDelayed(r, 80);
+        h.postDelayed(r, 500);
     }
 
     void changeStatus(){
@@ -1727,6 +1782,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     protected void onPause() {
         super.onPause();
         System.out.println("Estoy en onPause");
+        /*
         if(connected){
             try{
                 desconectarBluetooth();
@@ -1734,6 +1790,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 System.out.println("Error: " + e);
             }
         }
+        */
     }
 
     public void progressBarVisible(){
@@ -1814,34 +1871,27 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 }catch(IOException e){
 
                 }
-
                 if(controlPassword.matches("OK")){
                     Toast.makeText(getApplicationContext(), "Correcto", Toast.LENGTH_SHORT).show();
-                    eraseColorFromButtons();
+                    //eraseColorFromButtons();
                     try{
+                        System.out.println("Estoy adentro del try del OK");
                         sendManOn();
                         voltFrag.tvLocalRemoto.setText("Local");
                         waitMs(1000);
 
                     }catch(IOException e){
-
                     }
-
-
                 }else{
                     showDialog(title, "Password Inválido");
+                    //controlPassword = "ERROR";
                     try{
                         sendManOff();
                         voltFrag.tvLocalRemoto.setText("Remoto");
                         waitMs(1000);
-
                     }catch(IOException e){
-
                     }
-
-
                 }
-                controlPassword = "Reset";
             }
         });
 

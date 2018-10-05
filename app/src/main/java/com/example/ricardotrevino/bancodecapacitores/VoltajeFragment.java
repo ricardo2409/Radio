@@ -24,6 +24,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -35,9 +39,9 @@ import com.google.android.gms.tasks.Task;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 /**
@@ -46,7 +50,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class VoltajeFragment extends Fragment implements View.OnClickListener {
 
-    TextView tvBloqueo, tvVoltaje, tvVoltajeControl, phase1TransitionTextView, phase2TransitionTextView, phase3TransitionTextView, tvLocalRemoto, tvVoltajeAutomatico;
+    TextView tvBloqueo, tvVoltaje, tvVoltajeControl, phase1TransitionTextView, phase2TransitionTextView, phase3TransitionTextView, tvLocalRemoto, tvVoltajeAutomatico, tvPaquetes, tvRSSI, tvSenal;
     Button openButton, closeButton;
     Switch switchLocalRemoto, switchVoltajeAutomatico;
     static RadioButton phase1OpenButton, phase1CloseButton, phase2OpenButton, phase2CloseButton, phase3OpenButton, phase3CloseButton;
@@ -60,12 +64,14 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
 
     private FusedLocationProviderClient client;
     String latitude, longitud, latitudeUno, latitudeDos, longitudUno, longitudDos;
+    BarChart barChart;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.voltaje_fragment, null);
         requestPermission();
+        //barChart = (BarChart) view.findViewById(R.id.graph);
         tvVoltaje = (TextView) view.findViewById(R.id.voltageTextView);
         tvBloqueo = (TextView) view.findViewById(R.id.tvBloqueo);
         phase1OpenButton = (RadioButton) view.findViewById(R.id.phase1OpenButton);
@@ -90,6 +96,10 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
         phase3TransitionTextView = (TextView) view.findViewById(R.id.phase3TransitionTextView);
 
         tvLocalRemoto = (TextView) view.findViewById(R.id.tvLocalRemoto);
+        tvPaquetes = (TextView) view.findViewById(R.id.tvPaquetes);
+        tvRSSI = (TextView) view.findViewById(R.id.tvRSSI);
+        tvSenal = (TextView) view.findViewById(R.id.tvSenal);
+
         //tvVoltajeAutomatico = (TextView) view.findViewById(R.id.tvVoltajeAutomatico);
 
 
@@ -103,7 +113,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
                     if (((MainActivity) getActivity()).connected) {
                         try {
                             System.out.println("Switch es True");
-                            ((MainActivity) getActivity()).showPasswordDialog("Ingrese la Contraseña", "Cambio a Remoto");
+                            ((MainActivity) getActivity()).showPasswordDialog("Ingrese la Contraseña", "Cambio a Local");
 
                         } catch (Exception e) {
                             System.out.println("Error: " + e);
@@ -131,6 +141,27 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
         });
 
         //getLocation(); //Pide las coordenadas solo una vez
+
+        /*
+        ArrayList<BarEntry> barEntries = new ArrayList<>();
+        barEntries.add(new BarEntry(2, 100));
+        barEntries.add(new BarEntry(1,40));
+        barEntries.add(new BarEntry(0,20));
+        BarDataSet barDataSet = new BarDataSet(barEntries, "Datos");
+
+        ArrayList<String> Tipos = new ArrayList<>();
+        Tipos.add("Paquetes %");
+        Tipos.add("Ruido");
+        Tipos.add("Señal");
+
+
+        BarData barData = new BarData(barDataSet);
+        barChart.setData(barData);
+        barChart.setTouchEnabled(false);
+        barChart.setDragEnabled(false);
+        barChart.setDrawGridBackground(true);
+        barChart.setFitBars(true);
+        */
         return view;
     }
 
@@ -168,8 +199,10 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void getLocation() {
+        System.out.println("Estoy en el GetLocation");
         if (((MainActivity) getActivity()).connected) {
             try {
+                System.out.println("Voy a pedir la ubicación en GetLocation");
                 client = LocationServices.getFusedLocationProviderClient(getContext());
                 if (ActivityCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     System.out.println("Permiso no otorgado");
@@ -179,7 +212,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
                     client.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
-
+                            System.out.println("Permiso Otorgado");
                             try {
                                 latitude = Double.toString(location.getLatitude());
                                 longitud = Double.toString(location.getLongitude());
