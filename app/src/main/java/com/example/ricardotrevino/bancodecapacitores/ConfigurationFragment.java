@@ -64,7 +64,6 @@ public class ConfigurationFragment extends Fragment implements View.OnClickListe
     @Override
     public void onViewStateRestored(Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        System.out.println("OnViewStatedRestored");
     }
 
     @Override

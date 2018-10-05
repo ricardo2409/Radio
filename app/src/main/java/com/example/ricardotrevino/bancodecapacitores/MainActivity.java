@@ -427,7 +427,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                     if(s.contains("g") && s.contains("&") ){
                                         //System.out.println("Index of : " + s.indexOf("g"));
                                         System.out.println("Sí la mandé  !");
-                                        b = s.substring(s.indexOf("g"), s.indexOf("g") + 29);
+                                        b = s.substring(s.indexOf("g"), s.indexOf("g") + 31);
                                         readMessage(b);
 
                                     }
