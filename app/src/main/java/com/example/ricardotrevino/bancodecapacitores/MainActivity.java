@@ -365,6 +365,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         voltFrag.tvPaquetes.setText("0");
         voltFrag.tvRSSI.setText("0");
         voltFrag.tvBloqueo.setText("");
+        voltFrag.tvTimer.setText("");
+
     }
 
     public void resetConfiguration(){
@@ -429,7 +431,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                     if(s.contains("g") && s.contains("&") ){
                                         //System.out.println("Index of : " + s.indexOf("g"));
                                         System.out.println("Sí la mandé  !");
-                                        b = s.substring(s.indexOf("g"), s.indexOf("g") + 31);
+                                        b = s.substring(s.indexOf("g"), s.indexOf("g") + 32);
                                         readMessage(b);
 
                                     }
@@ -628,12 +630,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             if(bloqueoControl == 1){
                 voltFrag.tvBloqueo.setText("Bloqueado");
                 //disableButtons();
-                if(controlBloqueado == 0){
+                if(controlBloqueado == 0){//If para que solo se haga una vez
                     voltFrag.createTimer();
                     controlBloqueado = 1;
                 }
-
-
             }else{
                 voltFrag.tvBloqueo.setText("");
                 //enableButtons();
@@ -646,10 +646,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             senal = Integer.parseInt(tokens[12]);
             voltFrag.tvSenal.setText(Integer.toString(senal));
 
-
-
             waitAndEraseLabels();
-
 
         } else if (frase.contains("g") && tokens.length >= 6) {
 

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -264,10 +265,15 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
             long aux = 0;
             public void onTick(long millisUntilFinished) {
                 //tvTimer.setText("Segundos Transcurridos: " + millisUntilFinished / 1000);
-                aux = 10000000 - millisUntilFinished;
-                milis += aux;
+                milis = 10000000 - millisUntilFinished;
+                if(milis > 300000){
+                    tvTimer.setTextColor(Color.RED);
+                }else{
+                    tvTimer.setTextColor(Color.BLACK);
+
+                }
                 System.out.println("Estos son los milis que han transcurrido: " + milis);
-                tvTimer.setText(String.format("%d min, %d sec",
+                tvTimer.setText(String.format("%d min, %d seg",
                         TimeUnit.MILLISECONDS.toMinutes(milis),
                         TimeUnit.MILLISECONDS.toSeconds(milis) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milis))
