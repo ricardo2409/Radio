@@ -10,6 +10,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
@@ -42,6 +43,8 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 /**
@@ -50,7 +53,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class VoltajeFragment extends Fragment implements View.OnClickListener {
 
-    TextView tvBloqueo, tvVoltaje, tvVoltajeControl, phase1TransitionTextView, phase2TransitionTextView, phase3TransitionTextView, tvLocalRemoto, tvVoltajeAutomatico, tvPaquetes, tvRSSI, tvSenal;
+    TextView tvBloqueo, tvVoltaje, tvVoltajeControl, phase1TransitionTextView, phase2TransitionTextView, phase3TransitionTextView, tvLocalRemoto, tvVoltajeAutomatico, tvPaquetes, tvRSSI, tvSenal, tvTimer;
     Button openButton, closeButton;
     Switch switchLocalRemoto, switchVoltajeAutomatico;
     static RadioButton phase1OpenButton, phase1CloseButton, phase2OpenButton, phase2CloseButton, phase3OpenButton, phase3CloseButton;
@@ -99,6 +102,8 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
         tvPaquetes = (TextView) view.findViewById(R.id.tvPaquetes);
         tvRSSI = (TextView) view.findViewById(R.id.tvRSSI);
         tvSenal = (TextView) view.findViewById(R.id.tvSenal);
+        tvTimer = (TextView) view.findViewById(R.id.tvTimer);
+
 
         //tvVoltajeAutomatico = (TextView) view.findViewById(R.id.tvVoltajeAutomatico);
 
@@ -250,5 +255,30 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
 
     public void requestPermission(){
         ActivityCompat.requestPermissions(getActivity(), new String[]{ACCESS_FINE_LOCATION},1);
+    }
+
+    public void createTimer(){
+        new CountDownTimer(10000000, 1000) {
+
+            long milis = 0;
+            long aux = 0;
+            public void onTick(long millisUntilFinished) {
+                //tvTimer.setText("Segundos Transcurridos: " + millisUntilFinished / 1000);
+                aux = 10000000 - millisUntilFinished;
+                milis += aux;
+                System.out.println("Estos son los milis que han transcurrido: " + milis);
+                tvTimer.setText(String.format("%d min, %d sec",
+                        TimeUnit.MILLISECONDS.toMinutes(milis),
+                        TimeUnit.MILLISECONDS.toSeconds(milis) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milis))
+                ));
+            }
+
+            public void onFinish() {
+                tvTimer.setText("done!");
+            }
+
+        }.start();
+
     }
 }

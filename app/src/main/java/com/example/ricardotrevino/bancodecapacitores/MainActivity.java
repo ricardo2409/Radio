@@ -89,6 +89,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     ProgressBar progressBar;
     String controlPassword = "OK";
 
+    static int controlBloqueado = 0;
+
 
 
     @Override
@@ -626,9 +628,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             if(bloqueoControl == 1){
                 voltFrag.tvBloqueo.setText("Bloqueado");
                 //disableButtons();
+                if(controlBloqueado == 0){
+                    voltFrag.createTimer();
+                    controlBloqueado = 1;
+                }
+
+
             }else{
                 voltFrag.tvBloqueo.setText("");
                 //enableButtons();
+                controlBloqueado = 0;
             }
             paquetes = Integer.parseInt(tokens[10]);
             voltFrag.tvPaquetes.setText(Integer.toString(paquetes));
