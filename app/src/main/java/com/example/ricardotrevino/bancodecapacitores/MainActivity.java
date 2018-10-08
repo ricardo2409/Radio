@@ -556,7 +556,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         System.out.println("Tokens: " + Arrays.toString(tokens));
         if (frase.contains("s") && tokens.length >= 8) {
             //System.out.println("Contains Status : ");
-            float currentVoltage;
+            float currentVoltage, bateria, temperatura;
             int phase1State, phase2State, phase3State, paquetes, rssi, senal;
             int phase1Transition, phase2Transition, phase3Transition, flagManOn;
             int currentVoltageControl, bloqueoControl;
@@ -645,6 +645,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             voltFrag.tvRSSI.setText(Integer.toString(rssi));
             senal = Integer.parseInt(tokens[12]);
             voltFrag.tvSenal.setText(Integer.toString(senal));
+            bateria = Float.parseFloat(tokens[13]);
+            voltFrag.tvBateria.setText(Float.toString(bateria) + " V");
+            temperatura = Float.parseFloat(tokens[14]);
+            voltFrag.tvTemperatura.setText(Float.toString(temperatura));
 
             waitAndEraseLabels();
 

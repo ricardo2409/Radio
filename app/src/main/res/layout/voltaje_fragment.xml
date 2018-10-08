@@ -264,7 +264,8 @@
                     android:layout_width="500dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="right" />
+                    android:gravity="right"
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/tvBloqueo"
@@ -305,7 +306,7 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="0dp" />
+                android:layout_height="30dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -313,8 +314,9 @@
             android:layout_height="200dp"
             android:orientation="horizontal">
 
+
             <LinearLayout
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -336,7 +338,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -358,7 +360,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
@@ -377,6 +379,51 @@
                     android:gravity="center_horizontal"
                     android:text="Señal"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvBateria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="0"
+                    android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Batería"
+                    android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvTemperatura"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="0"
+                    android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="Temperatura"
+                    android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
             </LinearLayout>
 
         </LinearLayout>
