@@ -137,6 +137,12 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
                             ((MainActivity) getActivity()).sendManOff();
                             tvLocalRemoto.setText("Remoto");
                             ((MainActivity) getActivity()).waitMs(1000);
+                            //Reiniciar el timer
+                            //IF blocked
+                            if(MainActivity.bloqueoControl == 1){
+                                System.out.println("Resetea el timer cuando cambia a remoto");
+                                createTimer();
+                            }
                         } catch (Exception e) {
                             System.out.println("Error: " + e);
                         }
@@ -261,29 +267,31 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void createTimer(){
-        new CountDownTimer(10000000, 1000) {
-
+        new CountDownTimer(360000, 1000) {
+            //Llega a 6 minutos
             long milis = 0;
             long aux = 0;
             public void onTick(long millisUntilFinished) {
                 //tvTimer.setText("Segundos Transcurridos: " + millisUntilFinished / 1000);
-                milis = 10000000 - millisUntilFinished;
+                milis = 360000 - millisUntilFinished;
                 if(milis > 300000){
                     tvTimer.setTextColor(Color.RED);
                 }else{
                     tvTimer.setTextColor(Color.BLACK);
-
                 }
-                System.out.println("Estos son los milis que han transcurrido: " + milis);
+                //System.out.println("Estos son los milis que han transcurrido: " + milis);
                 tvTimer.setText(String.format("%d min, %d seg",
                         TimeUnit.MILLISECONDS.toMinutes(milis),
                         TimeUnit.MILLISECONDS.toSeconds(milis) -
                                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milis))
                 ));
+
+                //DE REMOTO A LOCAL SE TIENE QUE REINICIAR EL TIMER
             }
 
             public void onFinish() {
-                tvTimer.setText("done!");
+                //CAMBIAR ESTA LEYENDA EN CASO DE QUE SE PASE DE TIEMPO
+                tvTimer.setText("");
             }
 
         }.start();

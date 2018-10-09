@@ -85,11 +85,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     static DiagnosticoFragment diagFrag;
     static AjusteFragment ajusFrag;
 
-    Boolean DiagnosticoBool, ConfiguracionBool;
+    static Boolean DiagnosticoBool, ConfiguracionBool;
     ProgressBar progressBar;
     String controlPassword = "OK";
 
     static int controlBloqueado = 0;
+    static int bloqueoControl;
 
 
 
@@ -429,10 +430,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                     }
                                     //Config
                                     if(s.contains("g") && s.contains("&") ){
-                                        //System.out.println("Index of : " + s.indexOf("g"));
-                                        System.out.println("Sí la mandé  !");
-                                        b = s.substring(s.indexOf("g"), s.indexOf("g") + 32);
-                                        readMessage(b);
+                                        if(ConfiguracionBool){//solo se manda cuando ya se creó el conf frag para evitar errores (El string de config se manda solo sin pedirlo)
+                                            //System.out.println("Index of : " + s.indexOf("g"));
+                                            System.out.println("Sí la mandé  !");
+                                            b = s.substring(s.indexOf("g"), s.indexOf("g") + 32);
+                                            readMessage(b);
+                                        }
+
 
                                     }
                                     //RSSI
@@ -559,7 +563,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             float currentVoltage, bateria, temperatura;
             int phase1State, phase2State, phase3State, paquetes, rssi, senal;
             int phase1Transition, phase2Transition, phase3Transition, flagManOn;
-            int currentVoltageControl, bloqueoControl;
+            int currentVoltageControl;
             currentVoltage = Float.parseFloat(tokens[1]);
             voltFrag.tvVoltaje.setText(Float.toString(currentVoltage) + " V");
             System.out.println("Se cambió el voltaje a: " + Float.toString(currentVoltage));
@@ -635,8 +639,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     controlBloqueado = 1;
                 }
             }else{
-                System.out.println("Esto es lo que tiene el bloqueoControl: " + bloqueoControl);
-                voltFrag.tvBloqueo.setText("");
+                //System.out.println("Esto es lo que tiene el bloqueoControl: " + bloqueoControl);
+                voltFrag.tvBloqueo.setText("");//Quita la label de Bloqueado
+                voltFrag.tvTimer.setText("");//Quita el timer pero no lo detiene
+
                 //enableButtons();
                 controlBloqueado = 0;
             }
@@ -648,12 +654,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             voltFrag.tvSenal.setText(Integer.toString(senal));
             bateria = Float.parseFloat(tokens[13]);
             voltFrag.tvBateria.setText(Float.toString(bateria) + " V");
-            temperatura = Float.parseFloat(tokens[14]);
-            voltFrag.tvTemperatura.setText(Float.toString(temperatura));
+            if(Float.toString(Float.parseFloat(tokens[14])).length() < 5){//Validacion porque hay veces en que manda otra cadena pegada y marca error
+                System.out.println("Es menor");
+                temperatura = Float.parseFloat(tokens[14]);
+                voltFrag.tvTemperatura.setText(Float.toString(temperatura));
+
+            }else{
+                System.out.println("Es mayor");
+
+            }
 
             waitAndEraseLabels();
 
-        } else if (frase.contains("g") && tokens.length >= 6) {
+        } else if (frase.contains("g") && tokens.length >= 6 ) {
 
             System.out.println("RECIBÍ CONFIG");
             System.out.println("Tokens: " + Arrays.toString(tokens));
