@@ -635,6 +635,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     controlBloqueado = 1;
                 }
             }else{
+                System.out.println("Esto es lo que tiene el bloqueoControl: " + bloqueoControl);
                 voltFrag.tvBloqueo.setText("");
                 //enableButtons();
                 controlBloqueado = 0;
@@ -1557,6 +1558,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void sendVoltaje(String voltaje) throws IOException{
         String msg = "$AjGan," + voltaje + ",&";
         System.out.println("Estoy en sendVoltaje: " + msg);
+        outputStream.write(msg.getBytes());
+    }
+    public void sendCalibracion(String calibracion) throws IOException{
+        String msg = "$AjGVB," + calibracion + ",&";
+        System.out.println("Estoy en sendCalibracion: " + msg);
         outputStream.write(msg.getBytes());
     }
 

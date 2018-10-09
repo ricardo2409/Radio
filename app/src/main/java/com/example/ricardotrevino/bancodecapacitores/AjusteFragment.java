@@ -25,8 +25,8 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class AjusteFragment extends Fragment implements View.OnClickListener{
     View view;
-    Button btnComando, btnVoltaje, btnLocation;
-    EditText etComando, etVoltaje;
+    Button btnComando, btnVoltaje, btnLocation, btnCalibracion;
+    EditText etComando, etVoltaje, etCalibracion;
     private FusedLocationProviderClient client;
     String latitude, longitud, latitudeUno, latitudeDos, longitudUno, longitudDos;
 
@@ -39,12 +39,16 @@ public class AjusteFragment extends Fragment implements View.OnClickListener{
         btnComando = (Button) view.findViewById(R.id.btnComando);
         btnVoltaje = (Button) view.findViewById(R.id.btnVoltaje);
         btnLocation = (Button) view.findViewById(R.id.btnLocation);
+        btnCalibracion = (Button) view.findViewById(R.id.btnCalibracion);
+
 
         etVoltaje = (EditText) view.findViewById(R.id.etVoltaje);
 
         btnComando.setOnClickListener(this);
         btnVoltaje.setOnClickListener(this);
         btnLocation.setOnClickListener(this);
+        btnCalibracion.setOnClickListener(this);
+
 
         return view;
     }
@@ -135,6 +139,20 @@ public class AjusteFragment extends Fragment implements View.OnClickListener{
 
                 }catch (Exception e){
                     System.out.println("Error: " + e);
+                }
+                break;
+            case R.id.btnCalibracion:
+                try{
+                    if(etCalibracion.getText() != null){
+                        ((MainActivity)getActivity()).sendCalibracion(etCalibracion.getText().toString());
+                    }else{
+                        ((MainActivity)getActivity()).showToast("Voltaje Vacío");
+                        ((MainActivity)getActivity()).showToast("Voltaje Configurado");
+
+                    }
+                }catch (Exception e){
+                    System.out.println("Error: " + e);
+
                 }
                 break;
         }
