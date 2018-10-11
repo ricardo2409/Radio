@@ -122,14 +122,12 @@ public class AjusteFragment extends Fragment implements View.OnClickListener{
                 try{
                     if(etVoltaje.getText() != null){
                         ((MainActivity)getActivity()).sendVoltaje(etVoltaje.getText().toString());
+                        ((MainActivity)getActivity()).showToast("Voltaje Configurado");
                     }else{
                         ((MainActivity)getActivity()).showToast("Voltaje Vacío");
-                        ((MainActivity)getActivity()).showToast("Voltaje Configurado");
-
                     }
                 }catch (Exception e){
                     System.out.println("Error: " + e);
-
                 }
                 break;
             case R.id.btnLocation:
@@ -145,10 +143,9 @@ public class AjusteFragment extends Fragment implements View.OnClickListener{
                 try{
                     if(etCalibracion.getText() != null){
                         ((MainActivity)getActivity()).sendCalibracion(etCalibracion.getText().toString());
+                        ((MainActivity)getActivity()).showToast("Voltaje de Batería Calibrado");
                     }else{
                         ((MainActivity)getActivity()).showToast("Voltaje Vacío");
-                        ((MainActivity)getActivity()).showToast("Voltaje Configurado");
-
                     }
                 }catch (Exception e){
                     System.out.println("Error: " + e);

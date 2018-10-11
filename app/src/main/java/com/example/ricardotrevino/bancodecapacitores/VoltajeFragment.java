@@ -118,6 +118,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
         switchLocalRemoto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    //Cambio a Local
                     if (((MainActivity) getActivity()).connected) {
                         try {
                             System.out.println("Switch es True");
@@ -131,6 +132,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
                     }
 
                 } else {
+                    //Cambio a Remoto
                     if (((MainActivity) getActivity()).connected) {
                         try {
                             System.out.println("Switch es False");
