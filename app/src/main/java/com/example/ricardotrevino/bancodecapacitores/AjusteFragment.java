@@ -43,6 +43,7 @@ public class AjusteFragment extends Fragment implements View.OnClickListener{
 
 
         etVoltaje = (EditText) view.findViewById(R.id.etVoltaje);
+        etCalibracion = (EditText) view.findViewById(R.id.etCalibracioon);
 
         btnComando.setOnClickListener(this);
         btnVoltaje.setOnClickListener(this);

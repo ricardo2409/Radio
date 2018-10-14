@@ -72,7 +72,7 @@
             android:ems="10"
             android:gravity="center_horizontal"
             android:hint="Escribe el voltaje"
-            android:inputType="number" />
+            android:inputType="numberDecimal" />
 
         <Button
             android:id="@+id/btnVoltaje"
@@ -128,7 +128,7 @@
             android:id="@+id/textView14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Calibracón"
+            android:text="Calibracíon"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Display2" />
 
@@ -144,7 +144,7 @@
             android:ems="10"
             android:gravity="center_horizontal"
             android:hint="Escribe la calibración"
-            android:inputType="number" />
+            android:inputType="numberDecimal" />
 
         <Button
             android:id="@+id/btnCalibracion"
