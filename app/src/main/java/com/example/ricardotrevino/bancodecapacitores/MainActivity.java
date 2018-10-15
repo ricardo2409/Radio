@@ -89,10 +89,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     ProgressBar progressBar;
     String controlPassword = "OK";
 
-    static int controlBloqueadoTimer = 0;
+    static int controlCreacionTimer = 0;
     static int bloqueoControl;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +105,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         btnAjuste = (Button) findViewById(R.id.btnAjuste);
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         progressBarHide();
-
-
 
         btnConnect.setOnClickListener(this);
         btnVoltaje.setOnClickListener(this);
@@ -140,7 +136,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     if (BTinit()) {
 
                         BTconnect();
-                        btnVoltaje.setBackgroundColor(Color.LTGRAY);
                         /*
                         try{
                             askGPS();
@@ -301,6 +296,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
         beginListenForData();
+        btnVoltaje.setBackgroundColor(Color.LTGRAY);
+
 
         //waitMs(5000);
         //closeSocket();
@@ -399,6 +396,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     public void initItems(){
+        controlCreacionTimer = 0;//Para que se haga el timer
         controlPassword = "OK";
         connected = false;
         RadOn = true;
@@ -594,10 +592,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 voltFrag.switchLocalRemoto.setChecked(true);
                 voltFrag.tvLocalRemoto.setText("Local");
                 //Resetear el timer solo si ya estaba bloqueado
-                if(bloqueoControl == 1){
+                if(bloqueoControl == 1 && controlCreacionTimer == 1){
                     System.out.println("Se reseteo el timer porque cambió de remoto a local y ya estaba bloqueado");
-                    voltFrag.mCountDownTimer.cancel();
-                    voltFrag.mCountDownTimer.start();
+                    //voltFrag.mCountDownTimer.cancel();
+                    controlCreacionTimer = 0;
+                    //voltFrag.createTimer();
                 }
 
             }else{
@@ -645,23 +644,22 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             */
 
             bloqueoControl = Integer.parseInt(tokens[9]);
-            //System.out.println("Esto es lo que tiene el bloqueo: " + bloqueoControl);
+            System.out.println("Esto es lo que tiene el bloqueo: " + bloqueoControl);
             //Modificar el label del bloqueo y control de los botones
             if(bloqueoControl == 1){
                 voltFrag.tvBloqueo.setText("Bloqueado");
                 //disableButtons();
-                if(controlBloqueadoTimer == 0){//If para que solo se haga una vez
+                if(controlCreacionTimer == 0){//If para que solo se haga una vez
                     voltFrag.createTimer();
-                    controlBloqueadoTimer = 1;
+                    controlCreacionTimer = 1;
                 }
             }else{
                 //System.out.println("Esto es lo que tiene el bloqueoControl: " + bloqueoControl);
                 voltFrag.tvBloqueo.setText("");//Quita la label de Bloqueado
                 voltFrag.tvTimer.setText("");//Quita el timer pero no lo detiene
-                voltFrag.mCountDownTimer.cancel(); //Cancela el timer
 
                 //enableButtons();
-                controlBloqueadoTimer = 0;
+                controlCreacionTimer = 0;
             }
             paquetes = Integer.parseInt(tokens[10]);
             voltFrag.tvPaquetes.setText(Integer.toString(paquetes));
@@ -672,7 +670,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             bateria = Float.parseFloat(tokens[13]);
             voltFrag.tvBateria.setText(Float.toString(bateria) + " V");
             if(Float.toString(Float.parseFloat(tokens[14])).length() < 5){//Validacion porque hay veces en que manda otra cadena pegada y marca error
-                System.out.println("Es menor");
+                //System.out.println("Es menor");
                 temperatura = Float.parseFloat(tokens[14]);
                 voltFrag.tvTemperatura.setText(Float.toString(temperatura));
 

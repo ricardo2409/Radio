@@ -68,7 +68,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
 
     private FusedLocationProviderClient client;
     String latitude, longitud, latitudeUno, latitudeDos, longitudUno, longitudDos;
-    CountDownTimer mCountDownTimer;
+    static CountDownTimer mCountDownTimer;
 
     @Nullable
     @Override
@@ -282,7 +282,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
                 }else{
                     tvTimer.setTextColor(Color.BLACK);
                 }
-                System.out.println("Estos son los milis que han transcurrido: " + milis);
+                //System.out.println("Estos son los milis que han transcurrido: " + milis);
                 tvTimer.setText(String.format("%d min, %d seg",
                         TimeUnit.MILLISECONDS.toMinutes(milis),
                         TimeUnit.MILLISECONDS.toSeconds(milis) -
