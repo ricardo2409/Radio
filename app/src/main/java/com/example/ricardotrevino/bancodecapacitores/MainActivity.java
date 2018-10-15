@@ -89,7 +89,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     ProgressBar progressBar;
     String controlPassword = "OK";
 
-    static int controlBloqueado = 0;
+    static int controlBloqueadoTimer = 0;
     static int bloqueoControl;
 
 
@@ -327,6 +327,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         device = null;
         stopThread = true;
         socketConectado = false;
+        voltFrag.mCountDownTimer.cancel();//cancela el timer
 
 
 
@@ -365,6 +366,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         voltFrag.tvSenal.setText("0");
         voltFrag.tvPaquetes.setText("0");
         voltFrag.tvRSSI.setText("0");
+        voltFrag.tvTemperatura.setText("0");
+        voltFrag.tvBateria.setText("0");
+
         voltFrag.tvBloqueo.setText("");
         voltFrag.tvTimer.setText("");
 
@@ -470,6 +474,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                     if(control.equals("Pass")){
                                         System.out.println("Control matches Pass");
                                         readPass(s);
+                                        try{
+                                            sendATZ();//Se sale del loop
+
+                                        }catch(IOException e){
+
+                                        }
+
                                         changeStatus();
                                     }
 
@@ -582,7 +593,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 //enableButtons();
                 voltFrag.switchLocalRemoto.setChecked(true);
                 voltFrag.tvLocalRemoto.setText("Local");
-
+                //Resetear el timer solo si ya estaba bloqueado
+                if(bloqueoControl == 1){
+                    System.out.println("Se reseteo el timer porque cambió de remoto a local y ya estaba bloqueado");
+                    voltFrag.mCountDownTimer.cancel();
+                    voltFrag.mCountDownTimer.start();
+                }
 
             }else{
                 //System.out.println("El BT dice que el ManOn es False");
@@ -629,22 +645,23 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             */
 
             bloqueoControl = Integer.parseInt(tokens[9]);
-            System.out.println("Esto es lo que tiene el bloqueo: " + bloqueoControl);
+            //System.out.println("Esto es lo que tiene el bloqueo: " + bloqueoControl);
             //Modificar el label del bloqueo y control de los botones
             if(bloqueoControl == 1){
                 voltFrag.tvBloqueo.setText("Bloqueado");
                 //disableButtons();
-                if(controlBloqueado == 0){//If para que solo se haga una vez
+                if(controlBloqueadoTimer == 0){//If para que solo se haga una vez
                     voltFrag.createTimer();
-                    controlBloqueado = 1;
+                    controlBloqueadoTimer = 1;
                 }
             }else{
                 //System.out.println("Esto es lo que tiene el bloqueoControl: " + bloqueoControl);
                 voltFrag.tvBloqueo.setText("");//Quita la label de Bloqueado
                 voltFrag.tvTimer.setText("");//Quita el timer pero no lo detiene
+                voltFrag.mCountDownTimer.cancel(); //Cancela el timer
 
                 //enableButtons();
-                controlBloqueado = 0;
+                controlBloqueadoTimer = 0;
             }
             paquetes = Integer.parseInt(tokens[10]);
             voltFrag.tvPaquetes.setText(Integer.toString(paquetes));

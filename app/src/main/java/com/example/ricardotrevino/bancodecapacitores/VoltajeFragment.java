@@ -68,7 +68,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
 
     private FusedLocationProviderClient client;
     String latitude, longitud, latitudeUno, latitudeDos, longitudUno, longitudDos;
-    BarChart barChart;
+    CountDownTimer mCountDownTimer;
 
     @Nullable
     @Override
@@ -269,7 +269,8 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void createTimer(){
-        new CountDownTimer(360000, 1000) {
+        System.out.println("Estoy en el createTimer");
+        mCountDownTimer = new CountDownTimer(360000, 1000) {
             //Llega a 6 minutos
             long milis = 0;
             long aux = 0;
@@ -281,7 +282,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
                 }else{
                     tvTimer.setTextColor(Color.BLACK);
                 }
-                //System.out.println("Estos son los milis que han transcurrido: " + milis);
+                System.out.println("Estos son los milis que han transcurrido: " + milis);
                 tvTimer.setText(String.format("%d min, %d seg",
                         TimeUnit.MILLISECONDS.toMinutes(milis),
                         TimeUnit.MILLISECONDS.toSeconds(milis) -
