@@ -245,7 +245,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
                                 System.out.println("Send Location");
                                 ((MainActivity) getActivity()).sendLocation(coordenasAMandar);
                                 ((MainActivity) getActivity()).showToast("Ubicación Registrada");
-
+                                //$GPS=,025,698455,-100,317649,&
                             } catch (Exception e) {
                                 System.out.println("Error al enviar location: " + e);
                             }

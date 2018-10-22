@@ -1715,7 +1715,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             public void run(){
 
                 try {
-                    System.out.println("Estoy en el WriteAntena1");
+                    System.out.println("Estoy en el WriteNetID");
                     String msg1 = "ATS14=" + netID + "\r";
                     System.out.println(msg1);
                     outputStream.write(msg1.getBytes());
