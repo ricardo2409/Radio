@@ -669,11 +669,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             voltFrag.tvSenal.setText(Integer.toString(senal));
             bateria = Float.parseFloat(tokens[13]);
             voltFrag.tvBateria.setText(Float.toString(bateria) + " V");
-            if(Float.toString(Float.parseFloat(tokens[14])).length() < 5){//Validacion porque hay veces en que manda otra cadena pegada y marca error
+            String auxStringTemp = tokens[14].substring(0,4);
+            System.out.println("Este es el aux string de temp: " + auxStringTemp);
+            
+            if(auxStringTemp.length() < 5){//Validacion porque hay veces en que manda otra cadena pegada y marca error
                 //System.out.println("Es menor");
-                temperatura = Float.parseFloat(tokens[14]);
-                voltFrag.tvTemperatura.setText(Float.toString(temperatura));
-
+                //temperatura = Float.parseFloat(tokens[14]);
+                voltFrag.tvTemperatura.setText(auxStringTemp);
             }else{
                 System.out.println("Es mayor");
 
@@ -1916,7 +1918,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 }
                 if(controlPassword.matches("OK")){
-                    Toast.makeText(getApplicationContext(), "Correcto", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Correcto", Toast.LENGTH_SHORT).show();
                     //eraseColorFromButtons();
                     try{
                         System.out.println("Estoy adentro del try del OK");
