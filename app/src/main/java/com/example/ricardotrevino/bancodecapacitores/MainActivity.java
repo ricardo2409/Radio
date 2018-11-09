@@ -91,12 +91,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     static int controlCreacionTimer = 0;
     static int bloqueoControl;
+    boolean boolPassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        boolPassword = false;
         initItems();
         btnConnect = (Button) findViewById(R.id.btnConnect);
         btnVoltaje = (Button) findViewById(R.id.btnVoltaje);
@@ -671,7 +673,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             voltFrag.tvBateria.setText(Float.toString(bateria) + " V");
             String auxStringTemp = tokens[14].substring(0,4);
             System.out.println("Este es el aux string de temp: " + auxStringTemp);
-            
+
             if(auxStringTemp.length() < 5){//Validacion porque hay veces en que manda otra cadena pegada y marca error
                 //System.out.println("Es menor");
                 //temperatura = Float.parseFloat(tokens[14]);
@@ -1882,7 +1884,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     transaction3.commit();
 
                 }else{
-                    showDialog(title, "Incorrecto");
+                    showPasswordDialog(title, "Incorrecto");
                 }
             }
         });
@@ -1920,16 +1922,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 if(controlPassword.matches("OK")){
                     //Toast.makeText(getApplicationContext(), "Correcto", Toast.LENGTH_SHORT).show();
                     //eraseColorFromButtons();
-                    try{
-                        System.out.println("Estoy adentro del try del OK");
-                        sendManOn();
-                        voltFrag.tvLocalRemoto.setText("Local");
-                        waitMs(1000);
+                    System.out.println("Estoy adentro del try del OK");
+                    boolPassword = true;
+                    System.out.println("Se cambió el boolpassword a true");
 
-                    }catch(IOException e){
-                    }
+
                 }else{
-                    showDialog(title, "Password Inválido");
+                    showPasswordDialog(title, "Password Inválido");
                     //controlPassword = "ERROR";
                     try{
                         sendManOff();

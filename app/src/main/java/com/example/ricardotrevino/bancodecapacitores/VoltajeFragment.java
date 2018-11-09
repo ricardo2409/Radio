@@ -41,6 +41,7 @@ import com.google.android.gms.tasks.Task;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -120,15 +121,23 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
                 if (isChecked) {
                     //Cambio a Local
                     if (((MainActivity) getActivity()).connected) {
-                        try {
-                            System.out.println("Switch es True");
-                            ((MainActivity) getActivity()).showPasswordDialog("Ingrese la Contraseña", "Cambio a Local");
+                        if(((MainActivity) getActivity()).boolPassword == true)
+                        {
+                            try{
+                                ((MainActivity) getActivity()).sendManOn();
+                                //voltFrag.tvLocalRemoto.setText("Local");
+                                ((MainActivity) getActivity()).waitMs(1000);
 
-                        } catch (Exception e) {
-                            System.out.println("Error: " + e);
+                            }catch(IOException e){
+                            }
+                        }else{
+                            switchLocalRemoto.setChecked(false);
+                            ((MainActivity) getActivity()).showPasswordDialog("Ingrese la contraseña", "");
                         }
+
                     } else {
                         ((MainActivity) getActivity()).showToast("Bluetooth desconectado");
+                        switchLocalRemoto.setChecked(false);
                     }
 
                 } else {
@@ -138,12 +147,14 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
                             System.out.println("Switch es False");
                             ((MainActivity) getActivity()).sendManOff();
                             tvLocalRemoto.setText("Remoto");
+                            ((MainActivity) getActivity()).boolPassword = false;
+                            System.out.println("Se cambió el password a false");
                             ((MainActivity) getActivity()).waitMs(1000);
                             //Reiniciar el timer
                             //IF blocked
                             if(MainActivity.bloqueoControl == 1){
                                 System.out.println("Resetea el timer cuando cambia a remoto");
-                                createTimer();
+                                //createTimer();
                             }
                         } catch (Exception e) {
                             System.out.println("Error: " + e);
@@ -186,12 +197,19 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.openButton:
                 if (((MainActivity) getActivity()).connected) {
-                    try {
-                        System.out.println("Botón Abrir");
-                        ((MainActivity) getActivity()).sendOpen();
-                    } catch (Exception e) {
-                        System.out.println("Error: " + e);
+                    if(((MainActivity) getActivity()).boolPassword == true)
+                    {
+                        try {
+                            System.out.println("Botón Abrir");
+                            ((MainActivity) getActivity()).sendOpen();
+                        } catch (Exception e) {
+                            System.out.println("Error: " + e);
+                        }
+                    }else{
+                        ((MainActivity) getActivity()).showPasswordDialog("Ingrese la contraseña", "");
                     }
+
+
                 } else {
                     ((MainActivity) getActivity()).showToast("Bluetooth desconectado");
                 }
@@ -200,12 +218,18 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
 
             case R.id.closeButton:
                 if (((MainActivity) getActivity()).connected) {
-                    try {
-                        System.out.println("Botón Cerrar");
-                        ((MainActivity) getActivity()).sendClose();
-                    } catch (Exception e) {
-                        System.out.println("Error: " + e);
+                    if(((MainActivity) getActivity()).boolPassword == true)
+                    {
+                        try {
+                            System.out.println("Botón Cerrar");
+                            ((MainActivity) getActivity()).sendClose();
+                        } catch (Exception e) {
+                            System.out.println("Error: " + e);
+                        }
+                    }else{
+                        ((MainActivity) getActivity()).showPasswordDialog("Ingrese la contraseña", "");
                     }
+
                 } else {
                     ((MainActivity) getActivity()).showToast("Bluetooth desconectado");
                 }

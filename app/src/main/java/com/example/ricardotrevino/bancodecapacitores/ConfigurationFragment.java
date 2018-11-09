@@ -57,8 +57,14 @@ public class ConfigurationFragment extends Fragment implements View.OnClickListe
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         System.out.println("OnActivityCreated");
-        resetItems();
-        sendStop();
+        if(((MainActivity) getActivity()).boolPassword == true)
+        {
+            resetItems();
+            sendStop();
+        }else{
+            ((MainActivity) getActivity()).showPasswordDialog("Ingrese la contraseña", "");
+        }
+
     }
 
     @Override

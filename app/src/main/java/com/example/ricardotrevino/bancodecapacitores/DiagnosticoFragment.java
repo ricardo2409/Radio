@@ -147,23 +147,27 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         //Borrar los valores para que se vean que son nuevos
         resetValues();
 
-        try{
-            //Manda los comandos para obtener los valores
-            ((MainActivity)getActivity()).sendRadOn();
-            ((MainActivity)getActivity()).sendCommand();
-            ((MainActivity)getActivity()).sendNetID();
-            ((MainActivity)getActivity()).sendPower();
-            ((MainActivity)getActivity()).sendNodeID();
-            ((MainActivity)getActivity()).sendS10();
-            ((MainActivity)getActivity()).sendS11();
-            ((MainActivity)getActivity()).sendS12();
-            ((MainActivity)getActivity()).sendS13();
+        if(((MainActivity) getActivity()).boolPassword == true)
+        {
+            try{
+                //Manda los comandos para obtener los valores
+                ((MainActivity)getActivity()).sendRadOn();
+                ((MainActivity)getActivity()).sendCommand();
+                ((MainActivity)getActivity()).sendNetID();
+                ((MainActivity)getActivity()).sendPower();
+                ((MainActivity)getActivity()).sendNodeID();
+                ((MainActivity)getActivity()).sendS10();
+                ((MainActivity)getActivity()).sendS11();
+                ((MainActivity)getActivity()).sendS12();
+                ((MainActivity)getActivity()).sendS13();
 
-
-
-        }catch (IOException e){
-            System.out.println("Error: " + e);
+            }catch (IOException e){
+                System.out.println("Error: " + e);
+            }
+        }else{
+            ((MainActivity) getActivity()).showPasswordDialog("Ingrese la contraseña", "");
         }
+
 
     }
 
