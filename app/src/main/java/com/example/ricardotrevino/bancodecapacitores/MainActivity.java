@@ -329,7 +329,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         device = null;
         stopThread = true;
         socketConectado = false;
-        voltFrag.mCountDownTimer.cancel();//cancela el timer
+        //voltFrag.mCountDownTimer.cancel();//cancela el timer
 
 
 
@@ -372,7 +372,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         voltFrag.tvBateria.setText("0");
 
         voltFrag.tvBloqueo.setText("");
-        voltFrag.tvTimer.setText("");
+        //voltFrag.tvTimer.setText("");
         voltFrag.btnDesbloquear.setVisibility(View.GONE);
 
     }
@@ -389,7 +389,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void resetDiagnostico(){
         diagFrag.etNetID.setText("");
         diagFrag.etNodeID.setText("");
-        diagFrag.etPotencia.setText("");
+        //diagFrag.etPotencia.setText("");
         diagFrag.hideSpinners();
         diagFrag.tvUno.setVisibility(View.GONE);
         diagFrag.tvDos.setVisibility(View.GONE);
@@ -503,7 +503,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                                 }
                                                 break;
                                             case "NetID":
-                                                if(s.length() >= 7 && s.contains("ANT1")){
+                                                System.out.println("Estoy en el netid");
+                                                if(s.length() >= 7 && s.contains("ID")){
                                                     readNetID(s);
                                                 }else{
                                                     //System.out.println("No es lo que quiero de NetID " + s.length());
@@ -1492,7 +1493,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     void readNetID(final String line){
-
+        System.out.println("Estoy antes del run del netid");
         Runnable r = new Runnable() {
             @Override
             public void run(){
@@ -1500,7 +1501,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 atributo = "Power";
                 System.out.println("Esta es la linea que lee NetID: " + line );
                 if(line.length() > 5){
-                    netIDValue = line.substring(line.lastIndexOf("ANT1=") + 5, line.length());
+                    netIDValue = line.substring(line.lastIndexOf("\r") - 4, line.lastIndexOf("\r"));
 
                     System.out.println("Esto tiene netIDvalue: " + netIDValue);
                 }
@@ -1523,7 +1524,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     System.out.println("Esto tiene nodeIDvalue: " + nodeIDvalue);
                     //Ya que se leyeron los datos, se acomodan en los edit texts al mismo tiempo
                     diagFrag.etNetID.setText(netIDValue);
-                    diagFrag.etPotencia.setText(potenciaValue);
+                    //diagFrag.etPotencia.setText(potenciaValue);
                     diagFrag.etNodeID.setText(nodeIDvalue);
                     System.out.println("Esto tiene etNodeID " + diagFrag.etNodeID.getText().toString());
                 }
@@ -1730,7 +1731,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 try {
                     System.out.println("Estoy en el WriteNetID");
-                    String msg1 = "ATS14=" + netID + "\r";
+                    String msg1 = "ATS1=" + netID + "\r";
                     System.out.println(msg1);
                     outputStream.write(msg1.getBytes());
 
