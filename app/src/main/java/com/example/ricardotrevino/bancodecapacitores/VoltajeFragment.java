@@ -56,7 +56,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class VoltajeFragment extends Fragment implements View.OnClickListener {
 
     TextView tvBloqueo, tvVoltaje, tvVoltajeControl, phase1TransitionTextView, phase2TransitionTextView, phase3TransitionTextView, tvLocalRemoto, tvVoltajeAutomatico, tvPaquetes, tvRSSI, tvSenal, tvTimer, tvBateria, tvTemperatura;
-    Button openButton, closeButton;
+    Button openButton, closeButton, btnDesbloquear;
     Switch switchLocalRemoto, switchVoltajeAutomatico;
     static RadioButton phase1OpenButton, phase1CloseButton, phase2OpenButton, phase2CloseButton, phase3OpenButton, phase3CloseButton;
     RadioGroup phase1RadioGroup, phase2RadioGroup, phase3RadioGroup;
@@ -94,6 +94,8 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
         openButton.setOnClickListener(this);
         closeButton = (Button) view.findViewById(R.id.closeButton);
         closeButton.setOnClickListener(this);
+        btnDesbloquear = (Button) view.findViewById(R.id.btnDesbloquear);
+        btnDesbloquear.setOnClickListener(this);
         //stopButton = (Button) view.findViewById(R.id.stopButton);
 
         phase1TransitionTextView = (TextView) view.findViewById(R.id.phase1TransitionTextView);
@@ -104,7 +106,7 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
         tvPaquetes = (TextView) view.findViewById(R.id.tvPaquetes);
         tvRSSI = (TextView) view.findViewById(R.id.tvRSSI);
         tvSenal = (TextView) view.findViewById(R.id.tvSenal);
-        tvTimer = (TextView) view.findViewById(R.id.tvTimer);
+        //tvTimer = (TextView) view.findViewById(R.id.tvTimer);
         tvBateria = (TextView) view.findViewById(R.id.tvBateria);
         tvTemperatura = (TextView) view.findViewById(R.id.tvTemperatura);
 
@@ -121,48 +123,42 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
                 if (isChecked) {
                     //Cambio a Local
                     if (((MainActivity) getActivity()).connected) {
-                        if(((MainActivity) getActivity()).boolPassword == true)
-                        {
-                            try{
-                                ((MainActivity) getActivity()).sendManOn();
-                                //voltFrag.tvLocalRemoto.setText("Local");
-                                ((MainActivity) getActivity()).waitMs(1000);
-
-                            }catch(IOException e){
-                            }
-                        }else{
-                            switchLocalRemoto.setChecked(false);
-                            ((MainActivity) getActivity()).showPasswordDialog("Ingrese la contraseña", "");
+                        try{
+                            ((MainActivity) getActivity()).sendManOn();
+                            //voltFrag.tvLocalRemoto.setText("Local");
+                            ((MainActivity) getActivity()).waitMs(1000);
+                        }catch(IOException e){
+                            System.out.println("Error: " + e);
                         }
-
                     } else {
                         ((MainActivity) getActivity()).showToast("Bluetooth desconectado");
                         switchLocalRemoto.setChecked(false);
                     }
 
-                } else {
+                }else{
                     //Cambio a Remoto
                     if (((MainActivity) getActivity()).connected) {
                         try {
                             System.out.println("Switch es False");
                             ((MainActivity) getActivity()).sendManOff();
-                            tvLocalRemoto.setText("Remoto");
+                            //tvLocalRemoto.setText("Remoto");
                             ((MainActivity) getActivity()).boolPassword = false;
                             System.out.println("Se cambió el password a false");
                             ((MainActivity) getActivity()).waitMs(1000);
                             //Reiniciar el timer
                             //IF blocked
+                            /*
                             if(MainActivity.bloqueoControl == 1){
                                 System.out.println("Resetea el timer cuando cambia a remoto");
                                 //createTimer();
                             }
+                            */
                         } catch (Exception e) {
                             System.out.println("Error: " + e);
                         }
                     } else {
                         ((MainActivity) getActivity()).showToast("Bluetooth desconectado");
                     }
-
                 }
             }
         });
@@ -223,6 +219,24 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
                         try {
                             System.out.println("Botón Cerrar");
                             ((MainActivity) getActivity()).sendClose();
+                        } catch (Exception e) {
+                            System.out.println("Error: " + e);
+                        }
+                    }else{
+                        ((MainActivity) getActivity()).showPasswordDialog("Ingrese la contraseña", "");
+                    }
+
+                } else {
+                    ((MainActivity) getActivity()).showToast("Bluetooth desconectado");
+                }
+                break;
+            case R.id.btnDesbloquear:
+                if (((MainActivity) getActivity()).connected) {
+                    if(((MainActivity) getActivity()).boolPassword == true)
+                    {
+                        try {
+                            System.out.println("Botón Desbloquear");
+                            ((MainActivity) getActivity()).sendDesbloqueo();
                         } catch (Exception e) {
                             System.out.println("Error: " + e);
                         }

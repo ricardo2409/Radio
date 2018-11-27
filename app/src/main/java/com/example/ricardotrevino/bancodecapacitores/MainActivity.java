@@ -370,6 +370,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         voltFrag.tvBloqueo.setText("");
         voltFrag.tvTimer.setText("");
+        voltFrag.btnDesbloquear.setVisibility(View.GONE);
 
     }
 
@@ -650,18 +651,18 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             //Modificar el label del bloqueo y control de los botones
             if(bloqueoControl == 1){
                 voltFrag.tvBloqueo.setText("Bloqueado");
+                voltFrag.btnDesbloquear.setVisibility(View.VISIBLE);
                 //disableButtons();
                 if(controlCreacionTimer == 0){//If para que solo se haga una vez
-                    voltFrag.createTimer();
+                    //voltFrag.createTimer();
                     controlCreacionTimer = 1;
                 }
             }else{
                 //System.out.println("Esto es lo que tiene el bloqueoControl: " + bloqueoControl);
                 voltFrag.tvBloqueo.setText("");//Quita la label de Bloqueado
-                voltFrag.tvTimer.setText("");//Quita el timer pero no lo detiene
-
-                //enableButtons();
-                controlCreacionTimer = 0;
+                //voltFrag.tvTimer.setText("");//Quita el timer pero no lo detiene
+                voltFrag.btnDesbloquear.setVisibility(View.GONE);
+                //controlCreacionTimer = 0;
             }
             paquetes = Integer.parseInt(tokens[10]);
             voltFrag.tvPaquetes.setText(Integer.toString(paquetes));
@@ -824,6 +825,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         //voltFrag.openButton.setClickable(true);
         //voltFrag.switchVoltajeAutomatico.setClickable(false);
 
+    }
+    void sendDesbloqueo() throws IOException
+    {
+        //control = "Pass";
+        System.out.println("Estoy en el SendBloqueo");
+        String msg = "$$SinTiemp&& ";
+        outputStream.write(msg.getBytes());
     }
 
     void sendManOn() throws IOException
