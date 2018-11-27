@@ -406,6 +406,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         //manOn = true;
         diagnostico = true;
         tvConect = (TextView)findViewById(R.id.tvConnect);
+
     }
 
     void beginListenForData() {
@@ -678,7 +679,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             if(auxStringTemp.length() < 5){//Validacion porque hay veces en que manda otra cadena pegada y marca error
                 //System.out.println("Es menor");
                 //temperatura = Float.parseFloat(tokens[14]);
-                voltFrag.tvTemperatura.setText(auxStringTemp);
+                voltFrag.tvTemperatura.setText(auxStringTemp + "°C");
             }else{
                 System.out.println("Es mayor");
 

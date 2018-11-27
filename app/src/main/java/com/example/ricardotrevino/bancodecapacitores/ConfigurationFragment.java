@@ -124,19 +124,29 @@ public class ConfigurationFragment extends Fragment implements View.OnClickListe
 
         switch (view.getId()){
             case R.id.solicitarButton:
-                System.out.println("Estoy en el solicitarButton");
-                try{
-                    ((MainActivity)getActivity()).sendStop();
-                }catch (IOException e){
-                    System.out.println("Error: " + e);
+                if(((MainActivity) getActivity()).boolPassword == true)
+                {
+                    System.out.println("Estoy en el solicitarButton");
+                    try{
+                        ((MainActivity)getActivity()).sendStop();
+                    }catch (IOException e){
+                        System.out.println("Error: " + e);
+                    }
+                }else{
+                    ((MainActivity) getActivity()).showPasswordDialog("Ingrese la contraseña", "");
                 }
-
                 break;
 
             case R.id.programButton:
-                System.out.println("Estoy en el programConfiguration");
-                ((MainActivity)getActivity()).programConfiguration();
-                ((MainActivity)getActivity()).showToast("¡ Configuración enviada !");
+                if(((MainActivity) getActivity()).boolPassword == true)
+                {
+                    System.out.println("Estoy en el programConfiguration");
+                    ((MainActivity)getActivity()).programConfiguration();
+                    ((MainActivity)getActivity()).showToast("¡ Configuración enviada !");
+
+                }else{
+                    ((MainActivity) getActivity()).showPasswordDialog("Ingrese la contraseña", "");
+                }
 
 
 

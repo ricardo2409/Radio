@@ -185,6 +185,8 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
         barChart.setDrawGridBackground(true);
         barChart.setFitBars(true);
         */
+        btnDesbloquear.setVisibility(View.GONE);
+
         return view;
     }
 
