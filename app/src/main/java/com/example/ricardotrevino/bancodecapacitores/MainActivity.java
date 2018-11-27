@@ -1607,8 +1607,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         outputStream.write(msg.getBytes());
     }
 
-    public void configuraRadio(String netID, String nodeID, String potencia, String s10, String s11, String s12, String s13) throws IOException{
-        System.out.println("Estoy en configura radio y estos son los valores: " + netID + " " + nodeID + " " + potencia + " " + s10 + " " + s11 + " " + s12 + " " + s13);
+    public void configuraRadio(String netID, String nodeID, String s10, String s11, String s12, String s13) throws IOException{
+        System.out.println("Estoy en configura radio y estos son los valores: " + netID + " " + nodeID + " " + " " + s10 + " " + s11 + " " + s12 + " " + s13);
         try {
             if(Integer.parseInt(nodeID.trim()) == 0){
                 System.out.println("NodeID igual a 0");
@@ -1621,7 +1621,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             sendCommand();
             writeNodeID(nodeID);
             writeNodeID(nodeID);
-            writePower(potencia);
             writeNetID(netID);
             //writeDestination(destination);
             //Valores de las antenas

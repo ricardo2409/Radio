@@ -48,7 +48,7 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         tvDos = (TextView) view.findViewById(R.id.tvDos);
         etNetID = (EditText) view.findViewById(R.id.etNetID);
         etNodeID = (EditText) view.findViewById(R.id.etNodeID);
-        etPotencia = (EditText) view.findViewById(R.id.etPotencia);
+        //etPotencia = (EditText) view.findViewById(R.id.etPotencia);
         spinner10 = (Spinner) view.findViewById(R.id.spinner10);
         spinner11 = (Spinner) view.findViewById(R.id.spinner11);
         spinner12 = (Spinner) view.findViewById(R.id.spinner12);
@@ -174,7 +174,6 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
     public void resetValues(){
         etNodeID.setText("");
         etNetID.setText("");
-        etPotencia.setText("");
     }
 
     public void fillSpinners(){
@@ -227,10 +226,10 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
                     System.out.println("Nodo 2:" + nodo2);
 
                     if(Integer.parseInt(nodo1) < 31 && Integer.parseInt(nodo2) < 31){
-                        if(etNetID.getText() != null && etNodeID.getText() != null && etPotencia.getText() != null ){
+                        if(etNetID.getText() != null && etNodeID.getText() != null ){
                             System.out.println("Estos son los valores de las antenas que mando: " + s10 + " " + s11 + " " + s12 + " " + s13);
 
-                            ((MainActivity)getActivity()).configuraRadio(etNetID.getText().toString().trim(), etNodeID.getText().toString().trim(), etPotencia.getText().toString().trim(), s10, s11, s12, s13);
+                            ((MainActivity)getActivity()).configuraRadio(etNetID.getText().toString().trim(), etNodeID.getText().toString().trim(), s10, s11, s12, s13);
                         }else{
                             System.out.println("Campos incompletos");
                             ((MainActivity)getActivity()).showToast("Campos Incompletos");

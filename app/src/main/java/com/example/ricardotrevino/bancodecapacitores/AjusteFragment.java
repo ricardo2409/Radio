@@ -110,48 +110,72 @@ public class AjusteFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btnComando:
-                try{
-                    //Manda comando para ajustar el offset
-                    ((MainActivity)getActivity()).sendOffset();
-                    ((MainActivity)getActivity()).showToast("Offset Configurado");
+                if(((MainActivity) getActivity()).boolPassword == true)
+                {
+                    try{
+                        //Manda comando para ajustar el offset
+                        ((MainActivity)getActivity()).sendOffset();
+                        ((MainActivity)getActivity()).showToast("Offset Configurado");
 
-                }catch (Exception e){
-                    System.out.println("Error: " + e);
+                    }catch (Exception e){
+                        System.out.println("Error: " + e);
+                    }
+                }else{
+                    ((MainActivity) getActivity()).showPasswordDialog("Ingrese la contraseña", "");
                 }
+
                 break;
             case R.id.btnVoltaje:
-                try{
-                    if(etVoltaje.getText() != null){
-                        ((MainActivity)getActivity()).sendVoltaje(etVoltaje.getText().toString());
-                        ((MainActivity)getActivity()).showToast("Voltaje Configurado");
-                    }else{
-                        ((MainActivity)getActivity()).showToast("Voltaje Vacío");
+                if(((MainActivity) getActivity()).boolPassword == true)
+                {
+                    try{
+                        if(etVoltaje.getText() != null){
+                            ((MainActivity)getActivity()).sendVoltaje(etVoltaje.getText().toString());
+                            ((MainActivity)getActivity()).showToast("Voltaje Configurado");
+                        }else{
+                            ((MainActivity)getActivity()).showToast("Voltaje Vacío");
+                        }
+                    }catch (Exception e){
+                        System.out.println("Error: " + e);
                     }
-                }catch (Exception e){
-                    System.out.println("Error: " + e);
+                }else{
+                    ((MainActivity) getActivity()).showPasswordDialog("Ingrese la contraseña", "");
                 }
+
                 break;
             case R.id.btnLocation:
-                try{
-                    //Manda comando para pedir coordenadas
-                    getLocation();
+                if(((MainActivity) getActivity()).boolPassword == true)
+                {
+                    try{
+                        //Manda comando para pedir coordenadas
+                        getLocation();
 
-                }catch (Exception e){
-                    System.out.println("Error: " + e);
+                    }catch (Exception e){
+                        System.out.println("Error: " + e);
+                    }
+                }else{
+                    ((MainActivity) getActivity()).showPasswordDialog("Ingrese la contraseña", "");
                 }
+
                 break;
             case R.id.btnCalibracion:
-                try{
-                    if(etCalibracion.getText() != null){
-                        ((MainActivity)getActivity()).sendCalibracion(etCalibracion.getText().toString());
-                        ((MainActivity)getActivity()).showToast("Voltaje de Batería Calibrado");
-                    }else{
-                        ((MainActivity)getActivity()).showToast("Voltaje Vacío");
-                    }
-                }catch (Exception e){
-                    System.out.println("Error: " + e);
+                if(((MainActivity) getActivity()).boolPassword == true)
+                {
+                    try{
+                        if(etCalibracion.getText() != null){
+                            ((MainActivity)getActivity()).sendCalibracion(etCalibracion.getText().toString());
+                            ((MainActivity)getActivity()).showToast("Voltaje de Batería Calibrado");
+                        }else{
+                            ((MainActivity)getActivity()).showToast("Voltaje Vacío");
+                        }
+                    }catch (Exception e){
+                        System.out.println("Error: " + e);
 
+                    }
+                }else{
+                    ((MainActivity) getActivity()).showPasswordDialog("Ingrese la contraseña", "");
                 }
+
                 break;
         }
 
