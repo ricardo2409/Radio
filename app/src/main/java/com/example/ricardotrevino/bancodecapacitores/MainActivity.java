@@ -92,6 +92,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     static int controlCreacionTimer = 0;
     static int bloqueoControl;
     boolean boolPassword;
+    boolean diagnosticoActivado;
 
 
     @Override
@@ -99,6 +100,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         boolPassword = false;
+        diagnosticoActivado = false;
         initItems();
         btnConnect = (Button) findViewById(R.id.btnConnect);
         btnVoltaje = (Button) findViewById(R.id.btnVoltaje);
@@ -194,6 +196,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     try {
                         eraseColorFromButtons();
                         btnDiagnostico.setBackgroundColor(Color.LTGRAY);
+                        diagnosticoActivado = true;
                         FragmentTransaction transaction3 = getFragmentManager().beginTransaction();
                         transaction3.replace(R.id.fragment_container, diagFrag);
                         transaction3.addToBackStack(null);
@@ -1063,8 +1066,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                         outputStream.write(stringToSend.getBytes());
                         //waitMs(10);
                         //Guardar configuración
-                        saveValues();
-                        //showToast("Configuración Enviada");
+                        showToast("Configuración Enviada");
                     }else{
                         showToast("Conexión Perdida");
 
@@ -1199,8 +1201,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     control = "Config";
                     //Lo que lee es sobre el netid
                     atributo = "NetID";
-                    System.out.println("Estoy en Antena1");
-                    String msg = "ATS14?\r";
+                    System.out.println("Estoy en Send Net ID");
+                    String msg = "ATS1?\r";
                     outputStream.write(msg.getBytes());
                     //outputStream.write(msg.getBytes());
                     //outputStream.write(msg.getBytes());

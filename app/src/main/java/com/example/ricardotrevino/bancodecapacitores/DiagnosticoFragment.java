@@ -154,7 +154,6 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
                 ((MainActivity)getActivity()).sendRadOn();
                 ((MainActivity)getActivity()).sendCommand();
                 ((MainActivity)getActivity()).sendNetID();
-                ((MainActivity)getActivity()).sendPower();
                 ((MainActivity)getActivity()).sendNodeID();
                 ((MainActivity)getActivity()).sendS10();
                 ((MainActivity)getActivity()).sendS11();
@@ -230,6 +229,7 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
                             System.out.println("Estos son los valores de las antenas que mando: " + s10 + " " + s11 + " " + s12 + " " + s13);
 
                             ((MainActivity)getActivity()).configuraRadio(etNetID.getText().toString().trim(), etNodeID.getText().toString().trim(), s10, s11, s12, s13);
+                            //Despues de esto se manda el save values (AT&W y radoff)
                         }else{
                             System.out.println("Campos incompletos");
                             ((MainActivity)getActivity()).showToast("Campos Incompletos");

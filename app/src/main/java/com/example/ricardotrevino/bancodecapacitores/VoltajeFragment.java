@@ -191,6 +191,23 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        System.out.println("Estoy en el activity created del Voltaje Fragment");
+        //Checar si se estuvo en diagnostico y si sí mandar ATZ y radoff
+        if(((MainActivity) getActivity()).diagnosticoActivado == true){
+            try {
+                ((MainActivity) getActivity()).sendATZ();
+                ((MainActivity) getActivity()).sendRadOff();//Para regresar al estadp donde manda la cadena del estatus
+                ((MainActivity) getActivity()).diagnosticoActivado = false;
+            } catch (Exception e) {
+                System.out.println("Error: " + e);
+            }
+        }
+
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.openButton:
