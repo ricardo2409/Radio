@@ -670,7 +670,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 //controlCreacionTimer = 0;
             }
             paquetes = Integer.parseInt(tokens[10]);
-            voltFrag.tvPaquetes.setText(Integer.toString(paquetes));
+            voltFrag.tvPaquetes.setText(Integer.toString(paquetes) + " %");
             rssi = Integer.parseInt(tokens[11]);
             voltFrag.tvRSSI.setText(Integer.toString(rssi));
             senal = Integer.parseInt(tokens[12]);
@@ -1884,7 +1884,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String pass = edittext.getText().toString();
-                if(pass.equals("1234")){
+                if(pass.equals("0301")){
                     Toast.makeText(getApplicationContext(), "Correcto", Toast.LENGTH_SHORT).show();
                     //Presentar el fragmento
                     eraseColorFromButtons();
@@ -1895,7 +1895,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     transaction3.commit();
 
                 }else{
-                    showPasswordDialog(title, "Incorrecto");
+                    showDialog(title, "Incorrecto");
                 }
             }
         });
