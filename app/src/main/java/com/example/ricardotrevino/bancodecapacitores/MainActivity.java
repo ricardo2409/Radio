@@ -1930,6 +1930,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 }catch(IOException e){
 
                 }
+
                 if(controlPassword.matches("OK")){
                     //Toast.makeText(getApplicationContext(), "Correcto", Toast.LENGTH_SHORT).show();
                     //eraseColorFromButtons();

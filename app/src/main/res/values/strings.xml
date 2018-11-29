@@ -55,7 +55,7 @@
     <string name="RadOff">RadOff</string>
     <string name="manon">ManOn</string>
     <string name="local_remoto">Local / Remoto</string>
-    <string name="textview">TextView</string>
+    <string name="paquetes_label">Paquetes</string>
 
 
 </resources>

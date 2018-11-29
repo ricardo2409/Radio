@@ -326,6 +326,8 @@
                     android:gravity="center_horizontal"
                     android:text="0"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="21sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -333,8 +335,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:text="Paquetes"
+                    android:text="@string/paquetes_label"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -350,6 +354,8 @@
                     android:gravity="center_horizontal"
                     android:text="0"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="21sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -359,6 +365,8 @@
                     android:gravity="center_horizontal"
                     android:text="Ruido"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -374,6 +382,8 @@
                     android:gravity="center_horizontal"
                     android:text="0"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="21sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -383,6 +393,8 @@
                     android:gravity="center_horizontal"
                     android:text="Señal"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -399,6 +411,8 @@
                     android:gravity="center_horizontal"
                     android:text="0"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="21sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -408,6 +422,8 @@
                     android:gravity="center_horizontal"
                     android:text="Batería"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -424,6 +440,8 @@
                     android:gravity="center_horizontal"
                     android:text="0"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="21sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -433,6 +451,8 @@
                     android:gravity="center_horizontal"
                     android:text="Temperatura"
                     android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
             </LinearLayout>

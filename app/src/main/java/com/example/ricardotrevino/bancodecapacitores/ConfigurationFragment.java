@@ -76,8 +76,8 @@ public class ConfigurationFragment extends Fragment implements View.OnClickListe
     public void onStart() {
         super.onStart();
         resetItems();
-        //System.out.println("OnStart");
-        //sendStop();
+        System.out.println("OnStart");
+        sendStop();
 
     }
 
