@@ -98,6 +98,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("Estoy en onCreate");
         setContentView(R.layout.activity_main);
         boolPassword = false;
         diagnosticoActivado = false;
@@ -1856,9 +1857,24 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        System.out.println("Estoy en onStop");
+        /*
+        try{
+            desconectarBluetooth();
+
+        }catch(IOException e){
+
+        }*/
+        finish();
+        moveTaskToBack(true);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
-        System.out.println("Estoy en onPause");
+
         /*
         if(connected){
             try{
@@ -1868,6 +1884,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         }
         */
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        System.out.println("Estoy en onResume");
+        /*FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.add(R.id.fragment_container, voltFrag);
+        transaction.commit();*/
+
     }
 
     public void progressBarVisible(){
