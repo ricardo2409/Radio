@@ -55,7 +55,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class VoltajeFragment extends Fragment implements View.OnClickListener {
 
-    TextView tvBloqueo, tvVoltaje, tvVoltajeControl, phase1TransitionTextView, phase2TransitionTextView, phase3TransitionTextView, tvLocalRemoto, tvVoltajeAutomatico, tvPaquetes, tvRSSI, tvSenal, tvTimer, tvBateria, tvTemperatura;
+    TextView tvBloqueo, tvVoltaje, tvVoltajeControl, phase1TransitionTextView, phase2TransitionTextView, phase3TransitionTextView, tvLocalRemoto, tvVoltajeAutomatico, tvPaquetes, tvRSSI, tvSenal, tvTimer, tvBateria, tvTemperatura, tvLog;
     Button openButton, closeButton, btnDesbloquear;
     Switch switchLocalRemoto, switchVoltajeAutomatico;
     static RadioButton phase1OpenButton, phase1CloseButton, phase2OpenButton, phase2CloseButton, phase3OpenButton, phase3CloseButton;
@@ -109,6 +109,8 @@ public class VoltajeFragment extends Fragment implements View.OnClickListener {
         //tvTimer = (TextView) view.findViewById(R.id.tvTimer);
         tvBateria = (TextView) view.findViewById(R.id.tvBateria);
         tvTemperatura = (TextView) view.findViewById(R.id.tvTemperatura);
+        tvLog = (TextView) view.findViewById(R.id.tvLog);
+
 
 
         //tvVoltajeAutomatico = (TextView) view.findViewById(R.id.tvVoltajeAutomatico);

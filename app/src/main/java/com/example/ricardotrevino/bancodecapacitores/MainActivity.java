@@ -91,7 +91,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     static int controlCreacionTimer = 0;
     static int bloqueoControl;
-    boolean boolPassword;
+    static boolean boolPassword;
     boolean diagnosticoActivado;
 
 
@@ -314,9 +314,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         if(socketConectado){
             progressBarVisible();
             System.out.println("Socket Conectado");
+            inputStream.close();
             outputStream.close();
             outputStream = null;
-            inputStream.close();
             inputStream = null;
             socket.close();
             socket = null;
@@ -382,6 +382,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         conFrag.maximumVoltageTextInput.setText("");
         conFrag.minimumVoltageTextInput.setText("");
         conFrag.sourceAddressTextInput.setText("");
+        conFrag.nivelACInput.setText("");
         //conFrag.voltageControlCheckbox.setChecked(false);
 
     }
@@ -429,6 +430,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                             handler.post(new Runnable() {
                                 @Override
                                 public void run() {
+
+                                    //STLOG
+                                    if(s.contains("og,")){
+                                        System.out.println("Recibí el Log");
+                                        String aux = s.substring(s.lastIndexOf("g,"), s.lastIndexOf("\r"));
+                                        System.out.println("Este es el string subtring: " + aux);
+
+                                        readMessage(aux);
+
+                                    }
+
                                     //Status
                                     if(s.contains("s,") && s.contains("&")){
                                         if(s.length() >= 37 ){
@@ -459,7 +471,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                         catch (IOException ex) { }
                                     }
                                     //GPS
-                                    if(s.contains("S,")){
+                                    if(s.contains("PS,")){
                                         System.out.println("Leí GPS");
                                         if(s.contains("&")){
                                             System.out.println("Sí contiene &");
@@ -471,10 +483,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                                 askGPS();
                                             }
                                             catch (IOException ex) { }
-
                                         }
-
                                     }
+
                                     //Password broadcast
                                     if(control.equals("Pass")){
                                         System.out.println("Control matches Pass");
@@ -575,7 +586,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         System.out.println(frase);
         tokens = frase.split(",");
         System.out.println("Tokens: " + Arrays.toString(tokens));
-        if (frase.contains("s") && tokens.length >= 8) {
+        //Status
+        if (frase.contains("s,") && tokens.length >= 8) {
             //System.out.println("Contains Status : ");
             float currentVoltage, bateria, temperatura;
             int phase1State, phase2State, phase3State, paquetes, rssi, senal;
@@ -692,7 +704,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             waitAndEraseLabels();
 
         } else if (frase.contains("g") && tokens.length >= 6 ) {
-
+            //Config
             System.out.println("RECIBÍ CONFIG");
             System.out.println("Tokens: " + Arrays.toString(tokens));
             int currentSourceAddress, currentDestinationAddress;
@@ -705,19 +717,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             currentDestinationAddress = Integer.parseInt(tokens[2]);
             conFrag. destinationAddressTextInput.setText(String.format(Locale.ENGLISH, "%05d", currentDestinationAddress));
 
-            /*
-            currentVoltageControl = Integer.parseInt(tokens[3]);
-            if (currentVoltageControl == 0) {
-                conFrag.voltageControlCheckbox.setChecked(false);
-                voltFrag.switchVoltajeAutomatico.setChecked(false);
-            }
-            else {
-                conFrag.voltageControlCheckbox.setChecked(true);
-                voltFrag.switchVoltajeAutomatico.setChecked(true);
-
-            }
-            */
-
             currentMinimumVoltage = Float.parseFloat(tokens[3]);
             conFrag.minimumVoltageTextInput.setText(String.format(Locale.ENGLISH, "%1.1f", currentMinimumVoltage));
 
@@ -726,6 +725,25 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
             currentNivelAC = Float.parseFloat(tokens[5]);
             conFrag.nivelACInput.setText(String.format(Locale.ENGLISH, "%1.1f", currentNivelAC));
+        }else if(frase.contains("g") && tokens.length == 2){
+            System.out.println("RECIBÍ StLog");
+            System.out.println("Tokens: " + Arrays.toString(tokens));
+            String variable;
+            variable = tokens[1];
+            System.out.println("Esto tiene la variable: " + variable);
+            //Acomodarlo en el lugar, al lado izquierdo de la señal
+            voltFrag.tvLog.setText(variable);
+            if(variable.contains("Fin")){
+                //Borra el text
+                voltFrag.tvLog.setText("");
+            }
+            if(variable.contains("Reset")){
+                //Resetea bandera de password
+                boolPassword = false;
+
+            }
+
+
         }
     }
 
@@ -906,7 +924,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     void sendPassword(String pass) throws IOException
     {
         System.out.println("El control = Pass");
-        control = "Pass";
+        //control = "Pass"; PROBABLEMENTE SE USE DESPUES
         System.out.println("Estoy en el sendPassword");
         String msg = "$PASS=" + pass + ",& ";
         System.out.println("Este es el pass que mando " + msg);

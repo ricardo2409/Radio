@@ -308,27 +308,55 @@
                 android:layout_height="80dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvSenal"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="0"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/textView13"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="Señal"
-                    android:textAppearance="@android:style/TextAppearance.Material.Medium"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="30sp"
-                    android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvLog"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textView13"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="Señal"
+                            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="30sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvSenal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="0"
+                            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+                            android:textColor="@color/textColorPrimary"
+                            android:textSize="30sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
             </LinearLayout>
 
             <Space

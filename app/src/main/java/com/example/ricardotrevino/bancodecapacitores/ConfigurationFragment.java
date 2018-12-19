@@ -78,7 +78,6 @@ public class ConfigurationFragment extends Fragment implements View.OnClickListe
         resetItems();
         System.out.println("OnStart");
         sendStop();
-
     }
 
     public void sendStop(){
@@ -97,7 +96,6 @@ public class ConfigurationFragment extends Fragment implements View.OnClickListe
         maximumVoltageTextInput = (TextView) view.findViewById(R.id.maximumVoltageTextInput);
         nivelACInput = (TextView) view.findViewById(R.id.NivelACInput);
 
-
         //Bordes de los inputs
         sourceAddressTextInput.setBackgroundResource(R.drawable.bordercolor);
         destinationAddressTextInput.setBackgroundResource(R.drawable.bordercolor);
@@ -105,10 +103,8 @@ public class ConfigurationFragment extends Fragment implements View.OnClickListe
         maximumVoltageTextInput.setBackgroundResource(R.drawable.bordercolor);
         nivelACInput.setBackgroundResource(R.drawable.bordercolor);
 
-
         solicitarButton = (Button) view.findViewById(R.id.solicitarButton);
         solicitarButton.setOnClickListener(this);
-
         programButton = (Button) view.findViewById(R.id.programButton);
         programButton.setOnClickListener(this);
 
@@ -117,7 +113,6 @@ public class ConfigurationFragment extends Fragment implements View.OnClickListe
     public void resetItems(){
         //voltageControlCheckbox.setChecked(false);
     }
-
 
     @Override
     public void onClick(View view) {
@@ -148,10 +143,7 @@ public class ConfigurationFragment extends Fragment implements View.OnClickListe
                     ((MainActivity) getActivity()).showPasswordDialog("Ingrese la contraseña", "");
                 }
 
-
-
                 break;
-
         }
     }
 }
