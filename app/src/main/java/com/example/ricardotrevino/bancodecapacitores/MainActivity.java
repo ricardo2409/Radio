@@ -1987,4 +1987,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         alert.show();
     }
+
+    @Override
+    public void onBackPressed() {
+        //Do nothing
+    }
 }
