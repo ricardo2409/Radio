@@ -111,10 +111,9 @@
                 <Spinner
                     android:id="@+id/spinner10"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70sp"
                     android:layout_marginLeft="100dp"
-                    android:layout_marginRight="100dp"
-                     />
+                    android:layout_marginRight="100dp" />
 
                 <Spinner
                     android:id="@+id/spinner13"
@@ -144,10 +143,9 @@
                 <Spinner
                     android:id="@+id/spinner11"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70sp"
                     android:layout_marginLeft="100dp"
-                    android:layout_marginRight="100dp"
-                     />
+                    android:layout_marginRight="100dp" />
 
             </LinearLayout>
 

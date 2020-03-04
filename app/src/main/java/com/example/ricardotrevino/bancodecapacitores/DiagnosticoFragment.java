@@ -178,10 +178,10 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         String[] items11 = new String[2];
         String[] items12 = new String[2];
         String[] items13 = new String[2];
-        items10[0] = "0";
-        items10[1] = "1";
-        items11[0] = "0";
-        items11[1] = "1";
+        items10[0] = "1";
+        items10[1] = "2";
+        items11[0] = "1";
+        items11[1] = "2";
         items12[0] = "0";
         items12[1] = "1";
         items13[0] = "0";
@@ -263,13 +263,15 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        ((TextView) parent.getChildAt(0)).setTextSize(30);//Tamaño del textview
         switch (parent.getId()) {
             case R.id.spinner10:
-                s10 = spinner10.getSelectedItem().toString();
+                s10 = String.valueOf(Integer.parseInt(spinner10.getSelectedItem().toString()) - 1);//Le resto uno porque se muestra un número más en spinner
                 System.out.println("s10: " + s10);
                 break;
             case R.id.spinner11:
-                s11 = spinner11.getSelectedItem().toString();
+                s11 = String.valueOf(Integer.parseInt(spinner11.getSelectedItem().toString()) - 1);
                 System.out.println("s11: " + s11);
                 break;
             case R.id.spinner12:

@@ -193,7 +193,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
 
             case R.id.btnDiagnostico:
-                if (connected){
+                if (!connected){ //////////////////////////////////////////////////////////////////////////
                     try {
                         eraseColorFromButtons();
                         btnDiagnostico.setBackgroundColor(Color.LTGRAY);
@@ -1969,11 +1969,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             public void onClick(DialogInterface dialog, int whichButton) {
                 String pass = edittext.getText().toString();
                 //Pasar el pass con este comando = $PASS=12345,& regresa OK si es correcto o error si incorrecto
+                /*
                 try{
-                    sendPassword(pass);
+                    //sendPassword(pass);
                 }catch(IOException e){
 
                 }
+                */
 
                 if(controlPassword.matches("OK")){
                     //Toast.makeText(getApplicationContext(), "Correcto", Toast.LENGTH_SHORT).show();
