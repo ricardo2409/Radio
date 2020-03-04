@@ -187,10 +187,10 @@ public class DiagnosticoFragment extends Fragment implements View.OnClickListene
         items13[0] = "0";
         items13[1] = "1";
 
-        adapter10 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items10);
+        adapter10 = new ArrayAdapter<String>(getActivity(), R.layout.spinner, items10);
         spinner10.setAdapter(adapter10);
         spinner10.setOnItemSelectedListener(this);
-        adapter11 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items11);
+        adapter11 = new ArrayAdapter<String>(getActivity(), R.layout.spinner, items11);
         spinner11.setAdapter(adapter11);
         spinner11.setOnItemSelectedListener(this);
         adapter12 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, items12);
